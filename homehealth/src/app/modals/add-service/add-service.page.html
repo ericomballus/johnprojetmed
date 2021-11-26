@@ -1,0 +1,150 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ion-padding container">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f1f1f1;
+        padding: 5px;
+      "
+    >
+      <h4>Service Register</h4>
+    </div>
+    <form
+      class="form-container"
+      [formGroup]="userForm"
+      (ngSubmit)="save(userForm.value)"
+    >
+      <ion-item>
+        <ion-label position="floating">Service Name</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.name">
+        <div
+          class="error"
+          *ngIf="userForm.get('name').hasError(error.type) && (userForm.get('name').dirty || userForm.get('name').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+      <!--ajout du nom du responsable-->
+      <ion-item>
+        <ion-label position="floating">Service Owner</ion-label>
+        <ion-input type="text" formControlName="responsable"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.responsable">
+        <div
+          class="error"
+          *ngIf="userForm.get('responsable').hasError(error.type) && (userForm.get('responsable').dirty || userForm.get('responsable').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <!--ajout du telephone du responsable-->
+      <ion-item>
+        <ion-label position="floating">Owner Phone</ion-label>
+        <ion-input
+          type="tel"
+          placeholder="EX: 677086605"
+          formControlName="responsablePhone"
+        ></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.responsablePhone">
+        <div
+          class="error"
+          *ngIf="userForm.get('responsablePhone').hasError(error.type) && (userForm.get('responsablePhone').dirty || userForm.get('responsablePhone').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <!--ajout de l'email du responsable-->
+      <ion-item>
+        <ion-label position="floating">Owner Email</ion-label>
+        <ion-input type="text" formControlName="responsableEmail"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.responsableEmail">
+        <div
+          class="error"
+          *ngIf="userForm.get('responsableEmail').hasError(error.type) && (userForm.get('responsableEmail').dirty || userForm.get('responsableEmail').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <!--ajout du cout du service-->
+      <ion-item>
+        <ion-label position="floating">Service Price</ion-label>
+        <ion-input type="number" formControlName="price"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.price">
+        <div
+          class="error"
+          *ngIf="userForm.get('price').hasError(error.type) && (userForm.get('price').dirty || userForm.get('price').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <ion-button
+        class="main-button"
+        type="submit"
+        expand="block"
+        [disabled]="!userForm.valid"
+        >Register</ion-button
+      >
+
+      <label class="ion-text-center" color="danger">{{errorMsg}}</label>
+      <label class="ion-text-center" color="success">{{successMsg}}</label>
+    </form>
+  </div>
+
+  <ion-list
+    *ngIf="company && company.serviceList && company.serviceList.length"
+  >
+    <ion-list-header> service List </ion-list-header>
+    <ion-item *ngFor="let service of company.serviceList">
+      <ion-avatar slot="start">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2 style="font-weight: bold">{{service.name}}</h2>
+
+        <h3>{{service.responsable}}</h3>
+        <h6>
+          <ion-badge color="medium"
+            >TEL: {{service.responsablePhone}}</ion-badge
+          >
+        </h6>
+        <h6>
+          <ion-badge color="medium"
+            >@mail: {{service.responsableEmail}}</ion-badge
+          >
+        </h6>
+      </ion-label>
+      <ion-button
+        slot="end"
+        fill="outline"
+        (click)="removeServiceName(service)"
+      >
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

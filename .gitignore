@@ -1,0 +1,16 @@
+/docs
+/homehealth/.idea
+/homehealth/.ionic
+/homehealth/.sass-cache
+/homehealth/.sourcemaps
+/homehealth/.versions
+/homehealth/.vscode
+/homehealth/coverage
+/homehealth/dist
+/homehealth/node_modules
+/homehealth/platforms
+/homehealth/plugins
+/homehealth/www
+/homehealth/.git
+/homehealth/.gitignore
+/server/node_modules

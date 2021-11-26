@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header> </ion-list-header>
+
+    <ion-item *ngFor="let labo of laboratoireList" (click)="displayIt(labo)">
+      <ion-avatar slot="start">
+        <img src="{{labo.logoURL}}" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{labo.name}}</h2>
+        <h3>{{labo.ville}}</h3>
+        <h5>{{labo.quartier}}</h5>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

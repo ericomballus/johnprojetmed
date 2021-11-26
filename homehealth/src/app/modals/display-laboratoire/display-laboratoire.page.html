@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <img src="{{company.logoURL}}" style="height: 200px" />
+
+      <ion-card-subtitle>{{company.name}}</ion-card-subtitle>
+      <ion-card-title>{{company.pays}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-list-header> List des services </ion-list-header>
+
+        <ion-item *ngFor="let service of company.serviceList">
+          <ion-label>
+            <h2>{{service.name}}</h2>
+            <h3>Resp: {{service.responsable}}</h3>
+            <h5>Email: {{service.responsableEmail}}</h5>
+            <h5>TEL: {{service.responsablePhone}}</h5>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <input (click)="fire2()" class="filebtn" #btn type="text" />
+  <div class="ion-padding container">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f1f1f1;
+        padding: 5px;
+      "
+    >
+      <h4>Conseil Santé</h4>
+    </div>
+    <form
+      class="form-container"
+      [formGroup]="userForm"
+      (ngSubmit)="poster(userForm)"
+    >
+      <ion-item>
+        <ion-label position="floating">Titre</ion-label>
+        <ion-input type="text" formControlName="titre"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.titre">
+        <div
+          class="error"
+          *ngIf="userForm.get('titre').hasError(error.type) && (userForm.get('titre').dirty || userForm.get('titre').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+      <ion-item>
+        <ion-label>Select categorie</ion-label>
+        <ion-select
+          interface="popover"
+          placeholder="Select One"
+          formControlName="category"
+        >
+          <ion-select-option
+            value="{{cat.name}}"
+            *ngFor="let cat of advicesCategory"
+            >{{cat.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Texte</ion-label>
+
+        <ion-textarea
+          formControlName="texte"
+          rows="6"
+          cols="20"
+          placeholder="Enter any texte here..."
+        ></ion-textarea>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.texte">
+        <div
+          class="error"
+          *ngIf="userForm.get('texte').hasError(error.type) && (userForm.get('texte').dirty || userForm.get('texte').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <ion-button
+        class="main-button"
+        type="submit"
+        expand="block"
+        [disabled]="!userForm.valid"
+        >Register</ion-button
+      >
+
+      <label class="ion-text-center" color="danger">{{errorMsg}}</label>
+      <label class="ion-text-center" color="success">{{successMsg}}</label>
+    </form>
+  </div>
+
+  <ion-list *ngIf="items.length">
+    <ion-list-header> advices List </ion-list-header>
+    <ion-item *ngFor="let advice of items">
+      <ion-label>
+        <h2 style="font-weight: bold">{{advice.titre}}</h2>
+        <h3 *ngIf="advice && advice.createdAt">
+          ajouté le: {{advice.createdAt | date: 'medium'}}
+        </h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
+      <ion-button slot="end" fill="outline" (click)="removeAdvices(advice)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

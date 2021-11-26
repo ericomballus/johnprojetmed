@@ -1,0 +1,7 @@
+{
+  "name": "homehealth",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

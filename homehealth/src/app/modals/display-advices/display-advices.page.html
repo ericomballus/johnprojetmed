@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle
+        >publié le: {{content.createdAt | date: 'medium'}}</ion-card-subtitle
+      >
+      <ion-card-title>{{content.titre}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content> {{content.texte}} </ion-card-content>
+  </ion-card>
+</ion-content>

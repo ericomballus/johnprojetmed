@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <input (click)="fire2()" class="filebtn" #btn type="text" />
+  <div class="ion-padding container">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f1f1f1;
+        padding: 5px;
+      "
+    >
+      <h4>Advices Category</h4>
+    </div>
+    <form
+      class="form-container"
+      [formGroup]="userForm"
+      (ngSubmit)="save(userForm)"
+    >
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.name">
+        <div
+          class="error"
+          *ngIf="userForm.get('name').hasError(error.type) && (userForm.get('name').dirty || userForm.get('name').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <ion-button
+        class="main-button"
+        type="submit"
+        expand="block"
+        [disabled]="!userForm.valid"
+        >Register</ion-button
+      >
+    </form>
+  </div>
+  <ion-list *ngIf="items.length">
+    <ion-list-header> category List </ion-list-header>
+    <ion-item *ngFor="let category of items">
+      <ion-label>
+        <h2 style="font-weight: bold">{{category.name}}</h2>
+      </ion-label>
+      <ion-button
+        slot="end"
+        fill="outline"
+        (click)="removeCategoryName(category)"
+      >
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

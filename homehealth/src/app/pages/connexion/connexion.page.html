@@ -1,0 +1,82 @@
+<!--
+  <ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" #email required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" #password required></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <ion-button
+          type="submit"
+          (click)="signUp(email, password)"
+          color="danger"
+          expand="block"
+          >Sign In</ion-button
+        >
+        <a [routerLink]="['/forgot-password']" class="small-text"
+          >Forgot Password?</a
+        >
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
+-->
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="ion-padding container">
+    <h1>Login</h1>
+
+    <div class="form-container">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" #email required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input type="password" #password></ion-input>
+        <ion-icon name="eye" slot="end"></ion-icon>
+      </ion-item>
+
+      <ion-button
+        expand="block"
+        class="main-button"
+        (click)="signUp(email, password)"
+        >Log in</ion-button
+      >
+
+      <div class="sign-up">
+        Don't have an account?
+        <ion-button
+          color="dark"
+          fill="clear"
+          routerLink="/inscription"
+          routerDirection="forward"
+          >Sign up</ion-button
+        >
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <h1 class="title">HomeHealth Admin</h1>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <div class="box box1" (click)="createNewUser()">
+          <div>
+            <h5>add customer</h5>
+          </div>
+          <div>
+            <ion-icon name="person-add-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="box box4" (click)="createCompany()">
+          <div>
+            <h5>add company</h5>
+          </div>
+          <div>
+            <ion-icon name="albums-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="box box2">
+          <div>
+            <h5>add employee</h5>
+          </div>
+          <div>
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="6">
+        <div class="box box1" (click)="createService()">
+          <div>
+            <h5>add service</h5>
+          </div>
+          <div>
+            <ion-icon name="copy-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="box box1" (click)="createMedicament()">
+          <div>
+            <h5>medicaments</h5>
+          </div>
+          <div>
+            <ion-icon name="copy-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="box box1" (click)="createTown()">
+          <div>
+            <h5>add town</h5>
+          </div>
+          <div>
+            <ion-icon name="image-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <div class="box box3" (click)="addAdvicesCategory()">
+          <div>
+            <h5>add advice-category</h5>
+          </div>
+          <div>
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="6">
+        <div class="box box3" (click)="addAdvices()">
+          <div>
+            <h5>add advices</h5>
+          </div>
+          <div>
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

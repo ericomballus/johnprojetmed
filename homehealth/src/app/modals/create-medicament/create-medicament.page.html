@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form
+    class="form-container"
+    [formGroup]="medicamentForm"
+    (ngSubmit)="save(medicamentForm.value)"
+  >
+    <ion-item>
+      <ion-label position="floating">Nom du médicament</ion-label>
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+
+    <ng-container *ngFor="let error of error_msg.name">
+      <div
+        class="error"
+        *ngIf="medicamentForm.get('name').hasError(error.type) && (medicamentForm.get('name').dirty || medicamentForm.get('name').touched)"
+      >
+        {{ error.message }}
+      </div>
+    </ng-container>
+    <ion-item>
+      <ion-label position="floating">Fabriquant:</ion-label>
+      <ion-input type="text" formControlName="madeBy"></ion-input>
+    </ion-item>
+
+    <ng-container *ngFor="let error of error_msg.madeBy">
+      <div
+        class="error"
+        *ngIf="medicamentForm.get('madeBy').hasError(error.type) && (medicamentForm.get('madeBy').dirty || medicamentForm.get('madeBy').touched)"
+      >
+        {{ error.message }}
+      </div>
+    </ng-container>
+    <ion-button
+      class="main-button"
+      type="submit"
+      expand="block"
+      [disabled]="!medicamentForm.valid"
+      >Register</ion-button
+    >
+  </form>
+</ion-content>

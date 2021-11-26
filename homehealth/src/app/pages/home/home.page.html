@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary" no-border>
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-menu-button autoHide="false"></ion-menu-button>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title> HOMEHEALTH </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <img src="../../assets/notification.svg" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="banner">
+    <div class="child"></div>
+    <div class="caption ion-padding">
+      welcome to <br />
+      Home health
+    </div>
+  </div>
+
+  <div class="title">
+    <h2>Popular Search</h2>
+
+    <p>See all</p>
+  </div>
+
+  <div class="event-slider">
+    <ion-slides
+      [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
+      class="default-left-padding"
+    >
+      <ion-slide *ngFor="let company of companyList">
+        <ion-col class="ion-text-left">
+          <app-card [company]="company"></app-card>
+        </ion-col>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+  <div class="title">
+    <h2>Rubriques</h2>
+
+    <p>See all</p>
+  </div>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let categorie of categorieList">
+        <app-choice
+          [queryName]="categorie"
+          (valueChange)="pickValue($event)"
+        ></app-choice>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="default-top-padding title">
+    <h2>Live right now</h2>
+
+    <p>See all</p>
+  </div>
+
+  <div class="live-event">
+    <img src="../../assets/events/event3.svg" />
+
+    <div class="info">
+      <div class="content">
+        <h6>World Art Day</h6>
+
+        <p class="stats">
+          <span><ion-icon name="eye"></ion-icon>&nbsp;2.3K</span
+          ><span><ion-icon name="heart"></ion-icon>&nbsp;3758</span>
+        </p>
+
+        <p class="location">
+          <ion-icon name="location"></ion-icon>Caracas, Venezuela
+        </p>
+
+        <div class="additional-info">
+          <div class="attendees">
+            <img src="../../assets/persons/person1.svg" />
+            <img src="../../assets/persons/person2.svg" />
+            <img src="../../assets/persons/person3.svg" />
+            <img src="../../assets/persons/person4.svg" />
+            <div class="count">
+              <img src="../../assets/persons/person-placeholder.svg" />
+
+              <p>+3</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="indicator">
+        <div>Live</div>
+      </div>
+    </div>
+  </div>
+</ion-content>

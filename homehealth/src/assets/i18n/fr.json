@@ -1,0 +1,10 @@
+{
+  "MENU": {
+    "title": "good moorning from ionic 4",
+    "home": "Acceuil",
+    "login": "Connectez vous",
+    "signup": "Inscrivez-vous",
+    "team": "Home Health",
+    "logout": "Déconnexion"
+  }
+}

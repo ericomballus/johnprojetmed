@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button slot="end" fill="outline" (click)="AddMedicament()">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div
+    style="
+      text-align: center;
+      text-transform: uppercase;
+      background-color: #f1f1f1;
+      padding: 5px;
+    "
+  >
+    <h4>Medicament List</h4>
+  </div>
+  <ion-list *ngIf="itemsList.length">
+    <ion-item *ngFor="let medoc of itemsList">
+      <ion-label>
+        <h2 style="font-weight: bold">{{medoc.name}}</h2>
+        <h3 style="font-weight: bold">fabriquant: {{medoc.madeBy}}</h3>
+        <h5 *ngIf="medoc && medoc.createdAt">
+          ajouté le: {{medoc.createdAt | date: 'medium'}}
+        </h5>
+      </ion-label>
+      <ion-button
+        color="danger"
+        slot="end"
+        fill="outline"
+        (click)="removeMedoc(medoc)"
+      >
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

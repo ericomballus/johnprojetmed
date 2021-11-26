@@ -1,0 +1,44 @@
+ion-card {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px 2px rgba(0, 0, 0, 0.16);
+  margin-left: 0;
+  margin-top: 0;
+
+  ion-card-header {
+    // height: 150px;
+    // background-color: var(--ion-color-primary);
+    img {
+      //width: 100%;
+    }
+    ion-icon {
+      font-size: 190px;
+      // color: var(--ion-color-light);
+    }
+  }
+
+  ion-card-content {
+    padding-top: 13px;
+
+    .date {
+      color: #364f6b;
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+
+    .eventname {
+      color: #364f6b;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      color: var(--ion-color-primary);
+      font-size: 10px;
+      margin-bottom: 5px;
+    }
+  }
+}
