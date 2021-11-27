@@ -1,20 +1,20 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
-  FormGroup,
   FormBuilder,
-  Validators,
   FormControl,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { AdvicesService } from 'src/app/services/advices.service';
+import { MedicamentService } from 'src/app/services/medicament.service';
 
 @Component({
-  selector: 'app-create-advices-categorie',
-  templateUrl: './create-advices-categorie.page.html',
-  styleUrls: ['./create-advices-categorie.page.scss'],
+  selector: 'app-create-medocs-categorie',
+  templateUrl: './create-medocs-categorie.page.html',
+  styleUrls: ['./create-medocs-categorie.page.scss'],
 })
-export class CreateAdvicesCategoriePage implements OnInit {
+export class CreateMedocsCategoriePage implements OnInit {
   @ViewChild('btn') fileButton;
   items = [];
   products$: Observable<any>;
@@ -34,12 +34,10 @@ export class CreateAdvicesCategoriePage implements OnInit {
     ],
   };
   constructor(
-    private router: Router,
+    private modal: ModalController,
     private fb: FormBuilder,
-    private adviceService: AdvicesService
-  ) {
-    // this.manageService.getAllServices();
-  }
+    private medicamentService: MedicamentService
+  ) {}
 
   ngOnInit() {
     this.userForm = this.fb.group({
@@ -53,25 +51,24 @@ export class CreateAdvicesCategoriePage implements OnInit {
     });
     this.getAllCategory();
   }
-  selectCompanyType(ev) {
-    // this.companyType = ev.detail['value'];
+  closeModal() {
+    this.modal.dismiss();
   }
 
   async save(forms: FormGroup) {
-    console.log(forms.value);
-    await this.adviceService.postAdviceCategory(forms.value);
+    await this.medicamentService.postCategorie(forms.value);
     this.userForm.reset();
     this.getAllCategory();
   }
   getAllCategory() {
-    this.adviceService.getAllNotRealtimeAdviceCategory().then((data: any[]) => {
+    this.medicamentService.getAllNotRealtimeCategory().then((data: any[]) => {
       this.items = data;
       console.log(this.items);
     });
   }
   async removeCategoryName(category) {
     try {
-      await this.adviceService.removeOneAdvicesCategory(category);
+      await this.medicamentService.removeCategory(category);
       this.getAllCategory();
     } catch (error) {
       console.log(error);

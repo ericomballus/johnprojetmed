@@ -9,7 +9,8 @@ export class MedicamentSchema {
   createdAt: number;
   updateAt: any;
   id: string;
-  constructor(name, madeBy) {
+  categorie: string;
+  constructor(name, madeBy, categorie) {
     this.name = name;
     this.madeBy = madeBy;
     this.createdAt = new Date().getTime();

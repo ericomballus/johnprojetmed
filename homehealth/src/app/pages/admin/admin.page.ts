@@ -21,9 +21,10 @@ export class AdminPage implements OnInit {
   }
 
   createCompany() {
-    this.randomStorage.setIsAdmin(true);
-    this.randomStorage.setIsNewCompany(true);
-    this.router.navigateByUrl('inscription');
+    //this.randomStorage.setIsAdmin(true);
+    // this.randomStorage.setIsNewCompany(true);
+    // this.router.navigateByUrl('inscription');
+    this.router.navigateByUrl('company');
   }
   createService() {
     this.router.navigateByUrl('create-company-service');

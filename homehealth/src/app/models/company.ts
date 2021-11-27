@@ -1,5 +1,5 @@
 import { User } from '../models/user';
-import { ServiceSchema } from './serviceschema';
+import { ServiceSchema } from './serviceSchema';
 import { MedicamentSchema } from './medicamentSchema';
 export class Company {
   adminId: string;

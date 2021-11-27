@@ -20,7 +20,7 @@ export class CreateMedicamentPage implements OnInit {
   medicamentForm: FormGroup;
   successMsg: string = '';
   errorMsg: string = '';
-
+  CategoryList: any[] = [];
   error_msg = {
     name: [
       {
@@ -42,6 +42,16 @@ export class CreateMedicamentPage implements OnInit {
         message: 'fabriquant is not valid.',
       },
     ],
+    categorie: [
+      {
+        type: 'required',
+        message: 'Fournir categorie du medicament.',
+      },
+      {
+        type: 'pattern',
+        message: 'categorie is not valid.',
+      },
+    ],
   };
   constructor(
     private modal: ModalController,
@@ -51,6 +61,7 @@ export class CreateMedicamentPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.getAllCategory();
     this.initFrom();
   }
   closeModal() {
@@ -74,10 +85,18 @@ export class CreateMedicamentPage implements OnInit {
           Validators.maxLength(100),
         ])
       ),
+      categorie: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
+          Validators.maxLength(100),
+        ])
+      ),
     });
   }
   save(forms: MedicamentSchema) {
-    let medoc = new MedicamentSchema(forms.name, forms.madeBy);
+    let medoc = new MedicamentSchema(forms.name, forms.madeBy, forms.categorie);
     //
     console.log(medoc);
     this.medic
@@ -91,5 +110,11 @@ export class CreateMedicamentPage implements OnInit {
         );
       })
       .catch((err) => {});
+  }
+
+  getAllCategory() {
+    this.medic.getAllNotRealtimeCategory().then((data: any[]) => {
+      this.CategoryList = data;
+    });
   }
 }

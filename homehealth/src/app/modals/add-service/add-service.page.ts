@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
-import { ServiceSchema } from 'src/app/models/serviceschema';
+import { ServiceSchema } from 'src/app/models/serviceSchema';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
 
 @Component({

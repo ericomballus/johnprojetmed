@@ -76,4 +76,46 @@ export class MedicamentService {
     const colRef = collection(db, 'medicament');
     await deleteDoc(doc(db, 'medicament', medoc.id));
   }
+
+  // categorie
+
+  postCategorie(categorie) {
+    const db = getFirestore();
+    const colRef = collection(db, 'medicament-categorie');
+    categorie['createdAt'] = new Date().getTime();
+    categorie['updateAt'] = serverTimestamp();
+    return new Promise(async (resolve, reject) => {
+      try {
+        await addDoc(colRef, categorie);
+        resolve('ok');
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  getAllNotRealtimeCategory(): Promise<any[]> {
+    const db = getFirestore();
+    const colRef = collection(db, 'medicament-categorie');
+    const q = query(colRef, orderBy('updateAt', 'desc'), limit(100));
+    return new Promise((resolve, reject) => {
+      getDocs(q)
+        .then((snapshot) => {
+          let tab = [];
+          snapshot.docs.forEach((doc) => {
+            tab.push({ ...doc.data(), id: doc.id });
+          });
+          resolve(tab);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  }
+
+  async removeCategory(categorie) {
+    const db = getFirestore();
+    // const colRef = collection(db, 'medicament-categorie');
+    await deleteDoc(doc(db, 'medicament-categorie', categorie.id));
+  }
 }

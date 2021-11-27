@@ -47,51 +47,93 @@ const routes: Routes = [
   },
   {
     path: 'company-builder',
-    loadChildren: () => import('./pages/company-builder/company-builder.module').then( m => m.CompanyBuilderPageModule)
+    loadChildren: () =>
+      import('./pages/company-builder/company-builder.module').then(
+        (m) => m.CompanyBuilderPageModule
+      ),
   },
   {
     path: 'add-service',
-    loadChildren: () => import('./modals/add-service/add-service.module').then( m => m.AddServicePageModule)
+    loadChildren: () =>
+      import('./modals/add-service/add-service.module').then(
+        (m) => m.AddServicePageModule
+      ),
   },
   {
     path: 'create-company-service',
-    loadChildren: () => import('./pages/create-company-service/create-company-service.module').then( m => m.CreateCompanyServicePageModule)
+    loadChildren: () =>
+      import(
+        './pages/create-company-service/create-company-service.module'
+      ).then((m) => m.CreateCompanyServicePageModule),
   },
   {
     path: 'create-town',
-    loadChildren: () => import('./pages/create-town/create-town.module').then( m => m.CreateTownPageModule)
+    loadChildren: () =>
+      import('./pages/create-town/create-town.module').then(
+        (m) => m.CreateTownPageModule
+      ),
   },
   {
     path: 'advices',
-    loadChildren: () => import('./pages/advices/advices.module').then( m => m.AdvicesPageModule)
+    loadChildren: () =>
+      import('./pages/advices/advices.module').then((m) => m.AdvicesPageModule),
   },
   {
     path: 'add-advices',
-    loadChildren: () => import('./pages/add-advices/add-advices.module').then( m => m.AddAdvicesPageModule)
+    loadChildren: () =>
+      import('./pages/add-advices/add-advices.module').then(
+        (m) => m.AddAdvicesPageModule
+      ),
   },
   {
     path: 'display-advices',
-    loadChildren: () => import('./modals/display-advices/display-advices.module').then( m => m.DisplayAdvicesPageModule)
+    loadChildren: () =>
+      import('./modals/display-advices/display-advices.module').then(
+        (m) => m.DisplayAdvicesPageModule
+      ),
   },
   {
     path: 'laboratoire',
-    loadChildren: () => import('./pages/laboratoire/laboratoire.module').then( m => m.LaboratoirePageModule)
+    loadChildren: () =>
+      import('./pages/laboratoire/laboratoire.module').then(
+        (m) => m.LaboratoirePageModule
+      ),
   },
   {
     path: 'display-laboratoire',
-    loadChildren: () => import('./modals/display-laboratoire/display-laboratoire.module').then( m => m.DisplayLaboratoirePageModule)
+    loadChildren: () =>
+      import('./modals/display-laboratoire/display-laboratoire.module').then(
+        (m) => m.DisplayLaboratoirePageModule
+      ),
   },
   {
     path: 'create-advices-categorie',
-    loadChildren: () => import('./pages/create-advices-categorie/create-advices-categorie.module').then( m => m.CreateAdvicesCategoriePageModule)
+    loadChildren: () =>
+      import(
+        './pages/create-advices-categorie/create-advices-categorie.module'
+      ).then((m) => m.CreateAdvicesCategoriePageModule),
   },
   {
     path: 'medicament',
-    loadChildren: () => import('./pages/medicament/medicament.module').then( m => m.MedicamentPageModule)
+    loadChildren: () =>
+      import('./pages/medicament/medicament.module').then(
+        (m) => m.MedicamentPageModule
+      ),
   },
   {
     path: 'create-medicament',
-    loadChildren: () => import('./modals/create-medicament/create-medicament.module').then( m => m.CreateMedicamentPageModule)
+    loadChildren: () =>
+      import('./modals/create-medicament/create-medicament.module').then(
+        (m) => m.CreateMedicamentPageModule
+      ),
+  },
+  {
+    path: 'create-medocs-categorie',
+    loadChildren: () => import('./modals/create-medocs-categorie/create-medocs-categorie.module').then( m => m.CreateMedocsCategoriePageModule)
+  },
+  {
+    path: 'company',
+    loadChildren: () => import('./pages/company/company.module').then( m => m.CompanyPageModule)
   },
 ];
 

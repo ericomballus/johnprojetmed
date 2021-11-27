@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CreateMedicamentPage } from 'src/app/modals/create-medicament/create-medicament.page';
+import { CreateMedocsCategoriePage } from 'src/app/modals/create-medocs-categorie/create-medocs-categorie.page';
 import { MedicamentSchema } from 'src/app/models/medicamentSchema';
 import { MedicamentService } from 'src/app/services/medicament.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -37,6 +38,16 @@ export class MedicamentPage implements OnInit {
           console.log(err);
         });
     });
+    return await modal.present();
+  }
+
+  async AddCategorie() {
+    const modal = await this.modalCrtl.create({
+      component: CreateMedocsCategoriePage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {});
     return await modal.present();
   }
 

@@ -12,6 +12,7 @@ import {
   setDoc,
   query,
   where,
+  orderBy,
 } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root',
@@ -48,11 +49,12 @@ export class CompanyService {
     });
   }
 
-  getAllCompany() {
+  getAllCompany(): Promise<Company[]> {
     const db = getFirestore();
     const colRef = collection(db, 'companies');
+    const q = query(colRef, orderBy('name', 'asc'));
     return new Promise((resolve, reject) => {
-      getDocs(colRef)
+      getDocs(q)
         .then((snapshot) => {
           let tab = [];
           snapshot.docs.forEach((doc) => {

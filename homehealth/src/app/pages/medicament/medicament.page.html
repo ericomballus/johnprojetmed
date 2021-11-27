@@ -4,8 +4,16 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button slot="end" fill="outline" (click)="AddMedicament()">
-        <ion-icon name="add"></ion-icon>
+      <ion-button
+        color="warning"
+        size="small"
+        fill="outline"
+        (click)="AddCategorie()"
+      >
+        categorie
+      </ion-button>
+      <ion-button fill="outline" size="small" (click)="AddMedicament()">
+        ajouter un medicament
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -25,7 +33,9 @@
   <ion-list *ngIf="itemsList.length">
     <ion-item *ngFor="let medoc of itemsList">
       <ion-label>
-        <h2 style="font-weight: bold">{{medoc.name}}</h2>
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{medoc.name}}
+        </h2>
         <h3 style="font-weight: bold">fabriquant: {{medoc.madeBy}}</h3>
         <h5 *ngIf="medoc && medoc.createdAt">
           ajouté le: {{medoc.createdAt | date: 'medium'}}

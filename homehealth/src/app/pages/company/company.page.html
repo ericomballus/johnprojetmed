@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" size="small" (click)="AddCompany()">
+        ajouter
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div
+    style="
+      text-align: center;
+      text-transform: uppercase;
+      background-color: #f1f1f1;
+      padding: 5px;
+    "
+  >
+    <h4>Compagnies List</h4>
+  </div>
+  <ion-list *ngIf="companyList.length">
+    <ion-item *ngFor="let comp of companyList">
+      <ion-label>
+        <h2 style="font-weight: bold">{{comp.name}}</h2>
+      </ion-label>
+      <ion-button slot="end" fill="outline" (click)="displayCompany(comp)">
+        display
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
