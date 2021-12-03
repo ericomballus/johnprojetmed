@@ -10,10 +10,14 @@ export class MedicamentSchema {
   updateAt: any;
   id: string;
   categorie: string;
+  users: string[]; //contient les clés des company qui utilise le medicament
+  isChecked: boolean;
   constructor(name, madeBy, categorie) {
     this.name = name;
     this.madeBy = madeBy;
     this.createdAt = new Date().getTime();
     this.updateAt = serverTimestamp();
+    this.categorie = categorie;
+    this.users = [];
   }
 }

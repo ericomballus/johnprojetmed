@@ -135,6 +135,14 @@ const routes: Routes = [
     path: 'company',
     loadChildren: () => import('./pages/company/company.module').then( m => m.CompanyPageModule)
   },
+  {
+    path: 'pick-medicament',
+    loadChildren: () => import('./modals/pick-medicament/pick-medicament.module').then( m => m.PickMedicamentPageModule)
+  },
+  {
+    path: 'display-company',
+    loadChildren: () => import('./modals/display-company/display-company.module').then( m => m.DisplayCompanyPageModule)
+  },
 ];
 
 @NgModule({

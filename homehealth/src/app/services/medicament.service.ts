@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Company } from '../models/company';
 import { MedicamentSchema } from '../models/medicamentSchema';
 
 @Injectable({
@@ -52,10 +53,47 @@ export class MedicamentService {
     });
   }
 
-  getAllNotRealtimeMedoc(): Promise<MedicamentSchema[]> {
+  getAllNotRealtimeMedoc(companyId?: string): Promise<MedicamentSchema[]> {
     const db = getFirestore();
     const colRef = collection(db, 'medicament');
     const q = query(colRef, orderBy('updateAt', 'desc'), limit(100));
+    return new Promise((resolve, reject) => {
+      getDocs(q)
+        .then((snapshot) => {
+          let tab = [];
+          snapshot.docs.forEach((doc) => {
+            let isChecked = false;
+            if (companyId) {
+              let obj = doc.data();
+
+              if (obj['users'].includes(companyId)) {
+                // console.log('je suis la');
+
+                isChecked = true;
+              } else {
+                // console.log('impossible');
+                isChecked = false;
+              }
+            }
+
+            tab.push({ ...doc.data(), id: doc.id, isChecked: isChecked });
+          });
+          resolve(tab);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    });
+  }
+
+  getCompanyMedicament(companyId: string): Promise<MedicamentSchema[]> {
+    const db = getFirestore();
+    const colRef = collection(db, 'medicament');
+    const q = query(
+      colRef,
+      where('users', 'array-contains', companyId),
+      limit(1000)
+    );
     return new Promise((resolve, reject) => {
       getDocs(q)
         .then((snapshot) => {
@@ -68,6 +106,19 @@ export class MedicamentService {
         .catch((e) => {
           reject(e);
         });
+    });
+  }
+  async updateMedicament(id, data) {
+    const db = getFirestore();
+    const colRef = doc(db, 'medicament', id);
+    data['updateAt'] = serverTimestamp();
+    return new Promise(async (resolve, reject) => {
+      try {
+        await updateDoc(colRef, 'users', data);
+        resolve('ok');
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -97,7 +148,7 @@ export class MedicamentService {
   getAllNotRealtimeCategory(): Promise<any[]> {
     const db = getFirestore();
     const colRef = collection(db, 'medicament-categorie');
-    const q = query(colRef, orderBy('updateAt', 'desc'), limit(100));
+    const q = query(colRef, orderBy('updateAt', 'desc'));
     return new Promise((resolve, reject) => {
       getDocs(q)
         .then((snapshot) => {

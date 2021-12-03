@@ -99,9 +99,11 @@ export class CreateMedicamentPage implements OnInit {
     let medoc = new MedicamentSchema(forms.name, forms.madeBy, forms.categorie);
     //
     console.log(medoc);
+    this.notif.presentLoading(40000);
     this.medic
       .postMedoc(medoc)
       .then(() => {
+        this.notif.dismissLoading();
         this.medicamentForm.reset();
         this.notif.presentToast(
           `${medoc.name} enregistré avec succés!!!`,

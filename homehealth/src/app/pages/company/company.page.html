@@ -4,6 +4,9 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="end">
+      <ion-button fill="outline" size="small" (click)="displayCompanyByGroup()">
+        group
+      </ion-button>
       <ion-button fill="outline" size="small" (click)="AddCompany()">
         ajouter
       </ion-button>
@@ -22,14 +25,49 @@
   >
     <h4>Compagnies List</h4>
   </div>
-  <ion-list *ngIf="companyList.length">
-    <ion-item *ngFor="let comp of companyList">
-      <ion-label>
-        <h2 style="font-weight: bold">{{comp.name}}</h2>
-      </ion-label>
-      <ion-button slot="end" fill="outline" (click)="displayCompany(comp)">
-        display
-      </ion-button>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="!viewType">
+    <ion-list *ngIf="companyList.length">
+      <ion-item *ngFor="let comp of companyList">
+        <ion-label>
+          <h2 style="font-weight: bold">{{comp.name}}</h2>
+        </ion-label>
+        <ion-button
+          slot="end"
+          fill="outline"
+          (click)="presentActionSheet(comp)"
+        >
+          ACTION
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="viewType && companyGroupList.length">
+    <div *ngFor="let items of companyGroupList">
+      <div
+        style="
+          text-align: center;
+          text-transform: uppercase;
+          font-weight: bold;
+          font-size: 10px;
+        "
+      >
+        <h2>{{items[0]['companyType']}}</h2>
+      </div>
+      <ion-list>
+        <ion-item *ngFor="let comp of items">
+          <ion-label>
+            <h2 style="font-weight: bold">{{comp.name}}</h2>
+          </ion-label>
+          <ion-button
+            slot="end"
+            fill="outline"
+            (click)="presentActionSheet(comp)"
+          >
+            action
+          </ion-button>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
 </ion-content>

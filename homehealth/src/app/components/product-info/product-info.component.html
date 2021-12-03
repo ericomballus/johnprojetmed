@@ -1,0 +1,11 @@
+<ion-item>
+  <ion-label>
+    <h2 style="font-weight: bold; text-transform: uppercase">
+      {{ medicament.name }}
+    </h2>
+    <h3 style="font-weight: bold">fabriquant: {{ medicament.madeBy }}</h3>
+    <h5 *ngIf="medicament && medicament.createdAt">
+      ajouté le: {{ medicament.createdAt | date: "medium" }}
+    </h5>
+  </ion-label>
+</ion-item>

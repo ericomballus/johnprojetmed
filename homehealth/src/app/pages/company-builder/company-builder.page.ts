@@ -9,6 +9,7 @@ import firebase from 'firebase/compat/app';
 import { CompanyService } from 'src/app/services/company.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Router } from '@angular/router';
+import { PickMedicamentPage } from 'src/app/modals/pick-medicament/pick-medicament.page';
 @Component({
   selector: 'app-company-builder',
   templateUrl: './company-builder.page.html',
@@ -142,5 +143,16 @@ export class CompanyBuilderPage implements OnInit {
     this.company.companyType = ev.detail['value'];
   }
 
-  addCompanyMedicament() {}
+  async addCompanyMedicament() {
+    this.randomStorage.setCompany(this.company);
+    const modal = await this.modalController.create({
+      component: PickMedicamentPage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      this.company = this.randomStorage.getCompany();
+    });
+    return await modal.present();
+  }
 }

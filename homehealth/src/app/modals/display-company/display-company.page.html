@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <app-companyinfo [company]="company"></app-companyinfo>
+  <div *ngIf="medicamentList.length">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 10px;
+      "
+    >
+      <h3>liste des medicamnets</h3>
+    </div>
+    <div *ngFor="let medicament of medicamentList">
+      <app-product-info [medicament]="medicament"></app-product-info>
+    </div>
+  </div>
+</ion-content>
