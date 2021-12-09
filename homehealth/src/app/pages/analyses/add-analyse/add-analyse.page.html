@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding container">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f1f1f1;
+        padding: 5px;
+      "
+    >
+      <h4>ANALYSE</h4>
+    </div>
+    <form
+      class="form-container"
+      [formGroup]="userForm"
+      (ngSubmit)="save(userForm.value)"
+    >
+      <ion-item>
+        <ion-label position="stacked">Nom du service</ion-label>
+        <ion-input
+          type="text"
+          formControlName="name"
+          placeholder="Enter name here"
+        ></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.name">
+        <div
+          class="error"
+          *ngIf="userForm.get('name').hasError(error.type) && (userForm.get('name').dirty || userForm.get('name').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+      <ion-item>
+        <ion-label color="primary">Select categorie</ion-label>
+        <ion-select
+          interface="popover"
+          placeholder="Select One"
+          formControlName="serviceAnalyse"
+        >
+          <ion-select-option
+            value="{{service.name}}"
+            *ngFor="let service of serviceList$ | async"
+            >{{service.name}}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+
+      <ion-button
+        class="main-button"
+        type="submit"
+        expand="block"
+        [disabled]="!userForm.valid"
+        >Register</ion-button
+      >
+    </form>
+  </div>
+
+  <ion-list>
+    <ion-list-header> analyse List </ion-list-header>
+    <ion-item *ngFor="let service of analyseList$ | async">
+      <ion-avatar slot="start">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2 style="font-weight: bold">{{service.name}}</h2>
+      </ion-label>
+      <ion-button slot="end" fill="outline" (click)="removeService(service)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

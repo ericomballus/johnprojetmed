@@ -71,7 +71,7 @@
 
     <ion-item
       (click)="addCompanyService()"
-      *ngIf="company && company.companyType == !'pharmacie'"
+      *ngIf="company && company.companyType !== 'pharmacie'"
     >
       <ion-icon slot="start" name="man-outline"></ion-icon>
       <ion-icon color="primary" slot="end" name="add-outline"></ion-icon>

@@ -54,6 +54,44 @@
         {{ error.message }}
       </div>
     </ng-container>
+    <ion-item>
+      <ion-label color="primary" position="floating">size:</ion-label>
+      <ion-input type="number" formControlName="size"></ion-input>
+    </ion-item>
+
+    <ng-container *ngFor="let error of error_msg.size">
+      <div
+        class="error"
+        *ngIf="medicamentForm.get('size').hasError(error.type) && (medicamentForm.get('size').dirty || medicamentForm.get('size').touched)"
+      >
+        {{ error.message }}
+      </div>
+    </ng-container>
+    <ion-item>
+      <ion-label color="primary">Select unity</ion-label>
+      <ion-select
+        interface="popover"
+        placeholder="Select One"
+        formControlName="unity"
+      >
+        <ion-select-option value="{{unit}}" *ngFor="let unit of unitList"
+          >{{unit}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label color="primary">Type de medicament</ion-label>
+      <ion-select
+        interface="popover"
+        placeholder="Select One"
+        formControlName="typeMedicament"
+      >
+        <ion-select-option value="{{typem}}" *ngFor="let typem of typeList"
+          >{{typem}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
     <ion-button
       class="main-button"
       type="submit"

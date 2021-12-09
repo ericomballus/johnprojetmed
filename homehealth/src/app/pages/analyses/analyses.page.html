@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="warning"
+        size="small"
+        fill="outline"
+        (click)="addServiceAnalyse()"
+      >
+        <div>ajouter un service</div>
+      </ion-button>
+      <ion-button fill="outline" size="small" (click)="addAnalyse()">
+        <div>ajouter une analyse</div>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header> analyse List </ion-list-header>
+    <ion-item *ngFor="let service of analyseList$ | async">
+      <ion-avatar slot="start">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2 style="font-weight: bold">{{service.name}}</h2>
+      </ion-label>
+      <ion-button slot="end" fill="outline" (click)="removeService(service)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

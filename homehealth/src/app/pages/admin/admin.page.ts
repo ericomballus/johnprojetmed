@@ -43,4 +43,7 @@ export class AdminPage implements OnInit {
   createMedicament() {
     this.router.navigateByUrl('medicament');
   }
+  goToAnalyse() {
+    this.router.navigateByUrl('analyses');
+  }
 }

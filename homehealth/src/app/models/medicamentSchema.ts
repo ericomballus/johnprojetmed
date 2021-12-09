@@ -12,12 +12,23 @@ export class MedicamentSchema {
   categorie: string;
   users: string[]; //contient les clés des company qui utilise le medicament
   isChecked: boolean;
-  constructor(name, madeBy, categorie) {
+  grammage: string;
+  unity: string;
+  size: number;
+  typeMedicament: string; //solid, liquide, sirop, gelule
+  constructor(name, madeBy, categorie, size, unity, typeMedicament) {
     this.name = name;
     this.madeBy = madeBy;
     this.createdAt = new Date().getTime();
     this.updateAt = serverTimestamp();
     this.categorie = categorie;
     this.users = [];
+    this.size = size;
+    this.unity = unity;
+    this.typeMedicament = typeMedicament;
+  }
+
+  buildGrammage() {
+    this.grammage = this.size + this.unity;
   }
 }

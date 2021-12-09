@@ -16,6 +16,7 @@ export class Company {
   createdAt: any;
   serviceList: ServiceSchema[] = [];
   medicamentList: MedicamentSchema[] = [];
+  analyseList: MedicamentSchema[] = []; // pour les laboratoires
 
   constructor() {}
 

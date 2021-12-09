@@ -21,6 +21,8 @@ export class CreateMedicamentPage implements OnInit {
   successMsg: string = '';
   errorMsg: string = '';
   CategoryList: any[] = [];
+  unitList: any[] = ['l', 'dl', 'cl', 'ml', 'kg', 'g', 'mg'];
+  typeList: any[] = ['comprimé', 'sirop', 'gélule'];
   error_msg = {
     name: [
       {
@@ -50,6 +52,16 @@ export class CreateMedicamentPage implements OnInit {
       {
         type: 'pattern',
         message: 'categorie is not valid.',
+      },
+    ],
+    size: [
+      {
+        type: 'required',
+        message: 'fournir la taille du medicament.',
+      },
+      {
+        type: 'pattern',
+        message: 'la taille n es pas valide, maximum 10 caractéres.',
       },
     ],
   };
@@ -93,12 +105,44 @@ export class CreateMedicamentPage implements OnInit {
           Validators.maxLength(100),
         ])
       ),
+      unity: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
+          Validators.maxLength(100),
+        ])
+      ),
+      size: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9].*[s]*$'),
+          Validators.maxLength(10),
+        ])
+      ),
+      typeMedicament: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[0-9].*[s]*$'),
+          Validators.maxLength(10),
+        ])
+      ),
     });
   }
   save(forms: MedicamentSchema) {
-    let medoc = new MedicamentSchema(forms.name, forms.madeBy, forms.categorie);
+    let medoc = new MedicamentSchema(
+      forms.name,
+      forms.madeBy,
+      forms.categorie,
+      forms.size,
+      forms.unity,
+      forms.typeMedicament
+    );
     //
     console.log(medoc);
+    medoc.buildGrammage();
     this.notif.presentLoading(40000);
     this.medic
       .postMedoc(medoc)
