@@ -16,7 +16,7 @@ export class Analyse {
     this.updateAt = serverTimestamp();
     this.serviceAnalyse = serviceAnalyse;
     this.users = [];
-    this.conditionPrelevement = 'typeMedicament';
+    this.conditionPrelevement = '';
     this.delai = '';
   }
 }

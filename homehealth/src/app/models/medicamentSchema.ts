@@ -1,4 +1,5 @@
 import { serverTimestamp } from 'firebase/firestore';
+
 export class MedicamentSchema {
   name: string;
   madeBy: string;
@@ -10,7 +11,7 @@ export class MedicamentSchema {
   updateAt: any;
   id: string;
   categorie: string;
-  users: string[]; //contient les clés des company qui utilise le medicament
+  users: string[];
   isChecked: boolean;
   grammage: string;
   unity: string;
@@ -30,5 +31,6 @@ export class MedicamentSchema {
 
   buildGrammage() {
     this.grammage = this.size + this.unity;
+    [];
   }
 }

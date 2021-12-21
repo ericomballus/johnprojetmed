@@ -4,9 +4,6 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { User } from '../models/user';
 import { Data, Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,

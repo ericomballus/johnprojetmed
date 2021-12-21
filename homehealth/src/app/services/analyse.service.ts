@@ -17,13 +17,15 @@ import {
 } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Analyse } from '../models/analyseSchema';
+import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root',
 })
 export class AnalyseService {
   analyseArr$ = new BehaviorSubject([]);
   serviceAnalyseArr$ = new BehaviorSubject([]);
-  constructor() {}
+  analyseArr2$ = new BehaviorSubject([]);
+  constructor(private notifi: NotificationService) {}
 
   getServiceAnalyse() {
     const db = getFirestore();
@@ -80,6 +82,7 @@ export class AnalyseService {
     });
   }
   getAnalyse() {
+    // this.notifi.presentLoading(15000);
     const db = getFirestore();
 
     const colRef = collection(db, 'analyses');
@@ -89,10 +92,34 @@ export class AnalyseService {
       snapshot.docs.forEach((doc) => {
         tab.push({ ...doc.data(), id: doc.id });
       });
-
+      // this.notifi.dismissLoading();
+      console.log(tab);
       this.analyseArr$.next(tab);
     });
     return this.analyseArr$;
+  }
+
+  selectAllAnalyse(analyseList) {
+    this.notifi.presentLoading(40000);
+    const db = getFirestore();
+    const colRef = collection(db, 'analyses');
+
+    getDocs(colRef).then((snapshot) => {
+      let tab = [];
+      snapshot.docs.forEach((doc) => {
+        tab.push({ ...doc.data(), id: doc.id });
+      });
+      tab.forEach((elt) => {
+        analyseList.forEach((analyse) => {
+          if (elt.id === analyse['id']) {
+            elt['isChecked'] = true;
+          }
+        });
+      });
+      this.notifi.dismissLoading();
+      this.analyseArr2$.next(tab);
+    });
+    return this.analyseArr2$;
   }
 
   async removeOneAnalyse(analyse) {
@@ -100,6 +127,23 @@ export class AnalyseService {
     return new Promise(async (resolve, reject) => {
       try {
         await deleteDoc(doc(db, 'analyses', analyse.id));
+        resolve('ok');
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  async updateAnalyses(id, data, update?) {
+    if (update) {
+      data['updateAt'] = update;
+    }
+    const db = getFirestore();
+    const colRef = doc(db, 'analyses', id);
+    data['updateAt'] = serverTimestamp();
+    return new Promise(async (resolve, reject) => {
+      try {
+        await updateDoc(colRef, data);
         resolve('ok');
       } catch (error) {
         reject(error);

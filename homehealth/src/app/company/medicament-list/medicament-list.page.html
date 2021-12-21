@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="primary" (click)="addMedicament()">
+        ajouter<ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="medicamentList.length">
+    <ion-item button *ngFor="let medicament of medicamentList">
+      <ion-avatar>
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{medicament.name}}</h2>
+        <h3>quantity: {{medicament.quantity}}</h3>
+        <h5>price: {{medicament.sellingPrice}} FCFA</h5>
+      </ion-label>
+      <ion-button slot="end" (click)="displayInfo(medicament)"
+        >details</ion-button
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>

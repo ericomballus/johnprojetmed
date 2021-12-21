@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 import { MedicamentSchema } from 'src/app/models/medicamentSchema';
+import { CompanyService } from 'src/app/services/company.service';
 import { MedicamentService } from 'src/app/services/medicament.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
@@ -18,7 +19,8 @@ export class PickMedicamentPage implements OnInit {
     private randomStorage: RandomStorageService,
     private modal: ModalController,
     private medic: MedicamentService,
-    private notif: NotificationService
+    private notif: NotificationService,
+    private companyService: CompanyService
   ) {}
 
   ngOnInit() {
@@ -45,21 +47,8 @@ export class PickMedicamentPage implements OnInit {
       });
   }
   addMedicament(medicament: MedicamentSchema) {
-    if (this.company.medicamentList) {
-      /* let arr = this.company.medicamentList;
-      let index = arr.findIndex((medic) => {
-        medic.id == medicament.id;
-      });
-     if (index >= 0) {
-      } else {
-        this.company.medicamentList.push(medicament);
-      } */
-    } else {
-      // this.company['medicamentList'] = [];
-      // this.company.medicamentList.push(medicament);
-    }
-    if (medicament.isChecked) {
-    } else {
+    if (!this.company.allMedicamentListId) {
+      this.company.allMedicamentListId = [];
     }
 
     let arr = medicament.users;
@@ -69,8 +58,16 @@ export class PickMedicamentPage implements OnInit {
       medicament.users = arr.filter((companyId: string) => {
         return companyId != this.company.id;
       });
+      this.company.medicamentList = this.company.medicamentList.filter(
+        (elt) => elt.id != medicament.id
+      );
+      this.company.allMedicamentListId =
+        this.company.allMedicamentListId.filter((elt) => elt != medicament.id);
     } else {
       medicament.users.push(this.company.id);
+      this.company.medicamentList.push(medicament);
+      this.company.allMedicamentListId.push(medicament.id);
+      console.log(this.company.allMedicamentListId);
     }
     this.medic
       .updateMedicament(medicament.id, medicament.users)
@@ -78,5 +75,16 @@ export class PickMedicamentPage implements OnInit {
         console.log(res);
       })
       .catch((err) => console.log(err));
+  }
+
+  save() {
+    this.notif.presentLoading(40000);
+    this.companyService
+      .updateCompany(this.company.id, this.company)
+      .then((res) => {
+        this.notif.dismissLoading();
+        this.randomStorage.setCompany(this.company);
+        this.modal.dismiss();
+      });
   }
 }

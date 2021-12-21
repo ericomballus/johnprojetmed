@@ -24,6 +24,7 @@ import { MedicamentSchema } from '../models/medicamentSchema';
   providedIn: 'root',
 })
 export class MedicamentService {
+  medicamentList$ = new BehaviorSubject([]);
   constructor() {}
 
   postMedoc(data: MedicamentSchema) {
@@ -109,6 +110,8 @@ export class MedicamentService {
     });
   }
   async updateMedicament(id, data) {
+    console.log(data);
+
     const db = getFirestore();
     const colRef = doc(db, 'medicament', id);
     data['updateAt'] = serverTimestamp();
@@ -162,6 +165,21 @@ export class MedicamentService {
           reject(e);
         });
     });
+  }
+
+  getAllNotRealtimeMedicament() {
+    const db = getFirestore();
+    const colRef = collection(db, 'medicament');
+    const q = query(colRef, orderBy('updateAt', 'desc'));
+    getDocs(q).then((snapshot) => {
+      let tab = [];
+      snapshot.docs.forEach((doc) => {
+        tab.push({ ...doc.data(), id: doc.id });
+      });
+      this.medicamentList$.next(tab);
+    });
+
+    return this.medicamentList$;
   }
 
   async removeCategory(categorie) {

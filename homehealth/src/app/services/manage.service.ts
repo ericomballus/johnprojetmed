@@ -15,14 +15,14 @@ import {
 } from 'firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root',
 })
 export class ManageService {
-  serviceList = new BehaviorSubject([]);
-  constructor() {
-    this.getAllServices();
-  }
+  serviceList$ = new BehaviorSubject([]);
+  serviceList1$ = new BehaviorSubject([]);
+  constructor(private notifi: NotificationService) {}
 
   createServices(data) {
     console.log(data);
@@ -43,13 +43,52 @@ export class ManageService {
   getAllServices() {
     const db = getFirestore();
     const colRef = collection(db, 'services');
+    getDocs(colRef).then((snapshot) => {
+      let tab = [];
+      snapshot.docs.forEach((doc) => {
+        tab.push({ ...doc.data(), id: doc.id });
+      });
+      this.serviceList$.next(tab);
+      this.getAllRealTimeService();
+    });
+    return this.serviceList$;
+  }
+
+  selectAllServices(serviceList) {
+    this.notifi.presentLoading(15000);
+    const db = getFirestore();
+    const colRef = collection(db, 'services');
+
+    getDocs(colRef).then((snapshot) => {
+      let tab = [];
+      snapshot.docs.forEach((doc) => {
+        tab.push({ ...doc.data(), id: doc.id });
+      });
+      tab.forEach((elt) => {
+        serviceList.forEach((serv) => {
+          if (elt.id === serv['id']) {
+            elt['isChecked'] = true;
+            console.log('hello', elt);
+          }
+        });
+      });
+      this.notifi.dismissLoading();
+      this.serviceList1$.next(tab);
+    });
+    return this.serviceList1$;
+  }
+
+  getAllRealTimeService() {
+    const db = getFirestore();
+    const colRef = collection(db, 'services');
     onSnapshot(colRef, (snapshot) => {
       let tab = [];
       snapshot.docs.forEach((doc) => {
         tab.push({ ...doc.data(), id: doc.id });
       });
-      return this.serviceList.next(tab);
+      this.serviceList$.next(tab);
     });
+    return this.serviceList$;
   }
 
   getServicesByCompanyType(company_type: string) {
@@ -69,9 +108,6 @@ export class ManageService {
           reject(e);
         });
     });
-  }
-  getData() {
-    return this.serviceList.pipe(map((i) => i));
   }
 
   async removeOneServices(service) {

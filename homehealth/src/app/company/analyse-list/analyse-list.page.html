@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="warning"
+        size="small"
+        fill="outline"
+        (click)="addAnalyse()"
+      >
+        <div>ajouter une analyse</div>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let analyse of analyseList">
+      <ion-avatar>
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{analyse.name}}</h2>
+      </ion-label>
+      <ion-button slot="end" (click)="presentActionSheet(analyse)"
+        >action</ion-button
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" color="primary" (click)="addEmploye()">
+        ajouter<ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <button class="filebtn" #fileButton>hello</button>
+  <ion-list>
+    <ion-item button *ngFor="let employe of employeList$ | async">
+      <ion-avatar>
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{employe.displayName}}</h2>
+        <h3>{{employe.telephone}}</h3>
+      </ion-label>
+      <ion-button slot="end" (click)="displayEmploye(employe)"
+        >details</ion-button
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>

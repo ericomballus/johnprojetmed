@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="warning"
+        size="small"
+        fill="outline"
+        (click)="addService()"
+      >
+        <div>ajouter un service</div>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let service of serviceList">
+      <ion-avatar>
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{service.name}}</h2>
+      </ion-label>
+      <ion-button slot="end" (click)="displayInfo(service)">details</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

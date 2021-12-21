@@ -1,6 +1,7 @@
 import { User } from '../models/user';
 import { ServiceSchema } from './serviceSchema';
 import { MedicamentSchema } from './medicamentSchema';
+import { Analyse } from './analyseSchema';
 export class Company {
   adminId: string;
   name: string = '';
@@ -16,7 +17,10 @@ export class Company {
   createdAt: any;
   serviceList: ServiceSchema[] = [];
   medicamentList: MedicamentSchema[] = [];
-  analyseList: MedicamentSchema[] = []; // pour les laboratoires
+  analyseList: Analyse[] = []; // pour les laboratoires
+  allAnalyseId: string[] = [];
+  allServiceListId: string[] = [];
+  allMedicamentListId: string[] = [];
 
   constructor() {}
 

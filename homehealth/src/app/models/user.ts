@@ -9,5 +9,6 @@ export interface User {
   password: string;
   isCompany: boolean;
   roles: number[]; //1= homehealth; 2 =companyAdmin; 3= userCompany; 4= simple user
+  adminId?: string;
 }
 /**/

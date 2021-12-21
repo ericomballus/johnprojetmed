@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color="success" fill="solid" (click)="save()"
+        >Enregistrer</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>DETAILS</ion-list-header>
+
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating">
+        <h2>Nom</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="medicament.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>price</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="medicament.sellingPrice"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Quantity</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="medicament.quantity"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-content>

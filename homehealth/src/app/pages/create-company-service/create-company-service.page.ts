@@ -16,6 +16,8 @@ import { ManageService } from 'src/app/services/manage.service';
 export class CreateCompanyServicePage implements OnInit {
   @ViewChild('btn') fileButton;
   items = [];
+  public items$: any;
+  // public analyseList$: Observable<any[]>;
   products$: Observable<any>;
   userForm: FormGroup;
   successMsg: string = '';
@@ -41,7 +43,7 @@ export class CreateCompanyServicePage implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.fileButton);
+    this.getServiceList();
 
     this.userForm = this.fb.group({
       name: new FormControl(
@@ -59,7 +61,6 @@ export class CreateCompanyServicePage implements OnInit {
         ])
       ),
     });
-    this.getServiceList();
   }
   selectCompanyType(ev) {
     // this.companyType = ev.detail['value'];
@@ -71,16 +72,7 @@ export class CreateCompanyServicePage implements OnInit {
     this.userForm.reset();
   }
   getServiceList() {
-    this.manageService.getData().subscribe((data) => {
-      data.forEach((elt) => {});
-      this.items = data;
-      console.log(this.items);
-      if (this.items.length) {
-        this.fire();
-      }
-    });
-    // this.products$ = this.manageService.getData();
-    // this.products$.subscribe((data) => console.log(data));
+    this.items$ = this.manageService.getAllServices();
   }
   async removeServiceName(service) {
     try {

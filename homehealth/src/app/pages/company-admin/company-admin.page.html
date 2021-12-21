@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> </ion-content>
+
+<ion-footer class="square">
+  <ion-toolbar>
+    <ion-row class="ion-align-items-center">
+      <ion-col
+        size="3"
+        class="ion-align-self-center"
+        (click)="displayEmploye()"
+      >
+        <div class="ion-text-center" class="btnfooter btnfooter2">
+          <ion-button fill="clear">
+            <div class="btnfooter2">
+              <ion-icon class="btnfooter2" slot="end" name="contact"></ion-icon>
+              employés
+            </div>
+          </ion-button>
+        </div>
+      </ion-col>
+      <ion-col
+        size="3"
+        class="ion-align-self-center"
+        (click)="displayService()"
+      >
+        <div class="ion-text-center" class="btnfooter btnfooter2">
+          <ion-button fill="clear">
+            <div class="btnfooter2">
+              <ion-icon class="btnfooter2" slot="end" name="contact"></ion-icon>
+              services
+            </div>
+          </ion-button>
+        </div>
+      </ion-col>
+      <ion-col
+        size="3"
+        class="ion-align-self-center"
+        (click)="displayMedicament()"
+      >
+        <div class="ion-text-center" class="btnfooter">
+          <ion-button fill="clear">
+            <div class="btnfooter2">
+              <ion-icon
+                class="btnfooter2"
+                slot="end"
+                name="add-circle-outline"
+              ></ion-icon>
+              medicament
+            </div>
+          </ion-button>
+        </div>
+      </ion-col>
+      <ion-col
+        size="3"
+        class="ion-align-self-center"
+        (click)="displayAnalyse()"
+      >
+        <div class="ion-text-center" class="btnfooter btnfooter2">
+          <ion-button fill="clear">
+            <div class="btnfooter2">
+              <ion-icon
+                class="btnfooter2"
+                slot="end"
+                name="book-outline"
+              ></ion-icon>
+              analyse
+            </div>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

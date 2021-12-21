@@ -7,7 +7,6 @@
 </ion-header>
 
 <ion-content>
-  <input (click)="fire2()" class="filebtn" #btn type="text" />
   <div class="ion-padding container">
     <div
       style="
@@ -61,11 +60,13 @@
       >
     </form>
   </div>
-  <ion-list *ngIf="items.length">
+  <ion-list>
     <ion-list-header> service List </ion-list-header>
-    <ion-item *ngFor="let service of items">
+    <ion-item *ngFor="let service of items$ | async">
       <ion-label>
-        <h2 style="font-weight: bold">{{service.name}}</h2>
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{service.name}}
+        </h2>
       </ion-label>
       <ion-button
         slot="end"

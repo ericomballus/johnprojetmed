@@ -29,5 +29,12 @@ export class HomePage {
     if (ev === 'laboratoire') {
       this.router.navigateByUrl('laboratoire');
     }
+
+    if (ev === 'hopital') {
+      this.router.navigateByUrl('hopital');
+    }
+    if (ev === 'pharmacie') {
+      this.router.navigateByUrl('pharmacie');
+    }
   }
 }

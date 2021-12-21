@@ -14,26 +14,16 @@ import {
   where,
   orderBy,
 } from 'firebase/firestore';
+import { User } from '../models/user';
+import { BehaviorSubject } from 'rxjs';
+import { NotificationService } from './notification.service';
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
-  constructor() {}
-  //first methode
-  /* createCompany(company: Company) {
-    const db = getFirestore();
-    const colRef = collection(db, 'companies');
-    return new Promise((resolve, reject) => {
-      addDoc(colRef, Object.assign({}, company))
-        .then(() => {
-          resolve(company);
-        })
-        .catch((e) => {
-          reject(e);
-        });
-    });
-  }*/
-  // second methode
+  company$ = new BehaviorSubject([]);
+  constructor(private notifi: NotificationService) {}
+
   createCompany(company: Company) {
     const db = getFirestore();
     const colRef = doc(db, 'companies', company.adminId);
@@ -89,7 +79,9 @@ export class CompanyService {
   updateCompany(adminId, data) {
     const db = getFirestore();
     const colRef = doc(db, 'companies', adminId);
-    data['updateAt'] = serverTimestamp();
+    data['updateAt'] = Date.now();
+    console.log(data);
+
     return new Promise(async (resolve, reject) => {
       try {
         await updateDoc(colRef, data);
@@ -97,6 +89,74 @@ export class CompanyService {
       } catch (error) {
         reject(error);
       }
+    });
+  }
+  getAdminCompany(employe: User) {
+    const db = getFirestore();
+    const colRef = collection(db, 'companies');
+
+    const q = query(colRef, where('adminId', '==', employe.uid));
+    getDocs(q).then((snapshot) => {
+      let tab = [];
+      snapshot.docs.forEach((doc) => {
+        tab.push({ ...doc.data(), id: doc.id });
+      });
+      this.company$.next(tab);
+    });
+    return this.company$;
+  }
+
+  getWhoMakesAnalyse(analyseId): Promise<Company[]> {
+    return new Promise((resolve, reject) => {
+      const db = getFirestore();
+      const colRef = collection(db, 'companies');
+      const q = query(
+        colRef,
+        where('allAnalyseId', 'array-contains', analyseId)
+      );
+      getDocs(q).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        resolve(tab);
+      });
+    });
+  }
+
+  getWhoMakesService(serviceId): Promise<Company[]> {
+    return new Promise((resolve, reject) => {
+      const db = getFirestore();
+      const colRef = collection(db, 'companies');
+      const q = query(
+        colRef,
+        where('allServiceListId', 'array-contains', serviceId)
+      );
+      getDocs(q).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        resolve(tab);
+      });
+    });
+  }
+
+  getWhoSaleMedicament(medicamentId): Promise<Company[]> {
+    return new Promise((resolve, reject) => {
+      const db = getFirestore();
+      const colRef = collection(db, 'companies');
+      const q = query(
+        colRef,
+        where('allMedicamentListId', 'array-contains', medicamentId)
+      );
+      getDocs(q).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        resolve(tab);
+      });
     });
   }
 }

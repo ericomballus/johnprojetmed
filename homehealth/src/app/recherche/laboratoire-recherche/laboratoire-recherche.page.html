@@ -1,0 +1,51 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-card *ngFor="let result of resultat">
+    <ion-img [src]="result.company.logoURL"></ion-img>
+    <ion-card-header>
+      <ion-card-title>{{ result.company.name }}</ion-card-title>
+      <ion-card-subtitle style="font-weight: bold"
+        >telephone: {{ result.company.telephone }}</ion-card-subtitle
+      >
+      <ion-card-subtitle>email: {{ result.company.email }}</ion-card-subtitle>
+      <ion-card-subtitle>ville: {{ result.company.ville }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-icon slot="start" name="pricetag"></ion-icon>
+          <ion-label>
+            <h2>{{result.resultat.name}}</h2>
+            <h3>
+              Prix: {{result.resultat.price ? result.resultat.price : ''}} Cfa
+            </h3>
+            <h3>
+              Délai: {{result.resultat.delai ? result.resultat.delai : ''}}
+            </h3>
+          </ion-label>
+          <ion-button color="primary" slot="end" (click)="commander(result)"
+            >buy</ion-button
+          >
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<!--
+  <ion-item>
+          <ion-label>
+            <h2>Condition de Prélevement:</h2>
+            <div>
+              {{result.resultat.conditionPrelevement ?
+              result.resultat.conditionPrelevement : ''}}
+            </div>
+          </ion-label>
+        </ion-item>
+-->

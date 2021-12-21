@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button color="success" fill="solid" (click)="save()"
+        >Enregistrer</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>DETAILS</ion-list-header>
+
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating">
+        <h2>Nom</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="analyse.name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Responsable du analyse</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="analyse.responsable"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Telephone</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="analyse.responsablePhone"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Email</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="analyse.responsableEmail"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Cout Consultation</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="analyse.price"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Délai</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="analyse.delai"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Condition de Prélévement</h2>
+      </ion-label>
+      <ion-textarea
+        rows="6"
+        [(ngModel)]="analyse.conditionPrelevement"
+      ></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>

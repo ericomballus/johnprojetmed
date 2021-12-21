@@ -118,7 +118,7 @@ export class CompanyBuilderPage implements OnInit {
           this.companyAdmin.email,
           this.companyAdmin.password
         );
-      await UserCredential.user.sendEmailVerification();
+      // await UserCredential.user.sendEmailVerification();
       this.company.adminId = UserCredential.user.uid;
       await this.companyService.createCompany(this.company);
       this.companyAdmin.uid = UserCredential.user.uid;
@@ -132,6 +132,7 @@ export class CompanyBuilderPage implements OnInit {
         'primary',
         3000
       );
+      await UserCredential.user.sendEmailVerification();
       this.router.navigateByUrl('admin');
     } catch (error) {
       this.notifi.dismissLoading();
