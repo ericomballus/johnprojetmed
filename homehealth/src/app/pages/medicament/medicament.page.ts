@@ -13,6 +13,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class MedicamentPage implements OnInit {
   itemsList: MedicamentSchema[] = [];
+  scrool = false;
   constructor(
     private modalCrtl: ModalController,
     private medic: MedicamentService,
@@ -76,6 +77,24 @@ export class MedicamentPage implements OnInit {
       })
       .catch((err) => {
         this.notif.dismissLoading();
+        console.log(err);
+      });
+  }
+
+  loadData(event) {
+    this.scrool = true;
+    this.medic
+      .getAllNotRealtimeMedoc()
+      .then((data: MedicamentSchema[]) => {
+        console.log(data);
+
+        data.forEach((elt) => {
+          this.itemsList.push(elt);
+        });
+        console.log(this.itemsList);
+        event.target.complete();
+      })
+      .catch((err) => {
         console.log(err);
       });
   }

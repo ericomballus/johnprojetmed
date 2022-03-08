@@ -54,4 +54,13 @@
       <ion-input [(ngModel)]="service.price"></ion-input>
     </ion-item>
   </ion-list>
+  <select name="pets" id="pet-select" (change)="setSelected($event.target)">
+    <option value="service.responsable">--Ajouter un responsable--</option>
+    <option
+      value="{{ user.uid }}"
+      *ngFor="let user of employeeList let i= index"
+    >
+      {{ user.displayName }}
+    </option>
+  </select>
 </ion-content>

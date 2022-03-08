@@ -12,11 +12,23 @@ import { TranslateConfigService } from './translate-config.service';
 export class AppComponent {
   navigate: any[] = [
     {
+      title: 'MENU.home',
+      url: '/home',
+      icon: 'home',
+      color: 'tertiary',
+    },
+    {
+      title: 'MENU.account',
+      url: '/user-home',
+      icon: 'home',
+      color: 'tertiary',
+    },
+    /* {
       title: 'MENU.signup',
       url: '/inscription',
       icon: 'home',
       color: 'tertiary',
-    },
+    },*/
     {
       title: 'MENU.login',
       url: 'connexion',

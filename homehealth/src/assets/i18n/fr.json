@@ -5,6 +5,7 @@
     "login": "Connectez vous",
     "signup": "Inscrivez-vous",
     "team": "Home Health",
-    "logout": "Déconnexion"
+    "logout": "Déconnexion",
+    "account": "Mon Compte"
   }
 }

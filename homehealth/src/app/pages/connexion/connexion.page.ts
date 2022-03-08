@@ -27,45 +27,69 @@ export class ConnexionPage implements OnInit {
     if (this.authService.isLoggedIn) {
       this.notifi
         .presentAlertConfirm(
-          `vous etes actuellement connecté a ${this.authService.isLoggedIn.email}, voulez continuez avec ce compte ?`
+          `vous etes actuellement connecté a ${
+            this.authService.isLoggedIn.email.split('@')[0]
+          }, voulez continuez avec ce compte ?`
         )
         .then(() => {
           //this.router.navigateByUrl('home');
+          this.notifi.presentLoading(20000);
           this.userService
             .getUser(this.authService.isLoggedIn.uid)
             .then((user: User) => {
               console.log(user);
-              this.notifi.dismissLoading();
+
               if (user.roles.includes(2)) {
                 this.randomStorage.setAdmin(user);
                 this.getCompany(user);
               }
+              if (user.roles.includes(4)) {
+                this.randomStorage.setUser(user);
+                this.notifi.dismissLoading();
+                this.router.navigateByUrl('home');
+                // this.getCompany(user);
+              }
               //
             });
         })
-        .catch(() => {});
+        .catch((error) => {
+          this.notifi.dismissLoading();
+          // this.notifi.presentAlertConfirm(error.message);
+        });
     } else {
     }
   }
-  signUp(email, password) {
-    this.notifi.presentLoading(60000);
+  signUp(pseudo, password) {
+    let email = `${pseudo.value}@test.com`;
+    this.notifi.presentLoading(15000);
     this.authService
-      .SignIn(email.value, password.value)
+      // .SignIn(email.value, password.value)
+      .SignIn(email, password.value)
       .then((res: firebase.auth.UserCredential) => {
-        this.userService.getUser(res.user.uid).then((user: User) => {
-          console.log(user);
-          this.notifi.dismissLoading();
-          if (user.roles.includes(2)) {
-            this.randomStorage.setAdmin(user);
-            this.getCompany(user);
-          }
-          //
-        });
+        // this.notifi.presentLoading(60000);
+        this.userService
+          .getUser(res.user.uid)
+          .then((user: User) => {
+            console.log(user);
+
+            if (user.roles.includes(2)) {
+              this.randomStorage.setAdmin(user);
+              this.getCompany(user);
+            }
+            if (user.roles.includes(4)) {
+              this.randomStorage.setUser(user);
+              this.notifi.dismissLoading();
+              // this.router.navigateByUrl('user-home');
+              this.router.navigateByUrl('home');
+            }
+            //
+          })
+          .catch((err) => this.notifi.dismissLoading());
 
         // this.authService.updateUserData(res);
       })
       .catch((error) => {
-        this.notifi.dismissLoading();
+        this.notifi.dismissLoading().then().catch();
         this.notifi.presentToast(
           'erreur authentification rassurer vous que vous avez entrez les identifiants corrects',
           'danger',
@@ -76,10 +100,12 @@ export class ConnexionPage implements OnInit {
   getCompany(user) {
     this.company.getAdminCompany(user).subscribe(
       (data) => {
-        this.router.navigateByUrl('company-admin');
         if (data.length) {
-          console.log(data);
           this.randomStorage.setCompany(data[0]);
+          this.notifi.dismissLoading();
+          this.router.navigateByUrl('company-admin');
+        } else {
+          this.notifi.presentToast('unknow account!', 'red', 3000);
         }
       },
       (err) => this.notifi.dismissLoading()

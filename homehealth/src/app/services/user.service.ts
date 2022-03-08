@@ -58,13 +58,33 @@ export class UserService {
     });
   }
 
+  updateUser(user: any, service) {
+    const db = getFirestore();
+    const colRef = doc(db, 'users', user.uid);
+    console.log('to update ', service);
+
+    return new Promise(async (resolve, reject) => {
+      try {
+        let res = await updateDoc(colRef, {
+          photoURL: user.displayName,
+          serviceList: service,
+        });
+        console.log('update res', res);
+
+        resolve('ok');
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
   getListEmployees(adminId: string) {
     const db = getFirestore();
     const colRef = collection(db, 'users');
     const q = query(
       colRef,
       where('adminId', '==', adminId),
-      where('roles', 'array-contains', 2)
+      where('roles', 'array-contains', 3)
     );
     //this.getEmployees(adminId);
     // return new Promise((resolve, reject) => {

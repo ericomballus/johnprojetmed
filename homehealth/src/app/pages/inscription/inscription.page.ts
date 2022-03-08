@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import { User } from 'src/app/models/user';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { NotificationService } from 'src/app/services/notification.service';
 @Component({
   selector: 'app-inscription',
   templateUrl: './inscription.page.html',
@@ -33,7 +34,7 @@ export class InscriptionPage implements OnInit {
         message: 'Name is not valid.',
       },
     ],
-    email: [
+    /*  email: [
       {
         type: 'required',
         message: 'Provide email.',
@@ -42,7 +43,7 @@ export class InscriptionPage implements OnInit {
         type: 'pattern',
         message: 'Email is not valid.',
       },
-    ],
+    ],*/
     password: [
       {
         type: 'required',
@@ -62,7 +63,8 @@ export class InscriptionPage implements OnInit {
     public authService: AuthenticationService,
     private router: Router,
     private fb: FormBuilder,
-    private randomStorage: RandomStorageService
+    private randomStorage: RandomStorageService,
+    private notifi: NotificationService
   ) {}
   ionViewWillEnter() {
     this.isAdmin = this.randomStorage.checkIfIsAdmin();
@@ -81,13 +83,13 @@ export class InscriptionPage implements OnInit {
           Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
         ])
       ),
-      email: new FormControl(
+      /* email: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ])
-      ),
+      ),*/
       password: new FormControl(
         '',
         Validators.compose([
@@ -104,15 +106,38 @@ export class InscriptionPage implements OnInit {
       this.randomStorage.setUser(forms);
       this.router.navigateByUrl('company-builder');
     } else {
+      let email = '';
+
+      if (forms.displayName.split('@').length > 1) {
+        this.notifi.presentToast(
+          'le pseudo ne doit pas contenir le caractére @',
+          'danger',
+          5000
+        );
+        return;
+      }
+      this.notifi.presentLoading(10000);
+      email = `${forms.displayName}@test.com`;
+      forms.email = email;
       this.authService
         .RegisterUser(forms.email, forms.password)
         .then((UserCredential: firebase.auth.UserCredential) => {
+          this.notifi.dismissLoading();
           UserCredential.user.sendEmailVerification().then((res) => {});
           forms.uid = UserCredential.user.uid;
           forms.emailVerified = UserCredential.user.emailVerified;
           forms.photoURL = UserCredential.user.photoURL;
           forms.roles = [4];
+          forms.consultationList = [];
+          forms.analyseList = [];
+          forms.achatList = [];
           this.authService.StoreUserData(forms);
+          this.notifi.presentToast(
+            'félicitation votre compte a été enregistré',
+            'success',
+            3000
+          );
+          this.router.navigateByUrl('home');
           this.errorMsg = '';
           this.successMsg = 'New user created.';
         })

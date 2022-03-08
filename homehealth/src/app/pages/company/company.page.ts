@@ -31,7 +31,16 @@ export class CompanyPage implements OnInit {
   AddCompany() {
     this.randomStorage.setIsAdmin(true);
     this.randomStorage.setIsNewCompany(true);
-    this.router.navigateByUrl('inscription');
+    this.router.navigateByUrl('inscription-company');
+  }
+
+  setSelected(options) {
+    console.log(options);
+    let selectedValues = Array.apply(null, options) // convert to real Array
+      .filter((option) => option.selected)
+      .map((option) => option.value);
+
+    console.log(selectedValues);
   }
 
   async getCompany() {
@@ -45,6 +54,8 @@ export class CompanyPage implements OnInit {
         return r;
       }, {});
 */
+      console.log(this.companyList);
+
       this.notifi.dismissLoading();
       const result = this.groupBy(this.companyList, (c) => c.companyType);
 
@@ -122,8 +133,8 @@ export class CompanyPage implements OnInit {
           },
         },
         {
-          text: 'Partager',
-          icon: 'share',
+          text: 'Delete',
+          icon: 'trash',
           handler: () => {
             console.log('Share clicked');
           },
@@ -133,6 +144,46 @@ export class CompanyPage implements OnInit {
           icon: 'caret-forward-circle',
           handler: () => {
             this.displaCompany(company);
+          },
+        },
+        {
+          text: 'Delete',
+          icon: 'trash',
+          handler: () => {
+            this.notifi
+              .presentAlertConfirm(
+                `voulez vous vraiment supprimer ${company.name} ?`
+              )
+              .then(() => {
+                this.notifi.presentLoading(30000);
+                this.companyService
+                  .removeCompany(company)
+                  .then((res) => {
+                    this.companyList = this.companyList.filter(
+                      (comp) => comp.id !== company.id
+                    );
+                    const result = this.groupBy(
+                      this.companyList,
+                      (c) => c.companyType
+                    );
+                    let arr = [];
+                    for (const key in result) {
+                      arr.push(result[key]);
+                    }
+
+                    this.companyGroupList = arr;
+                    this.notifi.dismissLoading();
+                  })
+                  .catch((err) => {
+                    this.notifi.dismissLoading();
+                    this.notifi.presentToast(
+                      'impossible de supprimer',
+                      'danger',
+                      1500
+                    );
+                  });
+              })
+              .catch((err) => console.log(err));
           },
         },
         {

@@ -12,6 +12,9 @@ import {
   query,
   where,
   onSnapshot,
+  orderBy,
+  limit,
+  startAfter,
 } from 'firebase/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -22,6 +25,7 @@ import { NotificationService } from './notification.service';
 export class ManageService {
   serviceList$ = new BehaviorSubject([]);
   serviceList1$ = new BehaviorSubject([]);
+  lastVisible: any;
   constructor(private notifi: NotificationService) {}
 
   createServices(data) {
@@ -52,6 +56,65 @@ export class ManageService {
       this.getAllRealTimeService();
     });
     return this.serviceList$;
+  }
+
+  getAll() {
+    const db = getFirestore();
+    const colRef = collection(db, 'services');
+    return new Promise((resolve, reject) => {
+      getDocs(colRef).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        resolve(tab);
+      });
+    });
+  }
+
+  getService() {
+    // this.notifi.presentLoading(15000);
+    const db = getFirestore();
+    const colRef = collection(db, 'services');
+    const q = query(colRef);
+    return new Promise((resolve, reject) => {
+      if (this.lastVisible) {
+        const first = query(
+          collection(db, 'services'),
+          orderBy('name'),
+          startAfter(this.lastVisible),
+          limit(25)
+        );
+        getDocs(first).then((snapshot) => {
+          let tab = [];
+
+          this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          snapshot.docs.forEach((doc) => {
+            tab.push({ ...doc.data(), id: doc.id });
+          });
+          resolve(tab);
+          //  this.analyseArr$.next(tab);
+        });
+      } else {
+        const first = query(
+          collection(db, 'services'),
+          orderBy('name'),
+          limit(25)
+        );
+        getDocs(first).then((snapshot) => {
+          let tab = [];
+
+          this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          snapshot.docs.forEach((doc) => {
+            tab.push({ ...doc.data(), id: doc.id });
+          });
+          resolve(tab);
+          // this.analyseArr$.next(tab);
+        });
+      }
+    });
+
+    //  return this.analyseArr$;
   }
 
   selectAllServices(serviceList) {

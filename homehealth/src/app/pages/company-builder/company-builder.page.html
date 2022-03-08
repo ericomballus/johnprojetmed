@@ -80,7 +80,8 @@
       </ion-label>
     </ion-item>
 
-    <ion-item
+    <!--
+      <ion-item
       (click)="addCompanyMedicament()"
       *ngIf="company && company.companyType == 'pharmacie'"
     >
@@ -90,6 +91,7 @@
         <h2>Ajouter les medicaments</h2>
       </ion-label>
     </ion-item>
+   -->
 
     <ion-list *ngIf="company.serviceList.length">
       <ion-list-header> service List </ion-list-header>
@@ -100,8 +102,9 @@
         <ion-label>
           <h2 style="font-weight: bold">{{service.name}}</h2>
 
-          <h3>{{service.responsable}}</h3>
-          <h6>
+          <!--
+            <h3>{{service.responsable}}</h3>
+            <h6>
             <ion-badge color="medium"
               >TEL: {{service.responsablePhone}}</ion-badge
             >
@@ -111,6 +114,7 @@
               >@mail: {{service.responsableEmail}}</ion-badge
             >
           </h6>
+         -->
         </ion-label>
         <ion-button
           slot="end"

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,8 +17,13 @@ export class HomePage {
     { name: 'laboratoire etoudi', service: ['', '', ''] },
     { name: 'pharmacie essono', service: [] },
   ];
-  constructor(private menu: MenuController, private router: Router) {
+  constructor(
+    private menu: MenuController,
+    private router: Router,
+    private geolocation: Geolocation
+  ) {
     this.menu.enable(true, 'first');
+    // this.loadPosition();
   }
 
   pickValue(ev) {
@@ -36,5 +41,33 @@ export class HomePage {
     if (ev === 'pharmacie') {
       this.router.navigateByUrl('pharmacie');
     }
+  }
+
+  loadPosition() {
+    this.geolocation
+      .getCurrentPosition()
+      .then((resp) => {
+        console.log(resp);
+        alert(`latitude: ${resp.coords.latitude}
+        longitude: ${resp.coords.longitude}`);
+        // this.watchLocation();
+        // resp.coords.latitude
+        // resp.coords.longitude
+      })
+      .catch((error) => {
+        console.log('Error getting location', error);
+      });
+  }
+  watchLocation() {
+    console.log('watch..');
+
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe((data) => {
+      console.log('hello', data);
+
+      // data can be a set of coordinates, or an error (if an error occurred).
+      // data.coords.latitude
+      // data.coords.longitude
+    });
   }
 }

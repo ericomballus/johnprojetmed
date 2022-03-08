@@ -6,6 +6,7 @@ export interface ServiceSchema {
   responsable: string;
   responsableEmail: string;
   responsablePhone: number;
+  responsableUid: string;
   rendezVous: RendezVous;
   id: string;
 }

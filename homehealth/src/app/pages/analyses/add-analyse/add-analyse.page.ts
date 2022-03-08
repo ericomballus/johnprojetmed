@@ -66,7 +66,7 @@ export class AddAnalysePage implements OnInit {
     this.serviceList$ = this.analyseService.getServiceAnalyse();
   }
   getAnalyseList() {
-    this.analyseList$ = this.analyseService.getAnalyse();
+    // this.analyseList$ = this.analyseService.getAnalyse();
   }
   async save(forms) {
     this.notifi.presentLoading(40000);

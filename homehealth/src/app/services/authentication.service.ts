@@ -143,6 +143,10 @@ export class AuthenticationService {
   async StoreUserData(data: User) {
     const db = getFirestore();
     const colRef = doc(db, 'users', data.uid);
+    let adminId = '';
+    if (data.adminId) {
+      adminId = data.adminId;
+    }
     let user = data;
     const userData = {
       uid: user.uid,
@@ -152,6 +156,7 @@ export class AuthenticationService {
       emailVerified: user.emailVerified,
       createdAt: serverTimestamp(),
       roles: data.roles,
+      adminId: adminId,
     };
     return new Promise(async (resolve, reject) => {
       try {

@@ -13,6 +13,8 @@ import { AddServicesAnalysePage } from './add-services-analyse/add-services-anal
 })
 export class AnalysesPage implements OnInit {
   public analyseList$: Observable<any[]>;
+  public analyseList: any[] = [];
+  scrool = false;
   constructor(
     private modalCrtl: ModalController,
     private analyseService: AnalyseService,
@@ -42,8 +44,17 @@ export class AnalysesPage implements OnInit {
     return await modal.present();
   }
   getAnalyseList() {
-    this.analyseList$ = this.analyseService.getAnalyse();
+    //this.analyseList$ = this.analyseService.getAnalyse();
+    this.notifi.presentLoading(20000);
+    this.analyseService.getAnalyse().then((res: any[]) => {
+      // console.log(res);
+      this.notifi.dismissLoading();
+      if (!this.scrool) {
+        this.analyseList = res;
+      }
+    });
   }
+
   async removeService(analyse) {
     this.notifi.presentLoading(40000);
 
@@ -55,5 +66,21 @@ export class AnalysesPage implements OnInit {
       this.notifi.dismissLoading();
       this.notifi.presentToast(error.message, 'danger', 4000);
     }
+  }
+
+  loadData(event) {
+    this.scrool = true;
+    this.analyseService
+      .getAnalyse()
+      .then((res: any[]) => {
+        res.forEach((elt) => {
+          this.analyseList.push(elt);
+        });
+
+        event.target.complete();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

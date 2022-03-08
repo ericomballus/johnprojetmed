@@ -3,6 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+
     <ion-buttons slot="end">
       <ion-button fill="outline" size="small" (click)="displayCompanyByGroup()">
         group
@@ -13,6 +14,23 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<!--
+  <label for="pet-select">Choose a pet:</label>
+<select
+  name="pets"
+  id="pet-select"
+  (change)="setSelected($event.target.options)"
+>
+  <option value="">--Please choose an option--</option>
+  <option value="dog">Dog</option>
+  <option value="cat">Cat</option>
+  <option value="hamster">Hamster</option>
+  <option value="parrot">Parrot</option>
+  <option value="spider">Spider</option>
+  <option value="goldfish">Goldfish</option>
+</select>
+-->
 
 <ion-content>
   <div

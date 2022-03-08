@@ -14,6 +14,11 @@ import { RandomStorageService } from 'src/app/services/random-storage.service';
 })
 export class PharmaciePage implements OnInit {
   public medicamentList$: Observable<any[]>;
+  public medicamentList: any[] = [];
+  listTab: MedicamentSchema[] = [];
+  listab2: any[];
+  arr: MedicamentSchema[] = [];
+  arrOfPromise = [];
   constructor(
     private companyService: CompanyService,
     private notifi: NotificationService,
@@ -23,13 +28,23 @@ export class PharmaciePage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.arrOfPromise = [];
+    this.arr = [];
+    this.notifi.presentLoading(40000);
     this.getMedocs();
   }
   getMedocs() {
-    // this.notifi.presentLoading(40000);
-    this.medicamentList$ = this.medic.getAllNotRealtimeMedicament();
+    this.medic.getAllNotRealtimeMedoc().then((res) => {
+      this.medicamentList = res;
+      this.notifi.dismissLoading();
+    });
+    this.medic.getAllNotRealtimeMedicament().subscribe((data) => {
+      this.listTab = data;
+      // console.log(this.listTab);
+    });
   }
   findMedicament(medicament: MedicamentSchema) {
+    this.listab2 = [];
     this.notifi.presentLoading(15000);
     let recherche = [];
     this.companyService.getWhoSaleMedicament(medicament.id).then((result) => {
@@ -42,20 +57,77 @@ export class PharmaciePage implements OnInit {
           }
         });
       });
-      setTimeout(() => {
-        this.notifi.dismissLoading();
-        console.log(recherche);
-        if (recherche.length) {
+      this.notifi.dismissLoading();
+      if (recherche.length) {
+        setTimeout(() => {
           this.random.setContent(recherche);
           this.router.navigateByUrl('phamarcie-recherche');
-        } else {
-          this.notifi.presentToast(
-            'aucun resultat pour cette recherche',
-            'danger',
-            10000
-          );
-        }
-      }, 1000);
+          console.log(recherche);
+        }, 500);
+      } else {
+        this.notifi.presentToast(
+          'aucun resultat pour cette recherche',
+          'dark',
+          2500
+        );
+      }
     });
+  }
+
+  handleInput(event) {
+    // console.log(event);
+    const query = event.detail.value.toLowerCase();
+    this.listab2 = this.listTab.filter((item) => {
+      return item.name.toLowerCase().indexOf(query) > -1;
+      // item.style.display = shouldShow ? 'block' : 'none';
+    });
+    console.log(this.listab2);
+  }
+
+  addMedicament(medicament: MedicamentSchema) {
+    let index = this.arr.findIndex((medoc) => medoc.id == medicament.id);
+
+    if (index > 0) {
+      this.arr = this.arr.filter((medoc) => medoc.id !== medicament.id);
+    } else {
+      this.arr.push(medicament);
+    }
+  }
+  async findAll() {
+    this.notifi.presentLoading(20000);
+    let tab = [];
+    let recherche = [];
+    this.arr.forEach(async (medoc, index) => {
+      console.log(index);
+
+      let result = await this.companyService.getWhoSaleMedicament2(medoc.id);
+      let data = { resultat: result, medicament: this.arr[index] };
+      this.arrOfPromise.push(data);
+      console.log(this.arrOfPromise);
+      if (this.arr.length == this.arrOfPromise.length) {
+        this.random.setContent(this.arrOfPromise);
+        this.router.navigateByUrl('phamarcie-recherche');
+        this.notifi.dismissLoading();
+      }
+      /* .then((result) => {
+       
+      });*/
+    });
+  }
+
+  loadData(event) {
+    // this.scrool = true;
+    this.medic
+      .getAllNotRealtimeMedoc()
+      .then((res: any[]) => {
+        res.forEach((elt) => {
+          this.medicamentList.push(elt);
+        });
+
+        event.target.complete();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

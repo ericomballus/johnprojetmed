@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="header-main">
+      <ion-col size="3">
+        <div class="ion-text-center"></div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="ion-text-center">client</div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="ion-text-center">jour</div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="ion-text-center">status</div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="3"></ion-col>
+    </ion-row>
+    <ion-row
+      *ngFor="let rdv of commandeList$  | async let i = index"
+      class="data-row data-update table-row"
+      [ngStyle]="{ 'background-color': !rdv.confirm ? 'red' :  (i % 2 == 0 ? 'white' : '#f1f1f1' )}"
+      (click)="presentActionSheet(rdv)"
+    >
+      <ion-col size="3">
+        <div class="ion-text-center">{{rdv.produit.name}}</div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="ion-text-center">{{rdv.customer.displayName }}</div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="ion-text-center">{{rdv.createdAt | date:'mediumTime'}}</div>
+      </ion-col>
+      <ion-col size="3">
+        <div class="ion-text-center">{{0}}</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

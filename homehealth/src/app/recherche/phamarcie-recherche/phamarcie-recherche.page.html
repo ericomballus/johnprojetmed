@@ -1,5 +1,5 @@
 <ion-header translucent>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -7,28 +7,43 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-card *ngFor="let result of resultat">
-    <ion-img [src]="result.company.logoURL"></ion-img>
-    <ion-card-header>
-      <ion-card-title>{{ result.company.name }}</ion-card-title>
-      <ion-card-subtitle style="font-weight: bold"
-        >telephone: {{ result.company.telephone }}</ion-card-subtitle
-      >
-      <ion-card-subtitle>email: {{ result.company.email }}</ion-card-subtitle>
-      <ion-card-subtitle>ville: {{ result.company.ville }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label>
-            <h2>Service: {{result.resultat.name}}</h2>
-            <h3>Ouvert:</h3>
-          </ion-label>
-          <ion-button color="primary" slot="end" (click)="commander(result)"
-            >action</ion-button
-          >
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  <div *ngFor="let doc of tab">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f1f1f1;
+        padding: 2px;
+      "
+    >
+      <h4>{{doc.medicament.name}}</h4>
+    </div>
+    <ion-card *ngFor="let result of doc.resultat">
+      <ion-img [src]="result.logoURL"></ion-img>
+      <ion-card-header>
+        <ion-card-title>{{ result.name }}</ion-card-title>
+        <ion-card-subtitle style="font-weight: bold"
+          >telephone: {{ result.telephone }}</ion-card-subtitle
+        >
+        <ion-card-subtitle>email: {{ result.email }}</ion-card-subtitle>
+        <ion-card-subtitle>ville: {{ result.ville }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>
+              <h2>{{result.name}}</h2>
+              <h3>Ouvert:</h3>
+            </ion-label>
+            <ion-button
+              color="success"
+              slot="end"
+              (click)="presentAlertConfirm(result, doc.medicament)"
+              >action</ion-button
+            >
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

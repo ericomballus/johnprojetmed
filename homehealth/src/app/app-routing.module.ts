@@ -211,39 +211,101 @@ const routes: Routes = [
   },
   {
     path: 'medicament-info',
-    loadChildren: () => import('./company/medicament-info/medicament-info.module').then( m => m.MedicamentInfoPageModule)
+    loadChildren: () =>
+      import('./company/medicament-info/medicament-info.module').then(
+        (m) => m.MedicamentInfoPageModule
+      ),
   },
   {
     path: 'service-info',
-    loadChildren: () => import('./company/service-info/service-info.module').then( m => m.ServiceInfoPageModule)
+    loadChildren: () =>
+      import('./company/service-info/service-info.module').then(
+        (m) => m.ServiceInfoPageModule
+      ),
   },
   {
     path: 'analyse-info',
-    loadChildren: () => import('./company/analyse-info/analyse-info.module').then( m => m.AnalyseInfoPageModule)
+    loadChildren: () =>
+      import('./company/analyse-info/analyse-info.module').then(
+        (m) => m.AnalyseInfoPageModule
+      ),
   },
   {
     path: 'pick-analyse',
-    loadChildren: () => import('./modals/pick-analyse/pick-analyse.module').then( m => m.PickAnalysePageModule)
+    loadChildren: () =>
+      import('./modals/pick-analyse/pick-analyse.module').then(
+        (m) => m.PickAnalysePageModule
+      ),
   },
   {
     path: 'pharmacie',
-    loadChildren: () => import('./pages/pharmacie/pharmacie.module').then( m => m.PharmaciePageModule)
+    loadChildren: () =>
+      import('./pages/pharmacie/pharmacie.module').then(
+        (m) => m.PharmaciePageModule
+      ),
   },
   {
     path: 'hopital',
-    loadChildren: () => import('./pages/hopital/hopital.module').then( m => m.HopitalPageModule)
+    loadChildren: () =>
+      import('./pages/hopital/hopital.module').then((m) => m.HopitalPageModule),
   },
   {
     path: 'laboratoire-recherche',
-    loadChildren: () => import('./recherche/laboratoire-recherche/laboratoire-recherche.module').then( m => m.LaboratoireRecherchePageModule)
+    loadChildren: () =>
+      import(
+        './recherche/laboratoire-recherche/laboratoire-recherche.module'
+      ).then((m) => m.LaboratoireRecherchePageModule),
   },
   {
     path: 'hopital-recherche',
-    loadChildren: () => import('./recherche/hopital-recherche/hopital-recherche.module').then( m => m.HopitalRecherchePageModule)
+    loadChildren: () =>
+      import('./recherche/hopital-recherche/hopital-recherche.module').then(
+        (m) => m.HopitalRecherchePageModule
+      ),
   },
   {
     path: 'phamarcie-recherche',
-    loadChildren: () => import('./recherche/phamarcie-recherche/phamarcie-recherche.module').then( m => m.PhamarcieRecherchePageModule)
+    loadChildren: () =>
+      import('./recherche/phamarcie-recherche/phamarcie-recherche.module').then(
+        (m) => m.PhamarcieRecherchePageModule
+      ),
+  },
+  {
+    path: 'client-home',
+    loadChildren: () =>
+      import('./client/client-home/client-home.module').then(
+        (m) => m.ClientHomePageModule
+      ),
+  },
+  {
+    path: 'inscription-company',
+    loadChildren: () =>
+      import('./pages/inscription-company/inscription-company.module').then(
+        (m) => m.InscriptionCompanyPageModule
+      ),
+  },
+  {
+    path: 'prendre-rendezvous',
+    loadChildren: () =>
+      import('./modals/prendre-rendezvous/prendre-rendezvous.module').then(
+        (m) => m.PrendreRendezvousPageModule
+      ),
+  },
+  {
+    path: 'user-home',
+    loadChildren: () => import('./pages/user-home/user-home.module').then( m => m.UserHomePageModule)
+  },
+  {
+    path: 'company-admin-rdv',
+    loadChildren: () => import('./pages/company-admin-rdv/company-admin-rdv.module').then( m => m.CompanyAdminRdvPageModule)
+  },
+  {
+    path: 'rendez-vous-details',
+    loadChildren: () => import('./pages/rendez-vous-details/rendez-vous-details.module').then( m => m.RendezVousDetailsPageModule)
+  },
+  {
+    path: 'company-admin-comm',
+    loadChildren: () => import('./pages/company-admin-comm/company-admin-comm.module').then( m => m.CompanyAdminCommPageModule)
   },
 ];
 

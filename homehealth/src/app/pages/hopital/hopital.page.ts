@@ -13,8 +13,10 @@ import { RandomStorageService } from 'src/app/services/random-storage.service';
   styleUrls: ['./hopital.page.scss'],
 })
 export class HopitalPage implements OnInit {
-  laboratoireList: any[];
+  serviceList: any[];
   public serviceList$: Observable<any[]>;
+  listTab: any[] = [];
+  listab2: any[];
   constructor(
     private companyService: CompanyService,
     private notifi: NotificationService,
@@ -28,15 +30,21 @@ export class HopitalPage implements OnInit {
     this.getServiceList();
   }
   getServiceList() {
-    this.serviceList$ = this.manageService.getAllServices();
+    // this.serviceList$ = this.manageService.getAllServices();
+    this.notifi.presentLoading(20000);
+    this.manageService.getService().then((res: any[]) => {
+      this.serviceList = res;
+      this.notifi.dismissLoading();
+    });
+    this.manageService.getAll().then((res: any[]) => {
+      this.listTab = res;
+    });
   }
   findService(service) {
-    console.log(service);
-
     this.notifi.presentLoading(15000);
     let recherche = [];
+    this.listab2 = [];
     this.companyService.getWhoMakesService(service.id).then((result) => {
-      console.log(result);
       result.forEach((company) => {
         company.serviceList.forEach((services) => {
           if (services['id'] === service.id) {
@@ -45,12 +53,42 @@ export class HopitalPage implements OnInit {
           }
         });
       });
-      setTimeout(() => {
-        this.notifi.dismissLoading();
-        console.log(recherche);
-        this.random.setContent(recherche);
-        this.router.navigateByUrl('hopital-recherche');
-      }, 1000);
+      this.notifi.dismissLoading();
+      if (recherche.length) {
+        setTimeout(() => {
+          this.random.setContent(recherche);
+          this.router.navigateByUrl('hopital-recherche');
+        }, 500);
+      } else {
+        this.notifi.presentToast(
+          'aucun resultat pour cette recherche',
+          'dark',
+          2500
+        );
+      }
+    });
+  }
+  loadData(event) {
+    // this.scrool = true;
+    this.manageService
+      .getService()
+      .then((res: any[]) => {
+        res.forEach((elt) => {
+          this.serviceList.push(elt);
+        });
+
+        event.target.complete();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  handleInput(event) {
+    // console.log(event);
+    const query = event.detail.value.toLowerCase();
+    this.listab2 = this.listTab.filter((item) => {
+      return item.name.toLowerCase().indexOf(query) > -1;
+      // item.style.display = shouldShow ? 'block' : 'none';
     });
   }
 }

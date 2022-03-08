@@ -14,18 +14,22 @@ import {
   onSnapshot,
   orderBy,
   limit,
+  startAfter,
 } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Company } from '../models/company';
 import { MedicamentSchema } from '../models/medicamentSchema';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MedicamentService {
   medicamentList$ = new BehaviorSubject([]);
-  constructor() {}
+  listRandom: any[] = [];
+  lastVisible: any;
+  constructor(private notif: NotificationService) {}
 
   postMedoc(data: MedicamentSchema) {
     const db = getFirestore();
@@ -59,9 +63,16 @@ export class MedicamentService {
     const colRef = collection(db, 'medicament');
     const q = query(colRef, orderBy('updateAt', 'desc'), limit(100));
     return new Promise((resolve, reject) => {
-      getDocs(q)
-        .then((snapshot) => {
+      if (this.lastVisible) {
+        const first = query(
+          collection(db, 'medicament'),
+          orderBy('name'),
+          startAfter(this.lastVisible),
+          limit(25)
+        );
+        getDocs(first).then((snapshot) => {
           let tab = [];
+          this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
           snapshot.docs.forEach((doc) => {
             let isChecked = false;
             if (companyId) {
@@ -80,10 +91,41 @@ export class MedicamentService {
             tab.push({ ...doc.data(), id: doc.id, isChecked: isChecked });
           });
           resolve(tab);
-        })
-        .catch((e) => {
-          reject(e);
+          //  this.analyseArr$.next(tab);
         });
+      } else {
+        const first = query(
+          collection(db, 'medicament'),
+          orderBy('name'),
+          limit(25)
+        );
+        getDocs(first)
+          .then((snapshot) => {
+            this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+            let tab = [];
+            snapshot.docs.forEach((doc) => {
+              let isChecked = false;
+              if (companyId) {
+                let obj = doc.data();
+
+                if (obj['users'].includes(companyId)) {
+                  // console.log('je suis la');
+
+                  isChecked = true;
+                } else {
+                  // console.log('impossible');
+                  isChecked = false;
+                }
+              }
+
+              tab.push({ ...doc.data(), id: doc.id, isChecked: isChecked });
+            });
+            resolve(tab);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+      }
     });
   }
 
@@ -168,18 +210,25 @@ export class MedicamentService {
   }
 
   getAllNotRealtimeMedicament() {
-    const db = getFirestore();
-    const colRef = collection(db, 'medicament');
-    const q = query(colRef, orderBy('updateAt', 'desc'));
-    getDocs(q).then((snapshot) => {
-      let tab = [];
-      snapshot.docs.forEach((doc) => {
-        tab.push({ ...doc.data(), id: doc.id });
+    //  this.notif.presentLoading(25000);
+    if (this.listRandom && this.listRandom.length) {
+      // this.notif.dismissLoading();
+      return this.medicamentList$;
+    } else {
+      const db = getFirestore();
+      const colRef = collection(db, 'medicament');
+      const q = query(colRef, orderBy('updateAt', 'desc'));
+      getDocs(q).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        // this.notif.dismissLoading();
+        this.medicamentList$.next(tab);
       });
-      this.medicamentList$.next(tab);
-    });
 
-    return this.medicamentList$;
+      return this.medicamentList$;
+    }
   }
 
   async removeCategory(categorie) {

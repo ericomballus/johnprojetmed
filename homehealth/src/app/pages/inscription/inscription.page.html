@@ -25,7 +25,7 @@
       (ngSubmit)="signUp(userForm.value)"
     >
       <ion-item>
-        <ion-label position="floating">Name</ion-label>
+        <ion-label position="floating">Pseudo</ion-label>
         <ion-input type="text" formControlName="displayName"></ion-input>
       </ion-item>
 
@@ -38,19 +38,23 @@
         </div>
       </ng-container>
 
-      <ion-item>
+      <ion-item *ngIf="isAdmin">
         <ion-label position="floating">Email</ion-label>
         <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
-
-      <ng-container *ngFor="let error of error_msg.email">
-        <div
-          class="error"
-          *ngIf="userForm.get('email').hasError(error.type) && (userForm.get('email').dirty || userForm.get('email').touched)"
-        >
-          {{ error.message }}
-        </div>
-      </ng-container>
+      <div *ngIf="isAdmin">
+        <!--
+          <ng-container *ngFor="let error of error_msg.email">
+          <div
+            class="error"
+            q
+            *ngIf="userForm.get('email').hasError(error.type) && (userForm.get('email').dirty || userForm.get('email').touched)"
+          >
+            {{ error.message }}
+          </div>
+        </ng-container>
+        -->
+      </div>
 
       <ion-item>
         <ion-label position="floating" color="primary">Password</ion-label>

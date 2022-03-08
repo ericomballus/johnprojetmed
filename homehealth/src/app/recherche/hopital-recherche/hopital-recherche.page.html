@@ -24,7 +24,10 @@
             <h2>Service: {{result.resultat.name}}</h2>
             <h3>Ouvert:</h3>
           </ion-label>
-          <ion-button color="primary" slot="end" (click)="commander(result)"
+          <ion-button
+            color="primary"
+            slot="end"
+            (click)="presentAlertConfirm(result)"
             >action</ion-button
           >
         </ion-item>

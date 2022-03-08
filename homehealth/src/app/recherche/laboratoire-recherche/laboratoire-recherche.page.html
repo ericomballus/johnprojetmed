@@ -30,8 +30,11 @@
               Délai: {{result.resultat.delai ? result.resultat.delai : ''}}
             </h3>
           </ion-label>
-          <ion-button color="primary" slot="end" (click)="commander(result)"
-            >buy</ion-button
+          <ion-button
+            color="primary"
+            slot="end"
+            (click)="presentAlertConfirm(result)"
+            >action</ion-button
           >
         </ion-item>
       </ion-list>

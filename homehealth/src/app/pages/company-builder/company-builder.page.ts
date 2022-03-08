@@ -10,6 +10,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Router } from '@angular/router';
 import { PickMedicamentPage } from 'src/app/modals/pick-medicament/pick-medicament.page';
+import { PickServicesPage } from 'src/app/modals/pick-services/pick-services.page';
 @Component({
   selector: 'app-company-builder',
   templateUrl: './company-builder.page.html',
@@ -34,7 +35,7 @@ export class CompanyBuilderPage implements OnInit {
     private router: Router
   ) {
     this.company = new Company();
-    console.log(this.company);
+    // console.log(this.company);
   }
 
   ionViewWillEnter() {
@@ -49,7 +50,7 @@ export class CompanyBuilderPage implements OnInit {
   }
 
   async addCompanyService() {
-    this.randomStorage.setCompany(this.company);
+    /* this.randomStorage.setCompany(this.company);
     const modal = await this.modalController.create({
       component: AddServicePage,
       componentProps: {},
@@ -57,6 +58,19 @@ export class CompanyBuilderPage implements OnInit {
     });
     modal.onDidDismiss().then((data) => {
       this.company = this.randomStorage.getCompany();
+    });
+    return await modal.present();*/
+    this.randomStorage.setCompany(this.company);
+    const modal = await this.modalController.create({
+      component: PickServicesPage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      console.log('hello');
+
+      this.company = this.randomStorage.getCompany();
+      console.log(this.company);
     });
     return await modal.present();
   }

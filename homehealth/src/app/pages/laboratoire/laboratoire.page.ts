@@ -18,6 +18,9 @@ import { RandomStorageService } from 'src/app/services/random-storage.service';
 export class LaboratoirePage implements OnInit {
   laboratoireList: any[];
   public analyseList$: Observable<any[]>;
+  public analyseList: any[] = [];
+  listTab: any[] = [];
+  listab2: any[];
   constructor(
     private companyService: CompanyService,
     private notifi: NotificationService,
@@ -43,14 +46,21 @@ export class LaboratoirePage implements OnInit {
 
   getAnalyseList() {
     // this.notifi.presentLoading(40000);
-    this.analyseList$ = this.analyseService.selectAllAnalyse([]);
+    // this.analyseList$ = this.analyseService.selectAllAnalyse([]);
+
+    this.analyseService.getAnalyse().then((res: any[]) => {
+      this.analyseList = res;
+    });
+    this.analyseService.selectAllAnalyse2([]).then((result: any[]) => {
+      this.listTab = result;
+    });
   }
 
   findAnalyse(analys: Analyse) {
     this.notifi.presentLoading(15000);
     let recherche = [];
+    this.listab2 = [];
     this.companyService.getWhoMakesAnalyse(analys.id).then((result) => {
-      console.log(result);
       let total = result.length;
       result.forEach((company) => {
         company.analyseList.forEach((analyse) => {
@@ -60,12 +70,44 @@ export class LaboratoirePage implements OnInit {
           }
         });
       });
-      setTimeout(() => {
-        this.notifi.dismissLoading();
-        console.log(recherche);
-        this.random.setContent(recherche);
-        this.router.navigateByUrl('laboratoire-recherche');
-      }, 1000);
+      this.notifi.dismissLoading();
+      if (recherche.length) {
+        setTimeout(() => {
+          console.log(recherche);
+          this.random.setContent(recherche);
+          this.router.navigateByUrl('laboratoire-recherche');
+        }, 500);
+      } else {
+        this.notifi.presentToast(
+          'aucun resultat pour cette recherche',
+          'dark',
+          2500
+        );
+      }
     });
+  }
+  handleInput(event) {
+    // console.log(event);
+    const query = event.detail.value.toLowerCase();
+    this.listab2 = this.listTab.filter((item) => {
+      return item.name.toLowerCase().indexOf(query) > -1;
+      // item.style.display = shouldShow ? 'block' : 'none';
+    });
+  }
+
+  loadData(event) {
+    // this.scrool = true;
+    this.analyseService
+      .getAnalyse()
+      .then((res: any[]) => {
+        res.forEach((elt) => {
+          this.analyseList.push(elt);
+        });
+
+        event.target.complete();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }

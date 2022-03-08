@@ -28,6 +28,7 @@ import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import firebase from 'firebase/compat/app';
 import { ShareModule } from './share.module';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 let firebaseConfig = {
   apiKey: 'AIzaSyCkhdaF360BH3rqK65DfXqtI-n5quU4HqI',
   authDomain: 'homehealth-6e9ce.firebaseapp.com',
@@ -60,8 +61,12 @@ firebase.initializeApp(firebaseConfig);
     FormsModule,
     ReactiveFormsModule,
     ShareModule,
+    //  Geolocation,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Geolocation,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

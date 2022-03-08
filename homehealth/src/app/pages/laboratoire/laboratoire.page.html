@@ -3,10 +3,25 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-searchbar
+      debounce="500"
+      animated
+      placeholder="rechercher"
+      (ionChange)="handleInput($event)"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list *ngIf="listab2 && listab2.length">
+    <ion-item *ngFor="let analyse of listab2" (click)="findAnalyse(analyse)">
+      <ion-label id="myitem">
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{analyse.name}}
+        </h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
   <!--
     <ion-list>
     <ion-list-header> </ion-list-header>
@@ -34,7 +49,7 @@
     <h4>Analyse List</h4>
   </div>
   <ion-list>
-    <ion-item *ngFor="let analyse of analyseList$ | async">
+    <ion-item *ngFor="let analyse of analyseList">
       <ion-label>
         <h2 style="font-weight: bold; text-transform: uppercase">
           {{analyse.name}}
@@ -44,4 +59,12 @@
       <ion-button (click)="findAnalyse(analyse)">rechercher</ion-button>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

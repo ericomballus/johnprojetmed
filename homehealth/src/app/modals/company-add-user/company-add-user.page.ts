@@ -37,7 +37,7 @@ export class CompanyAddUserPage implements OnInit {
         message: 'Name is not valid.',
       },
     ],
-    email: [
+    /* email: [
       {
         type: 'required',
         message: 'Provide email.',
@@ -46,7 +46,7 @@ export class CompanyAddUserPage implements OnInit {
         type: 'pattern',
         message: 'Email is not valid.',
       },
-    ],
+    ],*/
     telephone: [
       {
         type: 'required',
@@ -113,13 +113,13 @@ export class CompanyAddUserPage implements OnInit {
           Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
         ])
       ),
-      email: new FormControl(
+      /* email: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ])
-      ),
+      ),*/
       telephone: new FormControl(
         '',
         Validators.compose([
@@ -141,6 +141,8 @@ export class CompanyAddUserPage implements OnInit {
   }
 
   ajouter(forms: User) {
+    let email = `${forms.displayName}@test.com`;
+    forms.email = email;
     if (this.isAdmin && this.isNewCompany) {
       this.randomStorage.setUser(forms);
       this.router.navigateByUrl('company-builder');

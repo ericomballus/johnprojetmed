@@ -5,6 +5,7 @@
     "login": "Sign in",
     "signup": "Sign Up",
     "team": "Home Health",
-    "logout": "Log Out"
+    "logout": "Log Out",
+    "account": "My Account"
   }
 }

@@ -3,10 +3,35 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-searchbar
+      debounce="500"
+      animated
+      placeholder="rechercher"
+      (ionChange)="handleInput($event)"
+    ></ion-searchbar>
+    <ion-buttons slot="end" *ngIf="arr.length">
+      <ion-button style="font-size: 13px" size="small" (click)="findAll()"
+        >valider</ion-button
+      >
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-list *ngIf="listab2 && listab2.length">
+    <ion-item *ngFor="let medoc of listab2">
+      <ion-label id="myitem">
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{medoc.name}}
+        </h2>
+      </ion-label>
+      <ion-checkbox
+        (ionChange)="addMedicament(medoc)"
+        slot="end"
+        [(ngModel)]="medoc.isChecked"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
   <div
     style="
       text-align: center;
@@ -18,7 +43,7 @@
     <h4>Medicament List</h4>
   </div>
   <ion-list>
-    <ion-item *ngFor="let medoc of  medicamentList$ | async">
+    <ion-item *ngFor="let medoc of  medicamentList">
       <ion-label>
         <h2 style="font-weight: bold; text-transform: uppercase">
           {{medoc.name}}
@@ -26,7 +51,21 @@
         <h3 style="font-weight: bold">fabriquant: {{medoc.madeBy}}</h3>
       </ion-label>
 
-      <ion-button (click)="findMedicament(medoc)"> rechercher</ion-button>
+      <!--
+        <ion-button (click)="findMedicament(medoc)"> rechercher</ion-button>
+    -->
+      <ion-checkbox
+        (ionChange)="addMedicament(medoc)"
+        slot="end"
+        [(ngModel)]="medoc.isChecked"
+      ></ion-checkbox>
     </ion-item>
   </ion-list>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

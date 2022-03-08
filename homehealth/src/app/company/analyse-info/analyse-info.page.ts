@@ -12,7 +12,21 @@ import { RandomStorageService } from 'src/app/services/random-storage.service';
   styleUrls: ['./analyse-info.page.scss'],
 })
 export class AnalyseInfoPage implements OnInit {
-  analyse: Analyse;
+  analyse = {
+    name: '',
+    delai: '',
+    conditionPrelevement: '',
+    serviceAnalyse: '',
+    createdAt: 0,
+    updateAt: '',
+    id: '',
+    users: [''],
+    price: '',
+    typeMedicament: '',
+    responsableEmail: '',
+    responsable: '',
+    responsablePhone: '',
+  };
   company: Company;
   service: any;
   detectChanges = false;
@@ -26,6 +40,8 @@ export class AnalyseInfoPage implements OnInit {
   ngOnInit() {
     this.company = this.randomStorage.getCompany();
     this.analyse = this.randomStorage.getUserAnalyse();
+
+    // this.analyse = this.randomStorage.getUserAnalyse();
   }
   closeModal() {
     this.randomStorage.setCompany(this.company);

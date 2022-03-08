@@ -14,6 +14,7 @@ import {
   orderBy,
   onSnapshot,
   limit,
+  startAfter,
 } from 'firebase/firestore';
 import { BehaviorSubject } from 'rxjs';
 import { Analyse } from '../models/analyseSchema';
@@ -25,6 +26,7 @@ export class AnalyseService {
   analyseArr$ = new BehaviorSubject([]);
   serviceAnalyseArr$ = new BehaviorSubject([]);
   analyseArr2$ = new BehaviorSubject([]);
+  lastVisible: any;
   constructor(private notifi: NotificationService) {}
 
   getServiceAnalyse() {
@@ -87,16 +89,44 @@ export class AnalyseService {
 
     const colRef = collection(db, 'analyses');
     const q = query(colRef);
-    onSnapshot(q, (snapshot) => {
-      let tab = [];
-      snapshot.docs.forEach((doc) => {
-        tab.push({ ...doc.data(), id: doc.id });
-      });
-      // this.notifi.dismissLoading();
-      console.log(tab);
-      this.analyseArr$.next(tab);
+    return new Promise((resolve, reject) => {
+      if (this.lastVisible) {
+        const first = query(
+          collection(db, 'analyses'),
+          orderBy('name'),
+          startAfter(this.lastVisible),
+          limit(25)
+        );
+        getDocs(first).then((snapshot) => {
+          let tab = [];
+
+          this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          snapshot.docs.forEach((doc) => {
+            tab.push({ ...doc.data(), id: doc.id });
+          });
+          resolve(tab);
+          //  this.analyseArr$.next(tab);
+        });
+      } else {
+        const first = query(
+          collection(db, 'analyses'),
+          orderBy('name'),
+          limit(25)
+        );
+        getDocs(first).then((snapshot) => {
+          let tab = [];
+
+          this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          snapshot.docs.forEach((doc) => {
+            tab.push({ ...doc.data(), id: doc.id });
+          });
+          resolve(tab);
+          // this.analyseArr$.next(tab);
+        });
+      }
     });
-    return this.analyseArr$;
+
+    //  return this.analyseArr$;
   }
 
   selectAllAnalyse(analyseList) {
@@ -120,6 +150,27 @@ export class AnalyseService {
       this.analyseArr2$.next(tab);
     });
     return this.analyseArr2$;
+  }
+  selectAllAnalyse2(analyseList) {
+    const db = getFirestore();
+    const colRef = collection(db, 'analyses');
+    return new Promise((resolve, reject) => {
+      getDocs(colRef).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        tab.forEach((elt) => {
+          analyseList.forEach((analyse) => {
+            if (elt.id === analyse['id']) {
+              elt['isChecked'] = true;
+            }
+          });
+        });
+
+        resolve(tab);
+      });
+    });
   }
 
   async removeOneAnalyse(analyse) {

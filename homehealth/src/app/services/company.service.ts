@@ -159,4 +159,33 @@ export class CompanyService {
       });
     });
   }
+
+  getWhoSaleMedicament2(medicamentId) {
+    return new Promise((resolve, reject) => {
+      const db = getFirestore();
+      const colRef = collection(db, 'companies');
+      const q = query(
+        colRef,
+        where('allMedicamentListId', 'array-contains', medicamentId)
+      );
+      getDocs(q).then((snapshot) => {
+        let tab = [];
+        snapshot.docs.forEach((doc) => {
+          tab.push({ ...doc.data(), id: doc.id });
+        });
+        resolve(tab);
+      });
+    });
+  }
+  async removeCompany(company: Company) {
+    const db = getFirestore();
+    return new Promise(async (resolve, reject) => {
+      try {
+        await deleteDoc(doc(db, 'companies', company.id));
+        resolve('ok');
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
 }

@@ -29,6 +29,7 @@ export class CompanyAdminPage implements OnInit {
   ngOnInit() {
     this.user = this.randomStorage.getAdmin();
     this.companie = this.randomStorage.getCompany();
+    console.log(this.companie);
   }
   displayEmploye() {
     this.router.navigateByUrl('company-users');
@@ -41,5 +42,14 @@ export class CompanyAdminPage implements OnInit {
   }
   displayAnalyse() {
     this.router.navigateByUrl('analyse-list');
+  }
+  companySetting() {
+    console.log(this.randomStorage.getCompany());
+  }
+  getRendezVous() {
+    this.router.navigateByUrl('company-admin-rdv');
+  }
+  getCommande() {
+    this.router.navigateByUrl('company-admin-comm');
   }
 }

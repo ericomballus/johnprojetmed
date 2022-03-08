@@ -16,7 +16,8 @@ export class RandomStorageService {
   admin: User;
   medicament: MedicamentSchema;
   userservice: any;
-  userAnalyse: Analyse;
+  userAnalyse: any;
+  data: any;
   constructor() {}
 
   setIsAdmin(value: boolean) {
@@ -83,13 +84,24 @@ export class RandomStorageService {
     return this.userservice;
   }
 
-  setUserAnalyse(analyse: Analyse) {
+  setUserAnalyse(analyse) {
     this.userAnalyse = analyse;
   }
-  getUserAnalyse(): Analyse {
+  getUserAnalyse() {
     if (!this.userAnalyse) {
       return null;
     }
     return this.userAnalyse;
+  }
+
+  setData(data) {
+    this.data = data;
+  }
+  getData() {
+    if (this.data) {
+      return this.data;
+    } else {
+      return null;
+    }
   }
 }

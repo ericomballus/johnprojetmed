@@ -65,13 +65,19 @@ export class PickServicesPage implements OnInit {
   }
 
   save() {
-    this.notifi.presentLoading(40000);
-    this.companyService
-      .updateCompany(this.company.id, this.company)
-      .then((res) => {
-        this.notifi.dismissLoading();
-        this.randomStorage.setCompany(this.company);
-        this.modal.dismiss();
-      });
+    if (this.company.id && this.company.id.length > 2) {
+      this.notifi.presentLoading(40000);
+      this.companyService
+        .updateCompany(this.company.id, this.company)
+        .then((res) => {
+          this.notifi.dismissLoading();
+          this.randomStorage.setCompany(this.company);
+          this.modal.dismiss();
+        });
+    } else {
+      // this.notifi.dismissLoading();
+      this.randomStorage.setCompany(this.company);
+      this.modal.dismiss();
+    }
   }
 }
