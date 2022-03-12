@@ -160,7 +160,7 @@ export class CompanyService {
     });
   }
 
-  getWhoSaleMedicament2(medicamentId) {
+  getWhoSaleMedicament2(medicamentId): Promise<Company[]> {
     return new Promise((resolve, reject) => {
       const db = getFirestore();
       const colRef = collection(db, 'companies');

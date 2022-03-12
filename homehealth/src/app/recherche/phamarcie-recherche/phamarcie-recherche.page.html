@@ -3,6 +3,11 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end" *ngIf="totalArticles">
+      <ion-button slot="end" clear (click)="displayCart()">
+        {{totalArticles}} <ion-icon name="cart-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,9 +21,31 @@
         padding: 2px;
       "
     >
-      <h4>{{doc.medicament.name}}</h4>
+      <h4>PHARMACIE {{doc.name}}</h4>
     </div>
-    <ion-card *ngFor="let result of doc.resultat">
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label>PHARMACIE {{doc.name}}</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let medicament of doc.medicament">
+        <ion-label>
+          <h2 style="font-size: 10px">{{medicament.name}}</h2>
+          <h3>prix: {{medicament.sellingPrice}}CFA</h3>
+          <h5>disponible: {{medicament.quantity}}</h5>
+        </ion-label>
+        <ion-button
+          slot="end"
+          color="primary"
+          (click)="addToCart(doc, medicament)"
+        >
+          <ion-icon name="cart-outline" slot="end"></ion-icon>
+          Ajouter au panier
+        </ion-button>
+      </ion-item>
+    </ion-list>
+    <!--
+      <ion-card *ngFor="let result of doc.resultat">
       <ion-img [src]="result.logoURL"></ion-img>
       <ion-card-header>
         <ion-card-title>{{ result.name }}</ion-card-title>
@@ -45,5 +72,6 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
+    -->
   </div>
 </ion-content>

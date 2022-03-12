@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
+import { CommandesService } from 'src/app/services/commandes.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
 import { RendezvousService } from 'src/app/services/rendezvous.service';
@@ -23,12 +24,14 @@ export class UserHomePage implements OnInit {
     private notifi: NotificationService,
     private rendezVous: RendezvousService,
     public actionSheetController: ActionSheetController,
-    private router: Router
+    private router: Router,
+    private commandeService: CommandesService
   ) {}
 
   ngOnInit() {}
   ionViewWillEnter() {
     this.user = this.randomStorage.getUser();
+    this.getMyCommande();
     if (!this.user) {
       this.location.back();
       this.notifi.presentToast(
@@ -56,7 +59,9 @@ export class UserHomePage implements OnInit {
 
   displayService() {}
 
-  displayMedicament() {}
+  displayMedicament() {
+    this.router.navigateByUrl('user-commandes');
+  }
 
   displayAnalyse() {}
 
@@ -102,5 +107,16 @@ export class UserHomePage implements OnInit {
 
     const { role } = await actionSheet.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
+  }
+
+  async getMyCommande() {
+    try {
+      let docs = await this.commandeService.userGetCommandeList(
+        this.randomStorage.getUser().uid
+      );
+      console.log(docs);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

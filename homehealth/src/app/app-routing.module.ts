@@ -307,6 +307,14 @@ const routes: Routes = [
     path: 'company-admin-comm',
     loadChildren: () => import('./pages/company-admin-comm/company-admin-comm.module').then( m => m.CompanyAdminCommPageModule)
   },
+  {
+    path: 'displaycart',
+    loadChildren: () => import('./modals/displaycart/displaycart.module').then( m => m.DisplaycartPageModule)
+  },
+  {
+    path: 'user-commandes',
+    loadChildren: () => import('./pages/user-commandes/user-commandes.module').then( m => m.UserCommandesPageModule)
+  },
 ];
 
 @NgModule({

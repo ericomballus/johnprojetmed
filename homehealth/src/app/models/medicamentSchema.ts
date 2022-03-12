@@ -4,9 +4,9 @@ export class MedicamentSchema {
   name: string;
   madeBy: string;
   purchasingPrice: number = 0;
-  sellingPrice: number = 0;
+  sellingPrice: string = '0';
   avaible: boolean = false;
-  quantity: number = 0;
+  quantity: string = '0';
   createdAt: number;
   updateAt: any;
   id: string;

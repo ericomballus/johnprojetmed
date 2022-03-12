@@ -58,6 +58,10 @@ export class MedicamentService {
     });
   }
 
+  resetLastVisible() {
+    this.lastVisible = false;
+  }
+
   getAllNotRealtimeMedoc(companyId?: string): Promise<MedicamentSchema[]> {
     const db = getFirestore();
     const colRef = collection(db, 'medicament');

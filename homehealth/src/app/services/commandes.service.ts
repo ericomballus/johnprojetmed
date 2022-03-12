@@ -30,6 +30,7 @@ export class CommandesService {
   constructor() {}
 
   postCommande(data) {
+    console.log(data);
     const db = getFirestore();
     const colRef = collection(db, 'commandes');
     data['createdAt'] = new Date().getTime();
@@ -71,28 +72,35 @@ export class CommandesService {
     return this.userCommandeList$;
   }
 
-  userGetCommandeList(userId) {
-    const db = getFirestore();
-    const colRef = collection(db, 'commandes');
-    const q = query(colRef, where('customerId', '==', userId));
-    // return new Promise((resolve, reject) => {
-    getDocs(q)
-      .then((snapshot) => {
-        let tab = [];
-        snapshot.docs.forEach(async (doc) => {
-          // tab.push({ ...doc.data(), id: doc.id });
-          let company = await this.getCompany(doc.data().companyId);
-          let data = { ...doc.data(), id: doc.id };
-          data['company'] = company[0];
-          tab.push(data);
+  userGetCommandeList(userId): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      const db = getFirestore();
+      const colRef = collection(db, 'commandes');
+      const q = query(colRef, where('customerId', '==', userId));
+      // return new Promise((resolve, reject) => {
+      getDocs(q)
+        .then((snapshot) => {
+          let tab = [];
+          snapshot.docs.forEach(async (doc) => {
+            // tab.push({ ...doc.data(), id: doc.id });
+            let company = await this.getCompany(doc.data().companyId);
+            let data = { ...doc.data(), id: doc.id };
+            data['company'] = company[0];
+            tab.push(data);
+            if (tab.length == snapshot.docs.length) {
+              console.log(tab);
+
+              resolve(tab);
+            }
+          });
+          // this.userCommandeList$.next(tab);
+        })
+        .catch((e) => {
+          reject(e);
         });
-        this.userCommandeList$.next(tab);
-        // resolve(tab);
-      })
-      .catch((e) => {
-        // reject(e);
-      });
-    return this.userCommandeList$;
+    });
+
+    // return this.userCommandeList$;
     // });
   }
 

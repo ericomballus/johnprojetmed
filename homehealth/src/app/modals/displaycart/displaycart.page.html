@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div
+    style="
+      text-align: center;
+      text-transform: uppercase;
+      padding: 2px;
+      background-color: white;
+      color: black;
+    "
+  >
+    <h2>COMMANDE</h2>
+    <h4 style="font-weight: bold">Montant: {{totalPrice}} FCFA</h4>
+  </div>
+
+  <ion-grid>
+    <div *ngFor="let doc of Cart let j = index">
+      <ion-row>
+        <ion-col class="ion-text-center ion-text-uppercase">
+          <div>
+            <h4>PHARMACIE {{doc.name}}</h4>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row class="header-main">
+        <ion-col size="3">
+          <div class="ion-text-center">médicament</div>
+        </ion-col>
+        <ion-col size="1">
+          <div class="ion-text-center">Qty</div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="ion-text-center">P.U</div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="ion-text-center">P.T</div>
+        </ion-col>
+        <ion-col size="2">
+          <div class="ion-text-center"></div>
+        </ion-col>
+      </ion-row>
+      <ion-row
+        *ngFor=" let row of doc.medicament let i = index"
+        class="data-row data-update table-row"
+        [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
+      >
+        <ion-col size="3">
+          <div class="ion-text-center" style="font-size: 9px">
+            {{row.medicament.name}}
+          </div>
+        </ion-col>
+        <ion-col size="1">
+          <div class="ion-text-center">{{ row.quantity}}</div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="ion-text-center">{{row.medicament.sellingPrice}}CFA</div>
+        </ion-col>
+        <ion-col size="3">
+          <div class="ion-text-center">
+            {{ row.quantity * row.medicament.sellingPrice}} CFA
+          </div>
+        </ion-col>
+        <ion-col size="2">
+          <div class="ion-text-center">
+            <ion-button
+              slot="end"
+              color="primary"
+              (click)="removeToCart(doc, row, i, j)"
+            >
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center">total: {{doc.totalPrice}} Fcfa</div>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+  <ion-button expand="block" color="success" (click)="commander()"
+    >ACHETER</ion-button
+  >
+
+  <!--
+    <div *ngFor="let doc of cart">
+    <div>
+      <h4>PHARMACIE {{doc.name}}</h4>
+    </div>
+    <ion-list>
+      <ion-list-header>
+        <ion-label>PHARMACIE {{doc.name}}</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let medicament of doc.medicament let i= index">
+        <ion-label>
+          <h2 style="font-size: 10px">{{medicament.medicament.name}}</h2>
+          <h3>prix: {{medicament.medicament.sellingPrice}}CFA</h3>
+          <h5>quantity: {{ medicament.quantity}}</h5>
+        </ion-label>
+        <ion-button
+          slot="end"
+          color="primary"
+          (click)="removeToCart(doc, medicament, i)"
+        >
+          <ion-icon name="remove-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
+ -->
+</ion-content>

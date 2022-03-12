@@ -1,30 +1,23 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-
-    <ion-title></ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-grid>
-    <div *ngFor="let doc of commandeList$  | async let j = index">
+    <div *ngFor="let doc of Docs let j = index">
       <ion-row>
         <ion-col size="10" class="ion-text-center ion-text-uppercase">
           <div>
-            <h4>CLIENT: {{doc.customer.displayName}}</h4>
+            <h4>PHARMACIE {{doc.company.name}}</h4>
           </div>
         </ion-col>
         <ion-col size="2" class="ion-text-center ion-text-uppercase">
           <div class="ion-text-center ion-text-uppercase">
-            <ion-badge
-              (click)="presentActionSheet(doc)"
-              *ngIf="!doc.paie"
-              color="danger"
-              >non payée</ion-badge
-            >
+            <ion-badge *ngIf="!doc.paie" color="danger">non payé</ion-badge>
             <ion-badge *ngIf="doc.paie" color="success">payé</ion-badge>
           </div>
         </ion-col>
@@ -67,9 +60,7 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div class="ion-text-center">
-            Le: {{doc.createdAt | date:'medium'}}
-          </div>
+          <div class="ion-text-center">total: {{doc.totalPrice}} Fcfa</div>
         </ion-col>
       </ion-row>
     </div>

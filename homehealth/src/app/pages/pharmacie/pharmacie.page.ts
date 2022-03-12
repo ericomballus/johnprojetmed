@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Company } from 'src/app/models/company';
 import { MedicamentSchema } from 'src/app/models/medicamentSchema';
 import { CompanyService } from 'src/app/services/company.service';
 import { MedicamentService } from 'src/app/services/medicament.service';
@@ -31,6 +32,7 @@ export class PharmaciePage implements OnInit {
     this.arrOfPromise = [];
     this.arr = [];
     this.notifi.presentLoading(40000);
+    this.medic.resetLastVisible();
     this.getMedocs();
   }
   getMedocs() {
@@ -94,18 +96,47 @@ export class PharmaciePage implements OnInit {
     }
   }
   async findAll() {
+    let objRandom = {};
     this.notifi.presentLoading(20000);
     let tab = [];
     let recherche = [];
     this.arr.forEach(async (medoc, index) => {
       console.log(index);
 
-      let result = await this.companyService.getWhoSaleMedicament2(medoc.id);
+      let result: Company[] = await this.companyService.getWhoSaleMedicament2(
+        medoc.id
+      );
+      if (result.length) {
+        result.forEach((company) => {
+          const found = company.medicamentList.find((r) => r.id == medoc.id);
+          if (found) {
+            if (!objRandom[company.name]) {
+              let tab = [];
+              tab.push(found);
+              objRandom[company.name] = { company: company, medicament: tab };
+            } else {
+              objRandom[company.name].medicament.push(found);
+            }
+          }
+        });
+        console.log('le group ici', objRandom);
+      }
       let data = { resultat: result, medicament: this.arr[index] };
       this.arrOfPromise.push(data);
       console.log(this.arrOfPromise);
       if (this.arr.length == this.arrOfPromise.length) {
-        this.random.setContent(this.arrOfPromise);
+        let tab = [];
+        for (const key in objRandom) {
+          let resutlt = {
+            name: objRandom[key]['company']['name'],
+            company: objRandom[key]['company'],
+            medicament: objRandom[key]['medicament'],
+          };
+          tab.push(resutlt);
+        }
+        console.log('======', tab);
+        // this.random.setContent(this.arrOfPromise);
+        this.random.setContent(tab);
         this.router.navigateByUrl('phamarcie-recherche');
         this.notifi.dismissLoading();
       }

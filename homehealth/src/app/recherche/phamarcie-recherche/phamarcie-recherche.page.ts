@@ -1,12 +1,20 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
+import { DisplaycartPage } from 'src/app/modals/displaycart/displaycart.page';
 import { Company } from 'src/app/models/company';
+import { MedicamentSchema } from 'src/app/models/medicamentSchema';
 import { User } from 'src/app/models/user';
+import { CartService } from 'src/app/services/cart.service';
 import { CommandesService } from 'src/app/services/commandes.service';
 import { GroupeByService } from 'src/app/services/groupe-by.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+interface Doc {
+  name: string;
+  company: Company;
+  medicament: MedicamentSchema[];
+}
 
 @Component({
   selector: 'app-phamarcie-recherche',
@@ -18,6 +26,9 @@ export class PhamarcieRecherchePage implements OnInit {
   company: Company;
   customer: User;
   result: any;
+  cart: any[] = [];
+  commande: any[] = [];
+  totalArticles: number = 0;
   constructor(
     private random: RandomStorageService,
     public alertController: AlertController,
@@ -25,7 +36,8 @@ export class PhamarcieRecherchePage implements OnInit {
     private location: Location,
     private notifi: NotificationService,
     private commandeService: CommandesService,
-    private groupeByService: GroupeByService
+    private cartService: CartService,
+    private modalCrtl: ModalController
   ) {}
 
   ngOnInit() {
@@ -39,11 +51,11 @@ export class PhamarcieRecherchePage implements OnInit {
       this.location.back();
     }
     // this.result = this.randomStorage.getData();
-    // console.log(this.tab);
-    this.tab.forEach((elt) => {});
-    this.groupeByService.groupResultatRecherhce(this.tab).then((res) => {
+    console.log(this.tab);
+    // this.tab.forEach((elt) => {});
+    /* this.groupeByService.groupResultatRecherhce(this.tab).then((res) => {
       console.log(res);
-    });
+    });*/
 
     // console.log(this.randomStorage.getUser());
 
@@ -71,7 +83,16 @@ export class PhamarcieRecherchePage implements OnInit {
       this.notifi.dismissLoading();
     });
   }
+  addToCart(doc: Doc, medicament: MedicamentSchema) {
+    console.log(doc);
+    this.cartService.add(medicament, doc.company);
+    console.log(this.cartService.getCartRow());
+    this.totalArticles = this.cartService.total();
+    let nbr: any = parseInt(medicament.quantity) - 1;
+    medicament.quantity = nbr;
 
+    // this.cart.push(doc);
+  }
   async presentAlertConfirm(result, medicament) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -116,5 +137,19 @@ export class PhamarcieRecherchePage implements OnInit {
       );
       this.notifi.dismissLoading();
     });
+  }
+  async displayCart() {
+    const modal = await this.modalCrtl.create({
+      component: DisplaycartPage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      this.totalArticles = this.cartService.total();
+      if (data.data.result) {
+        this.location.back();
+      }
+    });
+    return await modal.present();
   }
 }
