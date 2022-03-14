@@ -1,31 +1,38 @@
 import { Injectable } from '@angular/core';
-import { CartRow } from '../models/Cart-Row';
+import { Analyse } from '../models/analyseSchema';
 import { Company } from '../models/company';
-import { MedicamentSchema } from '../models/medicamentSchema';
+import { CartLabo } from '../models/Labo-Cart';
+import { PanierGroup } from '../models/panier-group';
+import { PanierLaboGroup } from '../models/panier-labo-group';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartService {
-  rows: CartRow[] = [];
-  groupArr: any[] = [];
+export class CartLaboService {
   constructor() {}
+  rows: CartLabo[] = [];
+  groupArr: any[] = [];
 
-  add(medicament: MedicamentSchema, company: Company) {
+  add(analyse: Analyse, company: Company) {
     const found = this.rows.find(
-      (row) =>
-        row.medicament.id == medicament.id && row.company.id == company.id
+      (row) => row.analyse.id == analyse.id && row.company.id == company.id
     );
     if (found) {
       found.quantity++;
       // found.totaPrice = found.totaPrice + parseInt(medicament.sellingPrice);
+      if (parseInt(analyse.price)) {
+        found.totalPrice = found.totalPrice + parseInt(analyse.price);
+      }
     } else {
       // found.totaPrice = found.totaPrice + parseInt(medicament.sellingPrice);
-      this.rows.push(new CartRow(medicament, company, 1));
+      let f = company.analyseList.find((ana) => ana.id == analyse.id);
+
+      this.rows.push(new CartLabo(f, company, 1));
     }
+    console.log(this.rows);
   }
 
-  remove(row: CartRow) {
+  remove(row: CartLabo) {
     this.rows = this.rows.filter((r) => r !== row);
   }
 
@@ -33,35 +40,41 @@ export class CartService {
     this.rows = [];
   }
 
-  removeOne(row: CartRow) {
+  removeOne(row: CartLabo) {
+    console.log(row);
+
     const found = this.rows.find(
-      (r) =>
-        r.medicament.id == row.medicament.id && r.company.id == row.company.id
+      (r) => r.analyse.id == row.analyse.id && r.company.id == row.company.id
     );
     if (found) {
       found.quantity--;
       // found.totaPrice = found.totaPrice - parseInt(row.medicament.sellingPrice);
+      found.totalPrice = found.totalPrice - parseInt(row.analyse.price);
     }
     if (found && found.quantity == 0) {
       this.rows = this.rows.filter((r) => r !== row);
     }
   }
-  getCartRow() {
+  getCartRow(): PanierLaboGroup[] {
     let objRandom = {};
+    let totalPrice = 0;
     this.rows.forEach((row) => {
+      console.log('row details ===>', row);
+
       if (!objRandom[row.company.name]) {
-        let tab = [];
+        let tab: CartLabo[] = [];
         tab.push(row);
-        objRandom[row.company.name] = { medicament: tab, company: row.company };
+        objRandom[row.company.name] = { query: tab, company: row.company };
       } else {
-        objRandom[row.company.name].medicament.push(row);
+        objRandom[row.company.name].query.push(row);
       }
     });
-    let tab = [];
+    let tab: PanierLaboGroup[] = [];
     for (const key in objRandom) {
       let resutlt = {
         name: objRandom[key]['company']['name'],
-        medicament: objRandom[key]['medicament'],
+        analyses: objRandom[key]['query'],
+        totalPrice: 1,
       };
       tab.push(resutlt);
     }
@@ -80,7 +93,7 @@ export class CartService {
   totalPrice(): number {
     let price = 0;
     this.rows.forEach((row) => {
-      price = price + row.quantity * parseInt(row.medicament.sellingPrice);
+      price = price + row.quantity * parseInt(row.analyse.price);
     });
     return price;
   }
@@ -88,7 +101,7 @@ export class CartService {
   totalPriceByCompany(): number {
     let price = 0;
     this.rows.forEach((row) => {
-      price = price + row.quantity * parseInt(row.medicament.sellingPrice);
+      price = price + row.quantity * parseInt(row.analyse.price);
     });
     return price;
   }

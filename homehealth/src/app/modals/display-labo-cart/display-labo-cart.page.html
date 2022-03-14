@@ -27,13 +27,13 @@
       <ion-row>
         <ion-col class="ion-text-center ion-text-uppercase">
           <div>
-            <h4>PHARMACIE {{doc.name}}</h4>
+            <h4>LABO: {{doc.name}}</h4>
           </div>
         </ion-col>
       </ion-row>
       <ion-row class="header-main">
         <ion-col size="3">
-          <div class="ion-text-center">médicament</div>
+          <div class="ion-text-center">analyse</div>
         </ion-col>
         <ion-col size="1">
           <div class="ion-text-center">Qty</div>
@@ -49,23 +49,25 @@
         </ion-col>
       </ion-row>
       <ion-row
-        *ngFor=" let row of doc.medicament let i = index"
+        *ngFor=" let row of doc.analyses let i = index"
         class="data-row data-update table-row"
         [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
       >
         <ion-col size="3">
           <div class="ion-text-center" style="font-size: 9px">
-            {{row.medicament.name}}
+            {{row.analyse.name}}
           </div>
         </ion-col>
         <ion-col size="1">
           <div class="ion-text-center">{{ row.quantity}}</div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">{{row.medicament.sellingPrice}}CFA</div>
+          <div class="ion-text-center">
+            {{row.analyse.price ? row.analyse.price : '0'}}CFA
+          </div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">{{row.prix}} CFA</div>
+          <div class="ion-text-center">{{row.totalPrice}} CFA</div>
         </ion-col>
         <ion-col size="2">
           <div class="ion-text-center">
@@ -84,6 +86,11 @@
           <div class="ion-text-center">total: {{doc.totalPrice}} Fcfa</div>
         </ion-col>
       </ion-row>
+      <app-get-date-hour
+        [companie]="doc"
+        (dateChange)="pickDate($event)"
+        (hourChange)="pickHour($event)"
+      ></app-get-date-hour>
     </div>
   </ion-grid>
   <ion-button expand="block" color="success" (click)="commander()"

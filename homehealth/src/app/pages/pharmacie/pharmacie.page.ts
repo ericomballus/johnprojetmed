@@ -89,7 +89,7 @@ export class PharmaciePage implements OnInit {
   addMedicament(medicament: MedicamentSchema) {
     let index = this.arr.findIndex((medoc) => medoc.id == medicament.id);
 
-    if (index > 0) {
+    if (index >= 0) {
       this.arr = this.arr.filter((medoc) => medoc.id !== medicament.id);
     } else {
       this.arr.push(medicament);

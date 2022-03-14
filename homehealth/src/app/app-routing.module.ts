@@ -315,6 +315,18 @@ const routes: Routes = [
     path: 'user-commandes',
     loadChildren: () => import('./pages/user-commandes/user-commandes.module').then( m => m.UserCommandesPageModule)
   },
+  {
+    path: 'display-labo-cart',
+    loadChildren: () => import('./modals/display-labo-cart/display-labo-cart.module').then( m => m.DisplayLaboCartPageModule)
+  },
+  {
+    path: 'user-commande-labo',
+    loadChildren: () => import('./pages/user-commande-labo/user-commande-labo.module').then( m => m.UserCommandeLaboPageModule)
+  },
+  {
+    path: 'company-analyse-comm',
+    loadChildren: () => import('./pages/company-analyse-comm/company-analyse-comm.module').then( m => m.CompanyAnalyseCommPageModule)
+  },
 ];
 
 @NgModule({

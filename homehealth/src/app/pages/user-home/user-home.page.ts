@@ -63,7 +63,9 @@ export class UserHomePage implements OnInit {
     this.router.navigateByUrl('user-commandes');
   }
 
-  displayAnalyse() {}
+  displayAnalyse() {
+    this.router.navigateByUrl('user-commande-labo');
+  }
 
   async presentActionSheet(rdv) {
     const actionSheet = await this.actionSheetController.create({

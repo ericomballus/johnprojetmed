@@ -47,7 +47,12 @@ export class CompanyAdminPage implements OnInit {
     console.log(this.randomStorage.getCompany());
   }
   getRendezVous() {
-    this.router.navigateByUrl('company-admin-rdv');
+    console.log(this.companie);
+    if (this.companie.companyType == 'laboratoire') {
+      this.router.navigateByUrl('company-analyse-comm');
+    } else {
+      this.router.navigateByUrl('company-admin-rdv');
+    }
   }
   getCommande() {
     this.router.navigateByUrl('company-admin-comm');

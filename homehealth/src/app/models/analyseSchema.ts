@@ -10,6 +10,7 @@ export class Analyse {
   users: string[]; //contient les clés des company qui utilise l'analyse
   price: string;
   typeMedicament: string; //solid, liquide, sirop, gelule
+  isChecked: boolean;
   constructor(name, serviceAnalyse) {
     this.name = name;
     this.createdAt = new Date().getTime();

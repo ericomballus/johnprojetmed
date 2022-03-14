@@ -9,19 +9,35 @@
       placeholder="rechercher"
       (ionChange)="handleInput($event)"
     ></ion-searchbar>
+    <ion-buttons slot="end" *ngIf="arr.length > 0">
+      <ion-button style="font-size: 13px" size="small" (click)="findAll()"
+        >valider</ion-button
+      >
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="listab2 && listab2.length">
-    <ion-item *ngFor="let analyse of listab2" (click)="findAnalyse(analyse)">
+  <ion-list *ngIf="active == false && listab2.length">
+    <ion-item *ngFor="let analyse of listab2">
       <ion-label id="myitem">
         <h2 style="font-weight: bold; text-transform: uppercase">
           {{analyse.name}}
         </h2>
       </ion-label>
+      <ion-checkbox
+        (click)="addAnalyse(analyse)"
+        slot="end"
+        [(ngModel)]="analyse.isChecked"
+      ></ion-checkbox>
     </ion-item>
   </ion-list>
+  <div
+    style="text-align: center; text-transform: uppercase; padding: 5px"
+    *ngIf="active == false && listab2.length == 0"
+  >
+    <h3>no result</h3>
+  </div>
   <!--
     <ion-list>
     <ion-list-header> </ion-list-header>
@@ -45,22 +61,32 @@
       background-color: #f1f1f1;
       padding: 5px;
     "
+    *ngIf="active"
   >
     <h4>Analyse List</h4>
   </div>
-  <ion-list>
+  <ion-list *ngIf="active">
     <ion-item *ngFor="let analyse of analyseList">
       <ion-label>
         <h2 style="font-weight: bold; text-transform: uppercase">
           {{analyse.name}}
         </h2>
       </ion-label>
-
-      <ion-button (click)="findAnalyse(analyse)">rechercher</ion-button>
+      <!--
+   <ion-button (click)="findAnalyse(analyse)">rechercher</ion-button>
+-->
+      <ion-checkbox
+        (click)="addAnalyse(analyse)"
+        slot="end"
+        [(ngModel)]="analyse.isChecked"
+      ></ion-checkbox>
     </ion-item>
   </ion-list>
-
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="loadData($event)"
+    *ngIf="active"
+  >
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
       loadingText="Loading more data..."

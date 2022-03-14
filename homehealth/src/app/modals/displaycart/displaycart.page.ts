@@ -28,9 +28,11 @@ export class DisplaycartPage implements OnInit {
   ngOnInit() {
     this.Cart = this.cartService.getCartRow();
     this.customer = this.randomStorage.getUser();
-    console.log(this.Cart);
     this.Cart.forEach((grp) => {
       grp.medicament.forEach((row) => {
+        let prix = row.quantity * parseInt(row.medicament.sellingPrice);
+        row['prix'] = prix;
+
         if (grp.totalPrice) {
           grp.totalPrice =
             grp.totalPrice +
@@ -41,7 +43,6 @@ export class DisplaycartPage implements OnInit {
       });
     });
     this.totalPrice = this.cartService.totalPrice();
-    console.log(this.totalPrice);
   }
   closeModal() {
     this.modalCrtl.dismiss();
@@ -82,7 +83,6 @@ export class DisplaycartPage implements OnInit {
           panier: tab,
           companyId: panier.medicament[0].company.id,
           customerId: this.customer.uid,
-          //totalPrice: panier.totalPrice,
         };
         promiseTab.push(this.commandeService.postCommande(data));
       });

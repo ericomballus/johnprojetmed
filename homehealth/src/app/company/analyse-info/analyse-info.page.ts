@@ -26,6 +26,7 @@ export class AnalyseInfoPage implements OnInit {
     responsableEmail: '',
     responsable: '',
     responsablePhone: '',
+    isChecked: false,
   };
   company: Company;
   service: any;

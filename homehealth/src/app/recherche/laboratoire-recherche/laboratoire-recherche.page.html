@@ -3,43 +3,49 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end" *ngIf="totalArticles">
+      <ion-button slot="end" clear (click)="displayCart()">
+        {{totalArticles}} <ion-icon name="cart-outline" slot="end"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-card *ngFor="let result of resultat">
-    <ion-img [src]="result.company.logoURL"></ion-img>
-    <ion-card-header>
-      <ion-card-title>{{ result.company.name }}</ion-card-title>
-      <ion-card-subtitle style="font-weight: bold"
-        >telephone: {{ result.company.telephone }}</ion-card-subtitle
-      >
-      <ion-card-subtitle>email: {{ result.company.email }}</ion-card-subtitle>
-      <ion-card-subtitle>ville: {{ result.company.ville }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-icon slot="start" name="pricetag"></ion-icon>
-          <ion-label>
-            <h2>{{result.resultat.name}}</h2>
-            <h3>
-              Prix: {{result.resultat.price ? result.resultat.price : ''}} Cfa
-            </h3>
-            <h3>
-              Délai: {{result.resultat.delai ? result.resultat.delai : ''}}
-            </h3>
-          </ion-label>
-          <ion-button
-            color="primary"
-            slot="end"
-            (click)="presentAlertConfirm(result)"
-            >action</ion-button
-          >
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  <div *ngFor="let doc of resultat">
+    <div
+      style="
+        text-align: center;
+        text-transform: uppercase;
+        background-color: #f1f1f1;
+        padding: 2px;
+      "
+    >
+      <h4>Laboratoire: {{doc.name}}</h4>
+    </div>
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label> {{doc.name}}</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let analyse of doc.query">
+        <ion-label>
+          <h2 style="font-size: 10px">{{analyse.name}}</h2>
+          <h3>prix: {{analyse.price}}CFA</h3>
+          <h5>délai: {{analyse.delai}}</h5>
+          <h5>condition: {{analyse.conditionPrelevement}}</h5>
+        </ion-label>
+        <ion-button
+          slot="end"
+          color="primary"
+          (click)="addToCart(doc, analyse)"
+        >
+          <ion-icon name="cart-outline" slot="end"></ion-icon>
+          Ajouter au panier
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
 <!--
   <ion-item>
