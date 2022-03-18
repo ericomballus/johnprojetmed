@@ -28,6 +28,15 @@
     <ion-item>
       <ion-icon slot="start" name="pricetag"></ion-icon>
       <ion-label position="floating" class="ion-text-wrap">
+        <h2>Cout Consultation</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="service.price"></ion-input>
+    </ion-item>
+  </ion-list>
+  <!--
+     <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
         <h2>Responsable du service</h2>
       </ion-label>
       <ion-input [(ngModel)]="service.responsable"></ion-input>
@@ -46,15 +55,12 @@
       </ion-label>
       <ion-input [(ngModel)]="service.responsableEmail"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-icon slot="start" name="pricetag"></ion-icon>
-      <ion-label position="floating" class="ion-text-wrap">
-        <h2>Cout Consultation</h2>
-      </ion-label>
-      <ion-input [(ngModel)]="service.price"></ion-input>
-    </ion-item>
-  </ion-list>
-  <select name="pets" id="pet-select" (change)="setSelected($event.target)">
+    <select
+    style="width: 100%; padding-left: 5px; padding-right: 5px"
+    name="pets"
+    id="pet-select"
+    (change)="setSelected($event.target)"
+  >
     <option value="service.responsable">--Ajouter un responsable--</option>
     <option
       value="{{ user.uid }}"
@@ -63,4 +69,64 @@
       {{ user.displayName }}
     </option>
   </select>
+   <ion-item>
+    <ion-button (click)="addEmploye()" fill="clear" slot="end">
+      <ion-icon name="add-outline"></ion-icon>
+      autres responsable ?</ion-button
+    >
+  </ion-item>
+ -->
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label style="font-weight: bold; text-transform: uppercase">
+            Médécins du service:</ion-label
+          >
+          <ion-button (click)="addEmploye()" fill="clear" slot="end">
+            <ion-icon slot="end" name="add-outline"></ion-icon>
+            add
+          </ion-button>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="header-main" *ngIf="service.serviceResponsable.length">
+      <ion-col size="5">
+        <div class="ion-text-center ion-text-uppercase">Name</div>
+      </ion-col>
+      <ion-col size="5">
+        <div class="ion-text-center ion-text-uppercase">Tél</div>
+      </ion-col>
+
+      <ion-col size="2">
+        <div class="ion-text-center"></div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row
+      *ngFor="let responsable of service.serviceResponsable let i = index"
+      class="data-row data-update table-row"
+      [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1'}"
+    >
+      <ion-col size="5">
+        <div class="ion-text-center ion-text-uppercase">
+          {{responsable.displayName}}
+        </div>
+      </ion-col>
+      <ion-col size="5">
+        <div class="ion-text-center ion-text-uppercase">
+          {{responsable.telephone? responsable.telephone : ''}}
+        </div>
+      </ion-col>
+
+      <ion-col size="2">
+        <div class="ion-text-center ion-text-uppercase">
+          <ion-button fill="clear" (click)="removeOne(responsable, i)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

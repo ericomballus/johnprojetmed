@@ -327,6 +327,18 @@ const routes: Routes = [
     path: 'company-analyse-comm',
     loadChildren: () => import('./pages/company-analyse-comm/company-analyse-comm.module').then( m => m.CompanyAnalyseCommPageModule)
   },
+  {
+    path: 'service-details',
+    loadChildren: () => import('./modals/service-details/service-details.module').then( m => m.ServiceDetailsPageModule)
+  },
+  {
+    path: 'pick-employe',
+    loadChildren: () => import('./modals/pick-employe/pick-employe.module').then( m => m.PickEmployePageModule)
+  },
+  {
+    path: 'user-details',
+    loadChildren: () => import('./modals/user-details/user-details.module').then( m => m.UserDetailsPageModule)
+  },
 ];
 
 @NgModule({

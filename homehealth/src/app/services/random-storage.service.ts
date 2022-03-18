@@ -11,6 +11,8 @@ export class RandomStorageService {
   isAdmin: boolean = false;
   isNewCompany: boolean = false;
   user: User;
+  employeList: User[];
+  serviceResponsables: User[];
   company: Company;
   content: any;
   admin: User;
@@ -103,5 +105,19 @@ export class RandomStorageService {
     } else {
       return null;
     }
+  }
+
+  setEmployeList(list: User[]) {
+    this.employeList = list;
+  }
+  getEmployeList(): User[] {
+    return this.employeList;
+  }
+
+  setResponsable(list: User[]) {
+    this.employeList = list;
+  }
+  getResponsableList(): User[] {
+    return this.employeList;
   }
 }

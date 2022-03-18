@@ -10,6 +10,7 @@ import { MedicamentService } from 'src/app/services/medicament.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
 import { UserService } from 'src/app/services/user.service';
+import { PickEmployePage } from 'src/app/modals/pick-employe/pick-employe.page';
 @Component({
   selector: 'app-service-info',
   templateUrl: './service-info.page.html',
@@ -23,13 +24,15 @@ export class ServiceInfoPage implements OnInit {
   admin: User;
   employeeList: User[] = [];
   employe: User;
+  serviceResponsable: User[] = [];
   constructor(
     private randomStorage: RandomStorageService,
     private modal: ModalController,
     private medic: MedicamentService,
     private notif: NotificationService,
     private companyService: CompanyService,
-    private userService: UserService
+    private userService: UserService,
+    private modalController: ModalController
   ) {}
 
   ngOnInit() {
@@ -38,6 +41,13 @@ export class ServiceInfoPage implements OnInit {
     this.admin = this.randomStorage.getAdmin();
     this.getEmployeeList(this.admin.uid);
     console.log(this.company);
+    if (
+      this.service.serviceResponsable &&
+      this.service.serviceResponsable.length
+    ) {
+    } else {
+      this.service.serviceResponsable = [];
+    }
   }
   closeModal() {
     this.randomStorage.setCompany(this.company);
@@ -105,6 +115,39 @@ export class ServiceInfoPage implements OnInit {
       this.service.responsable = this.employe.displayName;
       this.service.responsableEmail = this.employe.email;
       this.service.responsableUid = this.employe.uid;
+    }
+  }
+
+  async addEmploye() {
+    this.randomStorage.setEmployeList(this.employeeList);
+    const modal = await this.modalController.create({
+      component: PickEmployePage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      let arr: User[] = this.randomStorage.getResponsableList();
+      if (arr.length) {
+        this.service.serviceResponsable = [
+          ...this.service.serviceResponsable,
+          ...arr,
+        ];
+      }
+      console.log(this.service.serviceResponsable);
+    });
+    return await modal.present();
+  }
+
+  async removeOne(res: User) {
+    try {
+      await this.notif.presentAlertConfirm(
+        `Supprimer ${res.displayName} de la liste ?`
+      );
+      this.service.serviceResponsable = this.service.serviceResponsable.filter(
+        (r) => r.uid !== res.uid
+      );
+    } catch (error) {
+      console.log(error);
     }
   }
 }

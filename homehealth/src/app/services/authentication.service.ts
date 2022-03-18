@@ -117,18 +117,22 @@ export class AuthenticationService {
       });
   }
 
-  async updateUserData(data: firebase.auth.UserCredential) {
+  async updateUserData(data: User) {
     const db = getFirestore();
-    const colRef = doc(db, 'users', data.user.uid);
-    data['updateAt'] = serverTimestamp();
+    const colRef = doc(db, 'users', data.uid);
     let user = data;
+    let telephone = '0000';
+    if (data.telephone) {
+      telephone = data.telephone;
+    }
     const userData = {
-      uid: data.user.uid,
-      email: data.user.email,
-      displayName: data.user.displayName,
-      photoURL: data.user.photoURL,
-      emailVerified: data.user.emailVerified,
+      uid: data.uid,
+      email: data.email,
+      displayName: data.displayName,
+      photoURL: data.photoURL,
+      emailVerified: data.emailVerified,
       lastLoginAt: serverTimestamp(),
+      telephone: telephone,
     };
     return new Promise(async (resolve, reject) => {
       try {
@@ -148,6 +152,10 @@ export class AuthenticationService {
       adminId = data.adminId;
     }
     let user = data;
+    let telephone = '0000';
+    if (data.telephone) {
+      telephone = data.telephone;
+    }
     const userData = {
       uid: user.uid,
       email: user.email,
@@ -157,6 +165,7 @@ export class AuthenticationService {
       createdAt: serverTimestamp(),
       roles: data.roles,
       adminId: adminId,
+      telephone: telephone,
     };
     return new Promise(async (resolve, reject) => {
       try {

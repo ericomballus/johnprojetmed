@@ -69,7 +69,7 @@ export class CompanyUsersPage implements OnInit {
           handler: () => {
             // this.randomStorage.setAdmin(this.admin);
             this.randomStorage.setUser(employe);
-            this.router.navigateByUrl('detail-employe');
+            this.router.navigateByUrl('user-details');
           },
         },
         {

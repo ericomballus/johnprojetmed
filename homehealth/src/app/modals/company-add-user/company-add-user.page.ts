@@ -37,16 +37,7 @@ export class CompanyAddUserPage implements OnInit {
         message: 'Name is not valid.',
       },
     ],
-    /* email: [
-      {
-        type: 'required',
-        message: 'Provide email.',
-      },
-      {
-        type: 'pattern',
-        message: 'Email is not valid.',
-      },
-    ],*/
+
     telephone: [
       {
         type: 'required',

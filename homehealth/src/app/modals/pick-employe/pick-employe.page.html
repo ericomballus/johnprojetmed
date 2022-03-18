@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="employeSelect.length" fill="clear" (click)="save()">
+        enregistrer
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let employe of employeList">
+      <ion-label>
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{employe.displayName}}
+        </h2>
+      </ion-label>
+
+      <ion-checkbox
+        (click)="addEmploye(employe)"
+        slot="end"
+        [(ngModel)]="employe.isChecked"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+</ion-content>

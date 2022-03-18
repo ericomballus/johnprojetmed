@@ -36,8 +36,9 @@ export class ConnexionPage implements OnInit {
           this.notifi.presentLoading(20000);
           this.userService
             .getUser(this.authService.isLoggedIn.uid)
-            .then((user: User) => {
+            .then(async (user: User) => {
               console.log(user);
+              this.userIsOnline(user);
 
               if (user.roles.includes(2)) {
                 this.randomStorage.setAdmin(user);
@@ -110,5 +111,13 @@ export class ConnexionPage implements OnInit {
       },
       (err) => this.notifi.dismissLoading()
     );
+  }
+  userIsOnline(user: User) {
+    this.authService
+      .updateUserData(user)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   }
 }

@@ -4,7 +4,7 @@ export interface User {
   displayName: string;
   photoURL: string;
   emailVerified: boolean;
-  lastLoginAt: string;
+  lastLoginAt: any;
   createdAt: string;
   password: string;
   isCompany: boolean;
@@ -14,5 +14,8 @@ export interface User {
   analyseList?: any[]; // tableau des analyses effectué
   consultationList?: any[]; // tableau des consultation
   serviceList?: any[]; // tableau des service ou il es responsable
+  isChecked: boolean;
+  telephone: string;
+  isOnline: boolean;
 }
 /**/

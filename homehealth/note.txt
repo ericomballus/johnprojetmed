@@ -1,0 +1,7 @@
+pour les hopitaux tu a la liste des services ensuite les hopitaux ensuite les medecins du services.
+les hopitaux doivent etre geolocaliser. quand la liste des hopitaux s'affiche, il faut un lien pour l'afficher sur une carte.
+quand ont fait une recherche (des services) il faut gouper les recherche.
+quand on affiche les medecins d'un services dans un hopital par exemple , indiqué si ils sont en ligne ou pas,
+chaque medecin doit indiquer ses heures de receptions dans la journée
+consultation a domicile ou a l'hopital.
+les medecin doivent avoir accés au conseil santé.

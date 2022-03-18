@@ -1,4 +1,5 @@
 import { RendezVous } from './rendez-vous';
+import { User } from './user';
 
 export interface ServiceSchema {
   name: string;
@@ -9,4 +10,6 @@ export interface ServiceSchema {
   responsableUid: string;
   rendezVous: RendezVous;
   id: string;
+  isChecked: boolean;
+  serviceResponsable: User[];
 }

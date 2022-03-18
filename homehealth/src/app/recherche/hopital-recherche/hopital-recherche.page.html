@@ -7,31 +7,39 @@
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-card *ngFor="let result of resultat">
-    <ion-img [src]="result.company.logoURL"></ion-img>
-    <ion-card-header>
-      <ion-card-title>{{ result.company.name }}</ion-card-title>
-      <ion-card-subtitle style="font-weight: bold"
-        >telephone: {{ result.company.telephone }}</ion-card-subtitle
-      >
-      <ion-card-subtitle>email: {{ result.company.email }}</ion-card-subtitle>
-      <ion-card-subtitle>ville: {{ result.company.ville }}</ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label>
-            <h2>Service: {{result.resultat.name}}</h2>
-            <h3>Ouvert:</h3>
-          </ion-label>
-          <ion-button
-            color="primary"
-            slot="end"
-            (click)="presentAlertConfirm(result)"
-            >action</ion-button
-          >
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
-  </ion-card>
+  <div *ngFor="let doc of resultat">
+    <ion-list>
+      <div style="display: flex; justify-content: space-between">
+        <h1
+          style="
+            font-weight: bold;
+            color: var(--ion-color-primary);
+            text-transform: uppercase;
+            padding-left: 3px;
+          "
+        >
+          {{doc.company.name}}
+        </h1>
+        <ion-button fill="clear" (click)="displayMap(doc.company)">
+          localisation
+          <ion-icon
+            style="color: var(--ion-color-danger)"
+            name="location-outline"
+          ></ion-icon>
+        </ion-button>
+      </div>
+
+      <ion-item *ngFor="let service of doc.query">
+        <ion-label>
+          <h3>{{service.name}}</h3>
+        </ion-label>
+        <ion-button
+          (click)="displayDetails(doc, service)"
+          fill="clear"
+          slot="end"
+          >Détails</ion-button
+        >
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>
