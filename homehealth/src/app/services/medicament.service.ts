@@ -77,7 +77,11 @@ export class MedicamentService {
         getDocs(first).then((snapshot) => {
           let tab = [];
           this.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          console.log(snapshot.docs);
+
           snapshot.docs.forEach((doc) => {
+            console.log(doc);
+
             let isChecked = false;
             if (companyId) {
               let obj = doc.data();
@@ -111,8 +115,9 @@ export class MedicamentService {
               let isChecked = false;
               if (companyId) {
                 let obj = doc.data();
+                console.log(obj);
 
-                if (obj['users'].includes(companyId)) {
+                if (obj['users'] && obj['users'].includes(companyId)) {
                   // console.log('je suis la');
 
                   isChecked = true;
@@ -124,6 +129,8 @@ export class MedicamentService {
 
               tab.push({ ...doc.data(), id: doc.id, isChecked: isChecked });
             });
+            console.log(tab);
+
             resolve(tab);
           })
           .catch((e) => {

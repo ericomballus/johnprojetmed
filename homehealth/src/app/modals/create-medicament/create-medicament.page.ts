@@ -125,7 +125,7 @@ export class CreateMedicamentPage implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern('^[0-9].*[s]*$'),
+          // Validators.pattern('^[0-9].*[s]*$'),
           Validators.maxLength(10),
         ])
       ),
@@ -141,7 +141,6 @@ export class CreateMedicamentPage implements OnInit {
       forms.typeMedicament
     );
     //
-    console.log(medoc);
     medoc.buildGrammage();
     this.notif.presentLoading(40000);
     this.medic

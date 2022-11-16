@@ -1,6 +1,14 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="end">
+      <ion-button
+        color="success"
+        fill="outline"
+        fill="clear"
+        (click)="update()"
+      >
+        mettre a jour
+      </ion-button>
       <ion-button fill="clear" (click)="closeModal()">
         <ion-icon name="close"></ion-icon>
       </ion-button>
@@ -10,6 +18,22 @@
 
 <ion-content>
   <app-companyinfo [company]="company"></app-companyinfo>
+  <div>
+    <ion-item>
+      <ion-label>Choisir la ville</ion-label>
+      <ion-select
+        interface="popover"
+        placeholder="ville"
+        (ionChange)="getVilleName($event)"
+      >
+        <ion-select-option
+          value="{{ville.name}}"
+          *ngFor="let ville of villeList"
+          >{{ville.name}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+  </div>
   <div *ngIf="medicamentList.length">
     <div
       style="

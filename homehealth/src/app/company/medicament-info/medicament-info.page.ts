@@ -16,6 +16,7 @@ export class MedicamentInfoPage implements OnInit {
   company: Company;
   medicament: MedicamentSchema;
   detectChanges = false;
+  equivalent = '';
   constructor(
     private randomStorage: RandomStorageService,
     private modal: ModalController,
@@ -44,7 +45,22 @@ export class MedicamentInfoPage implements OnInit {
         .updateCompany(this.company.id, this.company)
         .then((res) => {
           this.notif.dismissLoading();
+          this.notif.presentToast(
+            `${this.medicament.name} a été mise a jour!!!`,
+            'success',
+            2500
+          );
           this.randomStorage.setCompany(this.company);
+          this.modal.dismiss();
+        })
+        .catch((err) => {
+          this.notif.dismissLoading();
+          this.notif.presentToast(
+            `une erreur est survenue impossible de mettre a jour`,
+            'danger',
+            2500
+          );
+          //this.randomStorage.setCompany(this.company);
           this.modal.dismiss();
         });
     } else {
@@ -52,5 +68,20 @@ export class MedicamentInfoPage implements OnInit {
       this.randomStorage.setCompany(this.company);
       this.modal.dismiss();
     }
+  }
+  addEquivalent() {
+    if (this.medicament.equivalent && this.medicament.equivalent.length) {
+      this.medicament.equivalent.push(this.equivalent);
+    } else {
+      let arr = [];
+      arr.push(this.equivalent);
+      this.medicament.equivalent = arr;
+    }
+    this.equivalent = '';
+  }
+  removeEquivalent(eq) {
+    this.medicament.equivalent = this.medicament.equivalent.filter(
+      (e) => eq !== e
+    );
   }
 }

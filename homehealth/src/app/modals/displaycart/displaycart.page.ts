@@ -7,6 +7,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { CommandesService } from 'src/app/services/commandes.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { ConfirmPage } from '../confirm/confirm.page';
 
 @Component({
   selector: 'app-displaycart',
@@ -45,6 +46,8 @@ export class DisplaycartPage implements OnInit {
     this.totalPrice = this.cartService.totalPrice();
   }
   closeModal() {
+    console.log('je ferme la fenetere ici');
+
     this.modalCrtl.dismiss();
   }
 
@@ -99,5 +102,39 @@ export class DisplaycartPage implements OnInit {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async commandePharmacie(doc, index) {
+    console.log(index);
+    this.randomStorage.setData(doc);
+    const modal = await this.modalCrtl.create({
+      component: ConfirmPage,
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then(async (data) => {
+      console.log(data);
+
+      if (data.data && data.data.result) {
+        this.Cart.splice(index, 1);
+        console.log(this.Cart);
+
+        if (!this.Cart.length) {
+          console.log('hello hello');
+
+          //   this.cartService.cleanCart();
+          //   this.modalCrtl.dismiss({ result: true });
+          //  this.closeModal();
+          setTimeout(() => {
+            // this.closeModal();
+            this.cartService.cleanCart();
+            this.modalCrtl.dismiss({ result: true });
+          }, 5000);
+        }
+      }
+      // this.modalCrtl.dismiss('update');
+    });
+    return await modal.present().then((created) => {
+      //
+    });
   }
 }

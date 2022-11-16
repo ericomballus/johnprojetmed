@@ -30,13 +30,13 @@ import firebase from 'firebase/compat/app';
 import { ShareModule } from './share.module';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 let firebaseConfig = {
-  apiKey: 'AIzaSyCkhdaF360BH3rqK65DfXqtI-n5quU4HqI',
-  authDomain: 'homehealth-6e9ce.firebaseapp.com',
-  projectId: 'homehealth-6e9ce',
-  storageBucket: 'homehealth-6e9ce.appspot.com',
-  messagingSenderId: '1027046367247',
-  appId: '1:1027046367247:web:875eb2c7cff3992281c37a',
-  measurementId: 'G-LK2BWJHFME',
+  apiKey: 'AIzaSyBqSR-VHVk3SEzSneh0eZ2Xu3D3eoBgz4U',
+  authDomain: 'home-health-d9bbd.firebaseapp.com',
+  projectId: 'home-health-d9bbd',
+  storageBucket: 'home-health-d9bbd.appspot.com',
+  messagingSenderId: '841244183624',
+  appId: '1:841244183624:web:f1c3c170fcedc578aa1c7d',
+  measurementId: 'G-9M1VVBG17K',
 };
 firebase.initializeApp(firebaseConfig);
 @NgModule({

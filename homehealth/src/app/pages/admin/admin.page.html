@@ -7,6 +7,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!--
+    <form>
+    <ion-label>test forms</ion-label>
+    <ion-input
+      required
+      minlength="3"
+      maxlength="6"
+      pattern="banana"
+      ngModel
+      #erico="ngModel"
+      name="erico"
+      (change)="log(erico)"
+    ></ion-input>
+    <div
+      *ngIf="erico.touched && !erico.valid"
+      style="background-color: rgb(238, 95, 95)"
+    >
+      <div *ngIf="erico.errors.required">le nom est obligatoire !!!</div>
+      <div *ngIf="erico.errors.minlength">trois caractére minimum requie</div>
+      <div *ngIf="erico.errors.pattern">dosn't match pattern</div>
+    </div>
+  </form>
+  -->
   <h1 class="title">HomeHealth Admin</h1>
 
   <ion-grid>
@@ -87,6 +110,28 @@
         <div class="box box3" (click)="addAdvices()">
           <div>
             <h5>add advices</h5>
+          </div>
+          <div>
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="6">
+        <div class="box box3" (click)="addCampagne()">
+          <div>
+            <h5>campagnes</h5>
+          </div>
+          <div>
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+        </div>
+      </ion-col>
+
+      <ion-col size="6">
+        <div class="box box3" (click)="addVille()">
+          <div>
+            <h5>ajouter une ville</h5>
           </div>
           <div>
             <ion-icon name="cash-outline"></ion-icon>

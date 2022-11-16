@@ -20,6 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Company } from '../models/company';
 import { User } from '../models/user';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +125,7 @@ export class CommandesService {
     return new Promise((resolve, reject) => {
       const db = getFirestore();
       const docRef = doc(db, 'companies', id);
-
+      //  const ref= firebase.firestore().collection("companies")
       getDoc(docRef).then((doc) => {
         let tab = [];
         /* snapshot.docs.forEach((doc) => {

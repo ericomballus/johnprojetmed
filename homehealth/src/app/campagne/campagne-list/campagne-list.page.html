@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="outline" size="small" (click)="AddCampagne()">
+        ajouter
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button *ngFor="let camp of campagneList let j = index">
+      <ion-avatar>
+        <img src="{{ camp.url }}" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{camp.titre}}</h2>
+      </ion-label>
+      <ion-button slot="end" (click)="Delete(camp, j)">supprimer</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

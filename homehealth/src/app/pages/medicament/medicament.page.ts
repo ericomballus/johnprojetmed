@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { CreateMedicamentPage } from 'src/app/modals/create-medicament/create-medicament.page';
 import { CreateMedocsCategoriePage } from 'src/app/modals/create-medocs-categorie/create-medocs-categorie.page';
+import { MedicamentDetailsPage } from 'src/app/modals/medicament-details/medicament-details.page';
 import { MedicamentSchema } from 'src/app/models/medicamentSchema';
+import { CacheService } from 'src/app/services/cache.service';
 import { MedicamentService } from 'src/app/services/medicament.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { OpenModalService } from 'src/app/services/open-modal.service';
 
 @Component({
   selector: 'app-medicament',
@@ -17,7 +20,9 @@ export class MedicamentPage implements OnInit {
   constructor(
     private modalCrtl: ModalController,
     private medic: MedicamentService,
-    private notif: NotificationService
+    private notif: NotificationService,
+    private modal: OpenModalService,
+    private cacheService: CacheService
   ) {}
 
   ngOnInit() {
@@ -97,5 +102,14 @@ export class MedicamentPage implements OnInit {
       .catch((err) => {
         console.log(err);
       });
+  }
+  async showDetails(medoc: MedicamentSchema) {
+    console.log(medoc);
+
+    this.cacheService.setMedoc(medoc);
+    await this.modal.ouvreLaPage(MedicamentDetailsPage);
+
+    // console.log(this.cacheService.getMedoc());
+    medoc = this.cacheService.getMedoc();
   }
 }

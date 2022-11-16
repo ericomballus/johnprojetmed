@@ -51,8 +51,8 @@
 
     <div class="form-container">
       <ion-item>
-        <ion-label position="floating">Pseudo</ion-label>
-        <ion-input type="text" #pseudo required></ion-input>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" #email required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="floating">Password</ion-label>
@@ -63,7 +63,7 @@
       <ion-button
         expand="block"
         class="main-button"
-        (click)="signUp(pseudo, password)"
+        (click)="signUp(email, password)"
         >Log in</ion-button
       >
 

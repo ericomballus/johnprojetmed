@@ -51,6 +51,9 @@ export class ConnexionPage implements OnInit {
                 // this.getCompany(user);
               }
               //
+            })
+            .catch((error) => {
+              console.log(error);
             });
         })
         .catch((error) => {
@@ -60,12 +63,12 @@ export class ConnexionPage implements OnInit {
     } else {
     }
   }
-  signUp(pseudo, password) {
-    let email = `${pseudo.value}@test.com`;
+  signUp(email, password) {
+    // let email = `${pseudo.value}@test.com`;
     this.notifi.presentLoading(15000);
     this.authService
       // .SignIn(email.value, password.value)
-      .SignIn(email, password.value)
+      .SignIn(email.value, password.value)
       .then((res: firebase.auth.UserCredential) => {
         // this.notifi.presentLoading(60000);
         this.userService
@@ -106,6 +109,7 @@ export class ConnexionPage implements OnInit {
           this.notifi.dismissLoading();
           this.router.navigateByUrl('company-admin');
         } else {
+          this.notifi.dismissLoading();
           this.notifi.presentToast('unknow account!', 'red', 3000);
         }
       },

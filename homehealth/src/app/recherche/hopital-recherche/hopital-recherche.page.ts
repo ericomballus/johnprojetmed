@@ -1,9 +1,12 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { PrendreRendezvousPage } from 'src/app/modals/prendre-rendezvous/prendre-rendezvous.page';
 import { ServiceDetailsPage } from 'src/app/modals/service-details/service-details.page';
 import { Company } from 'src/app/models/company';
 import { ServiceSchema } from 'src/app/models/serviceSchema';
+import { User } from 'src/app/models/user';
+import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
 
 @Component({
@@ -13,14 +16,23 @@ import { RandomStorageService } from 'src/app/services/random-storage.service';
 })
 export class HopitalRecherchePage implements OnInit {
   resultat: any[];
-
+  customer: User;
   constructor(
     private random: RandomStorageService,
     public alertController: AlertController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private location: Location,
+    private notifi: NotificationService
   ) {}
 
   ngOnInit() {
+    this.customer = this.random.getUser();
+    if (!this.customer) {
+      this.notifi.presentAlertConfirm(
+        'veillez crée un compte ou authentifier vous'
+      );
+      this.location.back();
+    }
     this.resultat = this.random.getContent();
     console.log(this.resultat);
   }
@@ -67,8 +79,7 @@ export class HopitalRecherchePage implements OnInit {
   }
 
   async displayDetails(hopital: Company, service: ServiceSchema) {
-    console.log(hopital);
-    console.log(service);
+    this.random.setCompany(hopital);
     this.random.setData(service);
     const modal = await this.modalController.create({
       component: ServiceDetailsPage,

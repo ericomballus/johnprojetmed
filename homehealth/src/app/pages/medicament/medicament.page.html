@@ -32,7 +32,7 @@
   </div>
   <ion-list *ngIf="itemsList.length">
     <ion-item *ngFor="let medoc of itemsList">
-      <ion-label>
+      <ion-label (click)="showDetails(medoc)">
         <h2 style="font-weight: bold; text-transform: uppercase">
           {{medoc.name}}
         </h2>

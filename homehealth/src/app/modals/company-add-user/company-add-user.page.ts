@@ -27,33 +27,60 @@ export class CompanyAddUserPage implements OnInit {
   errorMsg: string = '';
 
   error_msg = {
-    displayName: [
+    pseudo: [
       {
         type: 'required',
-        message: 'Provide user name.',
+        message: 'Provide Pseudo.',
       },
       {
         type: 'pattern',
-        message: 'Name is not valid.',
+        message: 'Pseudo is not valid.',
       },
     ],
-
-    telephone: [
+    name: [
       {
         type: 'required',
-        message: 'Provide user phone number.',
+        message: 'Provide name.',
       },
       {
         type: 'pattern',
-        message: 'Phone is not valid. Phone must start with 237',
+        message: 'name is not valid.',
       },
       {
         type: 'minlength',
-        message: 'le numéro de telephone doit contenir au moins 12 chiffres.',
+        message: 'name length should be 3 characters long.',
       },
       {
         type: 'maxlength',
-        message: 'le numéro de telephone doit contenir au plus 12 chiffres.',
+        message: 'name max length should be 100 characters long.',
+      },
+    ],
+    firstName: [
+      {
+        type: 'required',
+        message: 'Provide first Name.',
+      },
+      {
+        type: 'pattern',
+        message: 'first Name is not valid.',
+      },
+      {
+        type: 'minlength',
+        message: 'first Name length should be 3 characters long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'first Name max length should be 100 characters long.',
+      },
+    ],
+    email: [
+      {
+        type: 'required',
+        message: 'Provide email.',
+      },
+      {
+        type: 'pattern',
+        message: 'Email is not valid.',
       },
     ],
     password: [
@@ -68,6 +95,21 @@ export class CompanyAddUserPage implements OnInit {
       {
         type: 'maxlength',
         message: 'Password max length should be 200 characters long.',
+      },
+    ],
+    telephone: [
+      {
+        type: 'required',
+        message: 'Phone is required.',
+      },
+      {
+        type: 'minlength',
+        message:
+          'phone start with 237 and min length should be 12 digits long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'phone start with 237 and max length should be 12 digit long.',
       },
     ],
   };
@@ -97,27 +139,39 @@ export class CompanyAddUserPage implements OnInit {
     this.admin = this.randomStorage.getAdmin();
     this.getCompany();
     this.userForm = this.fb.group({
-      displayName: new FormControl(
+      firstName: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
+          Validators.minLength(3),
+          Validators.maxLength(200),
         ])
       ),
-      /* email: new FormControl(
+      name: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
+          Validators.minLength(3),
+          Validators.maxLength(200),
+        ])
+      ),
+      pseudo: new FormControl(
+        '',
+        Validators.compose([
+          Validators.minLength(3),
+          Validators.maxLength(200),
+          Validators.required,
+        ])
+      ),
+      email: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
-        ])
-      ),*/
-      telephone: new FormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern('^[237]+[0-9-]+$'),
-          Validators.minLength(12),
-          Validators.maxLength(12),
+          Validators.minLength(6),
+          Validators.maxLength(200),
         ])
       ),
       password: new FormControl(
@@ -128,12 +182,21 @@ export class CompanyAddUserPage implements OnInit {
           Validators.required,
         ])
       ),
+      telephone: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[237]+[0-9-]+$'),
+          Validators.minLength(12),
+          Validators.maxLength(12),
+        ])
+      ),
     });
   }
 
   ajouter(forms: User) {
-    let email = `${forms.displayName}@test.com`;
-    forms.email = email;
+    // let email = `${forms.displayName}@test.com`;
+    // forms.email = email;
     if (this.isAdmin && this.isNewCompany) {
       this.randomStorage.setUser(forms);
       this.router.navigateByUrl('company-builder');

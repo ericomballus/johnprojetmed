@@ -84,9 +84,23 @@
           <div class="ion-text-center">total: {{doc.totalPrice}} Fcfa</div>
         </ion-col>
       </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center">
+            <ion-button
+              expand="block"
+              color="danger"
+              (click)="commandePharmacie(doc, j)"
+              >ACHETER</ion-button
+            >
+          </div>
+        </ion-col>
+      </ion-row>
     </div>
   </ion-grid>
-  <ion-button expand="block" color="success" (click)="commander()"
+  <!--
+    <ion-button expand="block" color="success" (click)="commander()"
     >ACHETER</ion-button
   >
+  -->
 </ion-content>

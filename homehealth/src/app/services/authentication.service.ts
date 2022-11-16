@@ -122,17 +122,22 @@ export class AuthenticationService {
     const colRef = doc(db, 'users', data.uid);
     let user = data;
     let telephone = '0000';
+    let schedule: any[] = [];
     if (data.telephone) {
       telephone = data.telephone;
+    }
+    if (data.schedule) {
+      schedule = data.schedule;
     }
     const userData = {
       uid: data.uid,
       email: data.email,
-      displayName: data.displayName,
+      name: data.name,
       photoURL: data.photoURL,
       emailVerified: data.emailVerified,
       lastLoginAt: serverTimestamp(),
       telephone: telephone,
+      schedule: schedule,
     };
     return new Promise(async (resolve, reject) => {
       try {
@@ -159,7 +164,8 @@ export class AuthenticationService {
     const userData = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      firstName: user.firstName,
+      name: user.name,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
       createdAt: serverTimestamp(),

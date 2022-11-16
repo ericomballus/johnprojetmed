@@ -63,7 +63,7 @@ export class CompanyUsersPage implements OnInit {
       cssClass: 'my-custom-class',
       buttons: [
         {
-          text: 'Afficher info client ?',
+          text: 'Afficher info ?',
           role: 'destructive',
           icon: 'person',
           handler: () => {
@@ -72,19 +72,17 @@ export class CompanyUsersPage implements OnInit {
             this.router.navigateByUrl('user-details');
           },
         },
-        {
+        /* {
           text: 'Afficher les factures ?',
           icon: 'share',
           handler: () => {
-            // this.randomStorage.setAdmin(this.admin);
             this.randomStorage.setUser(employe);
-            // this.randomStorage.setCustomerInvoice();
             this.router.navigateByUrl('transaction');
           },
-        },
+        },*/
 
         {
-          text: 'Supprimer le client ?',
+          text: 'Supprimer ?',
           icon: 'heart',
           handler: () => {
             console.log('Favorite clicked');

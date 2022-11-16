@@ -21,9 +21,18 @@ export class UserDetailsPage implements OnInit {
   userForm: FormGroup;
   successMsg: string = '';
   errorMsg: string = '';
+  week = [
+    { day: 'lundi', start: '', end: '' },
+    { day: 'mardi', start: '', end: '' },
+    { day: 'mercredi', start: '', end: '' },
+    { day: 'jeudi', start: '', end: '' },
+    { day: 'vendredi', start: '', end: '' },
+    { day: 'samedi', start: '', end: '' },
+    { day: 'dimanche', start: '', end: '' },
+  ];
 
   error_msg = {
-    displayName: [
+    name: [
       {
         type: 'required',
         message: 'Provide user name.',
@@ -67,6 +76,8 @@ export class UserDetailsPage implements OnInit {
       },
     ],
   };
+  objRandom = {};
+  arr: any[] = [];
   constructor(
     public randomStorage: RandomStorageService,
     public authService: AuthenticationService,
@@ -78,9 +89,19 @@ export class UserDetailsPage implements OnInit {
   ngOnInit() {
     this.user = this.randomStorage.getUser();
     console.log(this.user);
+    if (this.user.schedule) {
+      this.user.schedule.forEach((jour) => {
+        this.objRandom[jour.day] = jour;
+        this.week.forEach((v, index) => {
+          if (v.day == jour.day) {
+            this.week.splice(index, 1, jour);
+          }
+        });
+      });
+    }
     this.userForm = this.fb.group({
-      displayName: new FormControl(
-        this.user.displayName,
+      name: new FormControl(
+        this.user.name,
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
@@ -106,9 +127,13 @@ export class UserDetailsPage implements OnInit {
   }
 
   async update(forms: User) {
-    console.log(forms);
     this.notifi.presentLoading(2500);
     this.user.telephone = forms.telephone;
+    if (this.arr.length) {
+      this.user['schedule'] = this.arr;
+    }
+    console.log('hello user', this.user);
+
     try {
       await this.auth.updateUserData(this.user);
       this.notifi.dismissLoading();
@@ -119,5 +144,47 @@ export class UserDetailsPage implements OnInit {
       this.notifi.dismissLoading();
       this.notifi.presentToast('mise a jour a echoué !', 'danger', 1500);
     }
+  }
+  getStartTime(ev, jour) {
+    if (this.objRandom[jour.day]) {
+      this.objRandom[jour.day]['start'] = ev.detail.value;
+    } else {
+      let workDay = {
+        start: ev.detail.value,
+        day: jour.day,
+      };
+      this.objRandom[jour.day] = workDay;
+    }
+    this.week.forEach((v, index) => {
+      if (v.day == this.objRandom[jour.day]['day']) {
+        this.week.splice(index, 1, this.objRandom[jour.day]);
+      }
+    });
+  }
+
+  getEndTime(ev, jour) {
+    if (this.objRandom[jour.day]) {
+      this.objRandom[jour.day]['end'] = ev.detail.value;
+    } else {
+      let workDay = {
+        end: ev.detail.value,
+        day: jour.day,
+      };
+      this.objRandom[jour.day] = workDay;
+    }
+
+    this.week.forEach((v, index) => {
+      if (v.day == this.objRandom[jour.day]['day']) {
+        this.week.splice(index, 1, this.objRandom[jour.day]);
+      }
+    });
+  }
+
+  generateArr() {
+    this.arr = [];
+    for (const key in this.objRandom) {
+      this.arr.push(this.objRandom[key]);
+    }
+    return this.arr;
   }
 }

@@ -33,14 +33,13 @@
           <ion-label style="font-weight: bold; text-transform: uppercase">
             Médécins du service:</ion-label
           >
-          <ion-button (click)="addEmploye()" fill="clear" slot="end">
-            <ion-icon slot="end" name="add-outline"></ion-icon>
-            add
-          </ion-button>
         </ion-item>
       </ion-col>
     </ion-row>
-    <ion-row class="header-main" *ngIf="service.serviceResponsable.length">
+    <ion-row
+      class="header-main"
+      *ngIf="service.serviceResponsable && service.serviceResponsable.length"
+    >
       <ion-col size="5">
         <div class="ion-text-center ion-text-uppercase">Name</div>
       </ion-col>
@@ -52,37 +51,130 @@
         <div class="ion-text-center ion-text-uppercase">status</div>
       </ion-col>
     </ion-row>
-
-    <ion-row
-      *ngFor="let responsable of service.serviceResponsable let i = index"
-      class="data-row data-update table-row"
-      [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1'}"
+    <div
+      *ngIf="service.serviceResponsable && service.serviceResponsable.length"
     >
-      <ion-col size="5">
-        <div class="ion-text-center ion-text-uppercase">
-          {{responsable.displayName}}
-        </div>
-      </ion-col>
-      <ion-col size="5">
-        <div class="ion-text-center ion-text-uppercase">
-          {{responsable.telephone? responsable.telephone : ''}}
-        </div>
-      </ion-col>
+      <ion-row
+        *ngFor="let responsable of service.serviceResponsable let i = index"
+        class="data-row data-update table-row"
+        [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1'}"
+      >
+        <ion-col size="5">
+          <div class="ion-text-center ion-text-uppercase">
+            {{responsable.displayName}}
+          </div>
+        </ion-col>
+        <ion-col size="5">
+          <div class="ion-text-center ion-text-uppercase">
+            {{responsable.telephone? responsable.telephone : ''}}
+          </div>
+        </ion-col>
 
-      <ion-col size="2">
-        <div class="ion-text-center ion-text-uppercase">
-          <ion-button fill="clear">
-            <ion-icon
-              *ngIf="!responsable.isOnline"
-              style="color: var(--ion-color-danger)"
-              name="radio-button-on-outline"
-            ></ion-icon>
-            <ion-icon
-              *ngIf="responsable.isOnline"
-              style="color: var(--ion-color-success)"
-              name="radio-button-on-outline"
-            ></ion-icon>
-          </ion-button>
+        <ion-col size="2" (click)="displaySchedule(responsable)">
+          <div class="ion-text-center ion-text-uppercase">
+            <ion-button fill="clear">
+              <ion-icon
+                *ngIf="!responsable.isOnline"
+                style="color: var(--ion-color-danger)"
+                name="radio-button-on-outline"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="responsable.isOnline"
+                style="color: var(--ion-color-success)"
+                name="radio-button-on-outline"
+              ></ion-icon>
+            </ion-button>
+          </div>
+        </ion-col>
+        <ion-col size="12" *ngIf="responsable.display_schedule">
+          <ion-row>
+            <ion-col size="12">
+              <div
+                class="ion-text-center ion-text-uppercase"
+                style="display: block"
+              >
+                HORAIRES DE TRAVAIL
+              </div>
+              <div
+                class="ion-text-center ion-text-uppercase myIcon"
+                style="display: block"
+              ></div>
+            </ion-col>
+          </ion-row>
+          <ion-row class="header-main">
+            <ion-col size="3">
+              <div class="ion-text-center">jour</div>
+            </ion-col>
+            <ion-col size="4">
+              <div class="ion-text-center">début</div>
+            </ion-col>
+
+            <ion-col size="4">
+              <div class="ion-text-center">Fin</div>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="3"></ion-col>
+          </ion-row>
+          <ion-row
+            *ngFor="let jour of responsable.schedule let i = index"
+            class="data-row data-update table-row"
+            [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
+          >
+            <ion-col size="3">
+              <div class="ion-text-center">{{jour.day}}</div>
+            </ion-col>
+            <ion-col size="4">
+              <div class="ion-text-center">
+                <ion-item>
+                  <ion-label *ngIf="jour.start"
+                    >{{jour.start | date: 'h:mm a'}}</ion-label
+                  >
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="4">
+              <div class="ion-text-center">
+                <ion-item>
+                  <ion-label *ngIf="jour.end"
+                    >{{jour.end | date: 'h:mm a'}}</ion-label
+                  >
+                </ion-item>
+              </div>
+            </ion-col>
+            <ion-col size="1">
+              <ion-checkbox
+                (click)="selectDay(jour, responsable)"
+                slot="end"
+                [(ngModel)]="jour.isChecked"
+              ></ion-checkbox>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div class="ion-text-center ion-text-uppercase">
+            <p>choisir la date du rendez vous</p>
+          </div>
+        </ion-col>
+      </ion-row>
+      <app-get-date-hour
+        [company]="hopital"
+        (dateChange)="pickDate($event)"
+        (hourChange)="pickHour($event)"
+      ></app-get-date-hour>
+    </div>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <ion-button
+            color="success"
+            (click)="valider()"
+            [disabled]="!rendezVousTab.jour || !rendezVousTab.heure"
+            >valider</ion-button
+          >
         </div>
       </ion-col>
     </ion-row>

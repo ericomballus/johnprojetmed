@@ -26,34 +26,60 @@
     >
       <ion-item>
         <ion-label position="floating">Pseudo</ion-label>
-        <ion-input type="text" formControlName="displayName"></ion-input>
+        <ion-input type="text" formControlName="pseudo"></ion-input>
       </ion-item>
-
-      <ng-container *ngFor="let error of error_msg.displayName">
+      <ng-container *ngFor="let error of error_msg.pseudo">
         <div
           class="error"
-          *ngIf="userForm.get('displayName').hasError(error.type) && (userForm.get('displayName').dirty || userForm.get('displayName').touched)"
+          *ngIf="userForm.get('pseudo').hasError(error.type) && (userForm.get('pseudo').dirty || userForm.get('pseudo').touched)"
         >
           {{ error.message }}
         </div>
       </ng-container>
 
-      <!--
-        <ion-item>
+      <ion-item>
+        <ion-label position="floating">Nom: </ion-label>
+        <ion-input type="text" formControlName="name"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.name">
+        <div
+          class="error"
+          *ngIf="userForm.get('name').hasError(error.type) && (userForm.get('name').dirty || userForm.get('name').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <ion-item>
+        <ion-label position="floating">Prénom: </ion-label>
+        <ion-input type="text" formControlName="firstName"></ion-input>
+      </ion-item>
+
+      <ng-container *ngFor="let error of error_msg.firstName">
+        <div
+          class="error"
+          *ngIf="userForm.get('firstName').hasError(error.type) && (userForm.get('firstName').dirty || userForm.get('firstName').touched)"
+        >
+          {{ error.message }}
+        </div>
+      </ng-container>
+
+      <ion-item>
         <ion-label position="floating">Email</ion-label>
         <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
-
-      <ng-container *ngFor="let error of error_msg.email">
-        <div
-          class="error"
-          q
-          *ngIf="userForm.get('email').hasError(error.type) && (userForm.get('email').dirty || userForm.get('email').touched)"
-        >
-          {{ error.message }}
-        </div>
-      </ng-container>
-     -->
+      <div>
+        <ng-container *ngFor="let error of error_msg.email">
+          <div
+            class="error"
+            q
+            *ngIf="userForm.get('email').hasError(error.type) && (userForm.get('email').dirty || userForm.get('email').touched)"
+          >
+            {{ error.message }}
+          </div>
+        </ng-container>
+      </div>
 
       <ion-item>
         <ion-label position="floating" color="primary">Password</ion-label>

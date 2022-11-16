@@ -20,6 +20,8 @@ export class RandomStorageService {
   userservice: any;
   userAnalyse: any;
   data: any;
+  villes: any;
+  ville: any;
   constructor() {}
 
   setIsAdmin(value: boolean) {
@@ -119,5 +121,26 @@ export class RandomStorageService {
   }
   getResponsableList(): User[] {
     return this.employeList;
+  }
+  setVilles(docs) {
+    this.villes = docs;
+  }
+  getVilles() {
+    if (this.villes) {
+      return this.villes;
+    } else {
+      return null;
+    }
+  }
+
+  setVilleRecherche(doc) {
+    this.ville = doc;
+  }
+  getVilleRecherche() {
+    if (this.ville) {
+      return this.ville;
+    } else {
+      return null;
+    }
   }
 }

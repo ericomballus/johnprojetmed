@@ -5,6 +5,7 @@ import { Company } from 'src/app/models/company';
 import { ServiceSchema } from 'src/app/models/serviceSchema';
 import { User } from 'src/app/models/user';
 import { ManageService } from 'src/app/services/manage.service';
+import { OpenModalService } from 'src/app/services/open-modal.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
 import { ServiceInfoPage } from '../service-info/service-info.page';
 
@@ -21,7 +22,8 @@ export class DisplayCompanyServicePage implements OnInit {
   constructor(
     private randomStorage: RandomStorageService,
     private manageService: ManageService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private modal: OpenModalService
   ) {}
 
   ngOnInit() {
@@ -34,7 +36,10 @@ export class DisplayCompanyServicePage implements OnInit {
   }
 
   async addService() {
-    const modal = await this.modalController.create({
+    await this.modal.ouvreLaPage(PickServicesPage);
+    this.company = this.randomStorage.getCompany();
+    this.serviceList = this.company.serviceList;
+    /* const modal = await this.modalController.create({
       component: PickServicesPage,
       componentProps: {},
       backdropDismiss: false,
@@ -42,23 +47,24 @@ export class DisplayCompanyServicePage implements OnInit {
     modal.onDidDismiss().then((data) => {
       console.log('hello');
 
-      this.company = this.randomStorage.getCompany();
-      this.serviceList = this.company.serviceList;
+     
     });
-    return await modal.present();
+    return await modal.present();*/
   }
   async displayInfo(service) {
     this.randomStorage.setUserService(service);
-    const modal = await this.modalController.create({
+    await this.modal.ouvreLaPage(ServiceInfoPage);
+    this.company = this.randomStorage.getCompany();
+    this.serviceList = this.company.serviceList;
+    this.randomStorage.setUserService(null);
+    /* const modal = await this.modalController.create({
       component: ServiceInfoPage,
       componentProps: {},
       backdropDismiss: false,
     });
     modal.onDidDismiss().then((data) => {
-      this.company = this.randomStorage.getCompany();
-      this.serviceList = this.company.serviceList;
-      this.randomStorage.setUserService(null);
+     
     });
-    return await modal.present();
+    return await modal.present();*/
   }
 }

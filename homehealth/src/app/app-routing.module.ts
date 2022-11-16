@@ -339,6 +339,38 @@ const routes: Routes = [
     path: 'user-details',
     loadChildren: () => import('./modals/user-details/user-details.module').then( m => m.UserDetailsPageModule)
   },
+  {
+    path: 'confirm',
+    loadChildren: () => import('./modals/confirm/confirm.module').then( m => m.ConfirmPageModule)
+  },
+  {
+    path: 'campagne-list',
+    loadChildren: () => import('./campagne/campagne-list/campagne-list.module').then( m => m.CampagneListPageModule)
+  },
+  {
+    path: 'campagne-display',
+    loadChildren: () => import('./campagne/campagne-display/campagne-display.module').then( m => m.CampagneDisplayPageModule)
+  },
+  {
+    path: 'campagne-add',
+    loadChildren: () => import('./campagne/campagne-add/campagne-add.module').then( m => m.CampagneAddPageModule)
+  },
+  {
+    path: 'villes',
+    loadChildren: () => import('./villes/villes.module').then( m => m.VillesPageModule)
+  },
+  {
+    path: 'service',
+    loadChildren: () => import('./service/service.module').then( m => m.ServicePageModule)
+  },
+  {
+    path: 'filter',
+    loadChildren: () => import('./pages/filter/filter.module').then( m => m.FilterPageModule)
+  },
+  {
+    path: 'medicament-details',
+    loadChildren: () => import('./modals/medicament-details/medicament-details.module').then( m => m.MedicamentDetailsPageModule)
+  },
 ];
 
 @NgModule({

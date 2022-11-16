@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { RandomStorageService } from "src/app/services/random-storage.service";
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.page.html',
-  styleUrls: ['./admin.page.scss'],
+  selector: "app-admin",
+  templateUrl: "./admin.page.html",
+  styleUrls: ["./admin.page.scss"],
 })
 export class AdminPage implements OnInit {
   constructor(
@@ -15,35 +15,46 @@ export class AdminPage implements OnInit {
 
   ngOnInit() {}
 
+  log(x) {
+    console.log(x);
+  }
+
   createNewUser() {
     this.randomStorage.setIsAdmin(true);
-    this.router.navigateByUrl('inscription');
+    this.router.navigateByUrl("inscription");
   }
 
   createCompany() {
     //this.randomStorage.setIsAdmin(true);
     // this.randomStorage.setIsNewCompany(true);
     // this.router.navigateByUrl('inscription');
-    this.router.navigateByUrl('company');
+    this.router.navigateByUrl("company");
   }
   createService() {
-    this.router.navigateByUrl('create-company-service');
+    this.router.navigateByUrl("create-company-service");
   }
   createTown() {
-    this.router.navigateByUrl('create-town');
+    this.router.navigateByUrl("create-town");
   }
 
   addAdvices() {
-    this.router.navigateByUrl('add-advices');
+    this.router.navigateByUrl("add-advices");
   }
   addAdvicesCategory() {
-    this.router.navigateByUrl('create-advices-categorie');
+    this.router.navigateByUrl("create-advices-categorie");
   }
 
   createMedicament() {
-    this.router.navigateByUrl('medicament');
+    this.router.navigateByUrl("medicament");
   }
   goToAnalyse() {
-    this.router.navigateByUrl('analyses');
+    this.router.navigateByUrl("analyses");
+  }
+  addCampagne() {
+    this.router.navigateByUrl("campagne-list");
+  }
+
+  addVille() {
+    this.router.navigateByUrl("villes");
   }
 }

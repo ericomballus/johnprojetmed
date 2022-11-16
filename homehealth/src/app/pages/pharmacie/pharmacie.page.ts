@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Company } from 'src/app/models/company';
 import { MedicamentSchema } from 'src/app/models/medicamentSchema';
@@ -7,6 +8,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { MedicamentService } from 'src/app/services/medicament.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { FilterPage } from '../filter/filter.page';
 
 @Component({
   selector: 'app-pharmacie',
@@ -25,7 +27,8 @@ export class PharmaciePage implements OnInit {
     private notifi: NotificationService,
     private random: RandomStorageService,
     private medic: MedicamentService,
-    private router: Router
+    private router: Router,
+    private modal: ModalController
   ) {}
 
   ngOnInit() {
@@ -95,6 +98,19 @@ export class PharmaciePage implements OnInit {
       this.arr.push(medicament);
     }
   }
+  async selectVille() {
+    const modal = await this.modal.create({
+      component: FilterPage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      console.log(data);
+
+      this.findAll();
+    });
+    return await modal.present();
+  }
   async findAll() {
     let objRandom = {};
     this.notifi.presentLoading(20000);
@@ -119,11 +135,10 @@ export class PharmaciePage implements OnInit {
             }
           }
         });
-        console.log('le group ici', objRandom);
       }
       let data = { resultat: result, medicament: this.arr[index] };
       this.arrOfPromise.push(data);
-      console.log(this.arrOfPromise);
+
       if (this.arr.length == this.arrOfPromise.length) {
         let tab = [];
         for (const key in objRandom) {
@@ -134,15 +149,11 @@ export class PharmaciePage implements OnInit {
           };
           tab.push(resutlt);
         }
-        console.log('======', tab);
-        // this.random.setContent(this.arrOfPromise);
+
         this.random.setContent(tab);
         this.router.navigateByUrl('phamarcie-recherche');
         this.notifi.dismissLoading();
       }
-      /* .then((result) => {
-       
-      });*/
     });
   }
 

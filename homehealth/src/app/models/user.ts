@@ -1,7 +1,10 @@
+import { workDay } from './workDay';
 export interface User {
   uid: string;
   email: string;
   displayName: string;
+  firstName: string;
+  name: string;
   photoURL: string;
   emailVerified: boolean;
   lastLoginAt: any;
@@ -17,5 +20,7 @@ export interface User {
   isChecked: boolean;
   telephone: string;
   isOnline: boolean;
+  schedule?: workDay[];
+  display_schedule?: boolean; //tableau qui contient la liste des achats effectué en pharmacie
 }
 /**/

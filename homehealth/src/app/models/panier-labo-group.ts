@@ -5,4 +5,6 @@ export interface PanierLaboGroup {
   analyses: CartLabo[];
   totalPrice: number;
   rendezVous?: { jour: '00/00/0000'; heure: '00' };
+  enableDay?: Boolean;
+  enableHour?: Boolean;
 }

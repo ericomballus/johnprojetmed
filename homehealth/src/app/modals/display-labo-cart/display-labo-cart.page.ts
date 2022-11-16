@@ -9,6 +9,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { CommandesService } from 'src/app/services/commandes.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { ConfirmPage } from '../confirm/confirm.page';
 
 @Component({
   selector: 'app-display-labo-cart',
@@ -110,16 +111,16 @@ export class DisplayLaboCartPage implements OnInit {
       console.log(error);
     }
   }
-  pickDate(ev) {
+  pickDate(ev, index) {
     if (this.rendezVousTab[ev.companieId]) {
       this.rendezVousTab[ev.companieId]['jour'] = ev.jour;
     } else {
       this.rendezVousTab[ev.companieId] = { jour: ev.jour, heure: '0' };
     }
-
+    this.Cart[index].enableDay = true;
     console.log(this.rendezVousTab);
   }
-  pickHour(ev) {
+  pickHour(ev, index: number) {
     this.rendezVousTab[ev.companieId]['heure'] = ev.heure;
     console.log(this.rendezVousTab);
 
@@ -131,5 +132,57 @@ export class DisplayLaboCartPage implements OnInit {
         heure: ev.heure,
       };
     }
+    this.Cart[index].enableHour = true;
+  }
+
+  async commandeLabo(doc: PanierLaboGroup, index) {
+    console.log(index);
+    try {
+      await this.notifi.presentAlertConfirm('prendre rendez vous ?');
+      this.notifi.presentLoading(6000);
+      let tab = [];
+      doc.analyses.forEach((cart) => {
+        let jour = '';
+        let heure = '';
+        if (this.rendezVousTab[cart.company.id]) {
+          jour = this.rendezVousTab[cart.company.id]['jour'];
+          heure = this.rendezVousTab[cart.company.id]['heure'];
+        }
+
+        tab.push({
+          analyses: cart.analyse,
+          quantity: cart.quantity,
+          totalPrice: cart.totalPrice,
+          companyId: cart.company.id,
+          companyName: cart.company.name,
+          heureRendezVous: heure,
+          jourRendezVous: jour,
+        });
+      });
+      let data = {
+        panier: tab,
+        companyId: doc.analyses[0].company.id,
+        customerId: this.customer.uid,
+      };
+      this.commandeService
+        .postCommande(data)
+        .then(() => {
+          this.notifi.dismissLoading();
+          this.notifi.presentToast(
+            'votre commande a été enregistré',
+            'success',
+            2000
+          );
+          this.Cart.splice(index, 1);
+
+          if (!this.Cart.length) {
+            setTimeout(() => {
+              this.cart.cleanCart();
+              this.modalCrtl.dismiss({ result: true });
+            }, 2500);
+          }
+        })
+        .catch((err) => {});
+    } catch (error) {}
   }
 }

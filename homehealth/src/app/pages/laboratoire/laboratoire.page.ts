@@ -9,6 +9,7 @@ import { AnalyseService } from 'src/app/services/analyse.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { FilterPage } from '../filter/filter.page';
 
 @Component({
   selector: 'app-laboratoire',
@@ -102,6 +103,20 @@ export class LaboratoirePage implements OnInit {
       this.arr.push(analyse);
     }
     console.log(this.arr);
+  }
+
+  async selectVille() {
+    const modal = await this.modalCrtl.create({
+      component: FilterPage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      console.log(data);
+
+      this.findAll();
+    });
+    return await modal.present();
   }
   findAll() {
     let objRandom = {};

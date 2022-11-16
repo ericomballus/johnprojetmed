@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { DisplaycartPage } from 'src/app/modals/displaycart/displaycart.page';
 import { Company } from 'src/app/models/company';
@@ -37,7 +38,8 @@ export class PhamarcieRecherchePage implements OnInit {
     private notifi: NotificationService,
     private commandeService: CommandesService,
     private cartService: CartService,
-    private modalCrtl: ModalController
+    private modalCrtl: ModalController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -146,8 +148,9 @@ export class PhamarcieRecherchePage implements OnInit {
     });
     modal.onDidDismiss().then((data) => {
       this.totalArticles = this.cartService.total();
-      if (data.data.result) {
-        this.location.back();
+      if (data.data && data.data.result) {
+        // this.location.back();
+        this.router.navigateByUrl('home');
       }
     });
     return await modal.present();

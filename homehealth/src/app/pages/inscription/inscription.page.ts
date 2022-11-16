@@ -24,17 +24,53 @@ export class InscriptionPage implements OnInit {
   errorMsg: string = '';
 
   error_msg = {
-    displayName: [
+    pseudo: [
       {
         type: 'required',
-        message: 'Provide user name.',
+        message: 'Provide Pseudo.',
       },
       {
         type: 'pattern',
-        message: 'Name is not valid.',
+        message: 'Pseudo is not valid.',
       },
     ],
-    /*  email: [
+    name: [
+      {
+        type: 'required',
+        message: 'Provide name.',
+      },
+      {
+        type: 'pattern',
+        message: 'name is not valid.',
+      },
+      {
+        type: 'minlength',
+        message: 'name length should be 3 characters long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'name max length should be 100 characters long.',
+      },
+    ],
+    firstName: [
+      {
+        type: 'required',
+        message: 'Provide first Name.',
+      },
+      {
+        type: 'pattern',
+        message: 'first Name is not valid.',
+      },
+      {
+        type: 'minlength',
+        message: 'first Name length should be 3 characters long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'first Name max length should be 100 characters long.',
+      },
+    ],
+    email: [
       {
         type: 'required',
         message: 'Provide email.',
@@ -43,7 +79,7 @@ export class InscriptionPage implements OnInit {
         type: 'pattern',
         message: 'Email is not valid.',
       },
-    ],*/
+    ],
     password: [
       {
         type: 'required',
@@ -76,20 +112,35 @@ export class InscriptionPage implements OnInit {
   }
   ngOnInit() {
     this.userForm = this.fb.group({
-      displayName: new FormControl(
+      firstName: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
         ])
       ),
-      /* email: new FormControl(
+      name: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
+        ])
+      ),
+      pseudo: new FormControl(
+        '',
+        Validators.compose([
+          Validators.minLength(6),
+          Validators.maxLength(200),
+          Validators.required,
+        ])
+      ),
+      email: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ])
-      ),*/
+      ),
       password: new FormControl(
         '',
         Validators.compose([
@@ -101,51 +152,61 @@ export class InscriptionPage implements OnInit {
     });
   }
 
-  signUp(forms: User) {
+  async signUp(forms: User) {
     if (this.isAdmin && this.isNewCompany) {
       this.randomStorage.setUser(forms);
       this.router.navigateByUrl('company-builder');
     } else {
       let email = '';
 
-      if (forms.displayName.split('@').length > 1) {
+      /* if (forms.displayName.split('@').length > 1) {
         this.notifi.presentToast(
           'le pseudo ne doit pas contenir le caractére @',
           'danger',
           5000
         );
         return;
-      }
+      }*/
+
       this.notifi.presentLoading(10000);
-      email = `${forms.displayName}@test.com`;
-      forms.email = email;
-      this.authService
+      /* email = `${forms.displayName}@test.com`;
+      forms.email = email;*/
+      try {
+        let UserCredential: firebase.auth.UserCredential =
+          await this.authService.RegisterUser(forms.email, forms.password);
+        this.notifi.dismissLoading();
+        UserCredential.user.sendEmailVerification().then((res) => {});
+        forms.uid = UserCredential.user.uid;
+        forms.emailVerified = UserCredential.user.emailVerified;
+        forms.photoURL = UserCredential.user.photoURL;
+        forms.roles = [4];
+        forms.consultationList = [];
+        forms.analyseList = [];
+        forms.achatList = [];
+        this.authService.StoreUserData(forms);
+        this.notifi.presentToast(
+          'félicitation votre compte a été enregistré',
+          'success',
+          3000
+        );
+        this.router.navigateByUrl('home');
+        this.errorMsg = '';
+        this.successMsg = 'New user created.';
+      } catch (error) {
+        window.alert(error.message);
+        this.errorMsg = error.message;
+        this.successMsg = '';
+      }
+      /* this.authService
         .RegisterUser(forms.email, forms.password)
         .then((UserCredential: firebase.auth.UserCredential) => {
-          this.notifi.dismissLoading();
-          UserCredential.user.sendEmailVerification().then((res) => {});
-          forms.uid = UserCredential.user.uid;
-          forms.emailVerified = UserCredential.user.emailVerified;
-          forms.photoURL = UserCredential.user.photoURL;
-          forms.roles = [4];
-          forms.consultationList = [];
-          forms.analyseList = [];
-          forms.achatList = [];
-          this.authService.StoreUserData(forms);
-          this.notifi.presentToast(
-            'félicitation votre compte a été enregistré',
-            'success',
-            3000
-          );
-          this.router.navigateByUrl('home');
-          this.errorMsg = '';
-          this.successMsg = 'New user created.';
+         
         })
         .catch((error) => {
           window.alert(error.message);
           this.errorMsg = error.message;
           this.successMsg = '';
-        });
+        });*/
     }
   }
 }

@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-searchbar
+      debounce="500"
+      animated
+      placeholder="rechercher"
+      (ionChange)="handleInput($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="listab2 && listab2.length">
+    <ion-item *ngFor="let ville of listab2">
+      <ion-label id="myitem">
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{ville.name}}
+        </h2>
+      </ion-label>
+      <ion-checkbox
+        (click)="selectVille(ville)"
+        slot="end"
+        [(ngModel)]="ville.isChecked"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <div
+    style="
+      text-align: center;
+      text-transform: uppercase;
+      background-color: white;
+      padding: 5px;
+    "
+  >
+    <h4>Selectionner une ville</h4>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let ville of villeList">
+      <ion-label>
+        <h2 style="font-weight: bold; text-transform: uppercase">
+          {{ville.name}}
+        </h2>
+      </ion-label>
+      <ion-checkbox
+        (click)="selectVille(ville)"
+        slot="end"
+        [(ngModel)]="ville.isChecked"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

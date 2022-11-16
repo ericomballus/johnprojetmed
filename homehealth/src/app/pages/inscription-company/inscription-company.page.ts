@@ -25,17 +25,53 @@ export class InscriptionCompanyPage implements OnInit {
   errorMsg: string = '';
 
   error_msg = {
-    displayName: [
+    pseudo: [
       {
         type: 'required',
-        message: 'Provide user name.',
+        message: 'Provide Pseudo.',
       },
       {
         type: 'pattern',
-        message: 'Name is not valid.',
+        message: 'Pseudo is not valid.',
       },
     ],
-    /* email: [
+    name: [
+      {
+        type: 'required',
+        message: 'Provide name.',
+      },
+      {
+        type: 'pattern',
+        message: 'name is not valid.',
+      },
+      {
+        type: 'minlength',
+        message: 'name length should be 3 characters long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'name max length should be 100 characters long.',
+      },
+    ],
+    firstName: [
+      {
+        type: 'required',
+        message: 'Provide first Name.',
+      },
+      {
+        type: 'pattern',
+        message: 'first Name is not valid.',
+      },
+      {
+        type: 'minlength',
+        message: 'first Name length should be 3 characters long.',
+      },
+      {
+        type: 'maxlength',
+        message: 'first Name max length should be 100 characters long.',
+      },
+    ],
+    email: [
       {
         type: 'required',
         message: 'Provide email.',
@@ -44,7 +80,7 @@ export class InscriptionCompanyPage implements OnInit {
         type: 'pattern',
         message: 'Email is not valid.',
       },
-    ], */
+    ],
     password: [
       {
         type: 'required',
@@ -77,20 +113,35 @@ export class InscriptionCompanyPage implements OnInit {
   }
   ngOnInit() {
     this.userForm = this.fb.group({
-      displayName: new FormControl(
+      firstName: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
         ])
       ),
-      /*  email: new FormControl(
+      name: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9_.+-].*[s]*$'),
+        ])
+      ),
+      pseudo: new FormControl(
+        '',
+        Validators.compose([
+          Validators.minLength(6),
+          Validators.maxLength(200),
+          Validators.required,
+        ])
+      ),
+      email: new FormControl(
         '',
         Validators.compose([
           Validators.required,
           Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$'),
         ])
-      ),*/
+      ),
       password: new FormControl(
         '',
         Validators.compose([
@@ -104,7 +155,7 @@ export class InscriptionCompanyPage implements OnInit {
 
   signUp(forms: User) {
     // console.log(forms);
-    forms.email = `${forms.displayName}@test.com`;
+    // forms.email = `${forms.displayName}@test.com`;
 
     if (this.isAdmin && this.isNewCompany) {
       this.randomStorage.setUser(forms);

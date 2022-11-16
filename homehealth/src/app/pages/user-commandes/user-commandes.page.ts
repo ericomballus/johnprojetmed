@@ -49,7 +49,6 @@ export class UserCommandesPage implements OnInit {
       });
       this.Docs = res;
       this.notifi.dismissLoading();
-      console.log(this.Docs);
       if (this.Docs.length == 0) {
         this.notifi.presentToast('aucune commande disponible', 'primary', 5000);
       }

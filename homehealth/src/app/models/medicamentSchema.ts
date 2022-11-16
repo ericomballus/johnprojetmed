@@ -5,8 +5,13 @@ export class MedicamentSchema {
   madeBy: string;
   purchasingPrice: number = 0;
   sellingPrice: string = '0';
+  commercialName: string = '';
+  dosageForm: string = '';
+  conditioning: string = '';
+  activeIngredient: string = '';
   avaible: boolean = false;
   quantity: string = '0';
+  equivalent: string[] = [];
   createdAt: number;
   updateAt: any;
   id: string;

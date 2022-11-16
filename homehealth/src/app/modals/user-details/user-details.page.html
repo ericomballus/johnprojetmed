@@ -30,13 +30,13 @@
   >
     <ion-item>
       <ion-label position="floating">Name</ion-label>
-      <ion-input type="text" formControlName="displayName"></ion-input>
+      <ion-input type="text" formControlName="name"></ion-input>
     </ion-item>
 
-    <ng-container *ngFor="let error of error_msg.displayName">
+    <ng-container *ngFor="let error of error_msg.name">
       <div
         class="error"
-        *ngIf="userForm.get('displayName').hasError(error.type) && (userForm.get('displayName').dirty || userForm.get('displayName').touched)"
+        *ngIf="userForm.get('name').hasError(error.type) && (userForm.get('name').dirty || userForm.get('name').touched)"
       >
         {{ error.message }}
       </div>
@@ -55,6 +55,74 @@
         {{ error.message }}
       </div>
     </ng-container>
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <div
+            class="ion-text-center ion-text-uppercase"
+            style="display: block"
+          >
+            EMPLOI DE TEMPS
+          </div>
+          <div
+            class="ion-text-center ion-text-uppercase myIcon"
+            style="display: block"
+          ></div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="header-main">
+        <ion-col size="4">
+          <div class="ion-text-center">jour</div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="ion-text-center">début</div>
+        </ion-col>
+
+        <ion-col size="4">
+          <div class="ion-text-center">Fin</div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="3"></ion-col>
+      </ion-row>
+      <ion-row
+        *ngFor="let jour of week let i = index"
+        class="data-row data-update table-row"
+        [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
+      >
+        <ion-col size="4">
+          <div class="ion-text-center">{{jour.day}}</div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="ion-text-center">
+            <ion-item>
+              <ion-label *ngIf="jour.start"
+                >{{jour.start | date: 'h:mm a'}}</ion-label
+              >
+              <ion-datetime
+                (ionChange)="getStartTime($event, jour)"
+                displayFormat="h:mm a"
+              ></ion-datetime>
+            </ion-item>
+          </div>
+        </ion-col>
+        <ion-col size="4">
+          <div class="ion-text-center">
+            <ion-item>
+              <ion-label *ngIf="jour.end"
+                >{{jour.end | date: 'h:mm a'}}</ion-label
+              >
+              <ion-datetime
+                (ionChange)="getEndTime($event, jour)"
+                displayFormat="h:mm a"
+              ></ion-datetime>
+            </ion-item>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
     <ion-button
       class="main-button"

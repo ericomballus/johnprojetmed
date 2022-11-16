@@ -17,6 +17,43 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="container">
+    <!--
+      <div id="pdfTable" #pdfTable>
+      <h2>Angular HTML To PDF Generator Example - FreakyJolly.com</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john@example.com</td>
+          </tr>
+          <tr>
+            <td>Mary</td>
+            <td>Moe</td>
+            <td>mary@example.com</td>
+          </tr>
+          <tr>
+            <td>July</td>
+            <td>Dooley</td>
+            <td>july@example.com</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="btn btn-primary" (click)="downloadAsPDF();">
+      Export To PDF
+    </button>
+   -->
+  </div>
   <div class="banner">
     <div class="child"></div>
     <div class="caption ion-padding">
@@ -33,12 +70,13 @@
 
   <div class="event-slider">
     <ion-slides
+      #slides
       [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
       class="default-left-padding"
     >
-      <ion-slide *ngFor="let company of companyList">
+      <ion-slide *ngFor="let compagne of campagneList">
         <ion-col class="ion-text-left">
-          <app-card [company]="company"></app-card>
+          <app-card [company]="compagne"></app-card>
         </ion-col>
       </ion-slide>
     </ion-slides>

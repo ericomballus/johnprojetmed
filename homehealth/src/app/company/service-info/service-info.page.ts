@@ -38,9 +38,9 @@ export class ServiceInfoPage implements OnInit {
   ngOnInit() {
     this.company = this.randomStorage.getCompany();
     this.service = this.randomStorage.getUserService();
+
     this.admin = this.randomStorage.getAdmin();
     this.getEmployeeList(this.admin.uid);
-    console.log(this.company);
     if (
       this.service.serviceResponsable &&
       this.service.serviceResponsable.length
@@ -96,13 +96,10 @@ export class ServiceInfoPage implements OnInit {
   getEmployeeList(adminId) {
     this.userService.getListEmployees(adminId).subscribe((docs: User[]) => {
       this.employeeList = docs;
-      console.log(docs);
     });
   }
 
   setSelected(ev) {
-    console.log(ev.options);
-
     let selectedValues = Array.apply(null, ev.options) // convert to real Array
       .filter((option) => option.selected)
       .map((option) => option.value);
@@ -110,7 +107,6 @@ export class ServiceInfoPage implements OnInit {
 
     let i = this.employeeList.findIndex((elt: User) => elt.uid == id);
     if (i >= 0) {
-      console.log(this.employeeList[i]);
       this.employe = this.employeeList[i];
       this.service.responsable = this.employe.displayName;
       this.service.responsableEmail = this.employe.email;
@@ -138,7 +134,7 @@ export class ServiceInfoPage implements OnInit {
     return await modal.present();
   }
 
-  async removeOne(res: User) {
+  async removeOne(res: User, i) {
     try {
       await this.notif.presentAlertConfirm(
         `Supprimer ${res.displayName} de la liste ?`

@@ -17,12 +17,16 @@ import {
 import { User } from '../models/user';
 import { BehaviorSubject } from 'rxjs';
 import { NotificationService } from './notification.service';
+import { RandomStorageService } from './random-storage.service';
 @Injectable({
   providedIn: 'root',
 })
 export class CompanyService {
   company$ = new BehaviorSubject([]);
-  constructor(private notifi: NotificationService) {}
+  constructor(
+    private notifi: NotificationService,
+    private random: RandomStorageService
+  ) {}
 
   createCompany(company: Company) {
     const db = getFirestore();
@@ -108,11 +112,13 @@ export class CompanyService {
 
   getWhoMakesAnalyse(analyseId): Promise<Company[]> {
     return new Promise((resolve, reject) => {
+      let ville = this.random.getVilleRecherche();
       const db = getFirestore();
       const colRef = collection(db, 'companies');
       const q = query(
         colRef,
-        where('allAnalyseId', 'array-contains', analyseId)
+        where('allAnalyseId', 'array-contains', analyseId),
+        where('ville', '==', ville)
       );
       getDocs(q).then((snapshot) => {
         let tab = [];
@@ -126,11 +132,13 @@ export class CompanyService {
 
   getWhoMakesService(serviceId): Promise<Company[]> {
     return new Promise((resolve, reject) => {
+      let ville = this.random.getVilleRecherche();
       const db = getFirestore();
       const colRef = collection(db, 'companies');
       const q = query(
         colRef,
-        where('allServiceListId', 'array-contains', serviceId)
+        where('allServiceListId', 'array-contains', serviceId),
+        where('ville', '==', ville)
       );
       getDocs(q).then((snapshot) => {
         let tab = [];
@@ -162,11 +170,13 @@ export class CompanyService {
 
   getWhoSaleMedicament2(medicamentId): Promise<Company[]> {
     return new Promise((resolve, reject) => {
+      let ville = this.random.getVilleRecherche();
       const db = getFirestore();
       const colRef = collection(db, 'companies');
       const q = query(
         colRef,
-        where('allMedicamentListId', 'array-contains', medicamentId)
+        where('allMedicamentListId', 'array-contains', medicamentId),
+        where('ville', '==', ville)
       );
       getDocs(q).then((snapshot) => {
         let tab = [];

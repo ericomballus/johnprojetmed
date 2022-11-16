@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>campagne-add</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating">
+        <h2>TITRE DE LA CAMPAGNE</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="titre"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" class="ion-text-wrap"> </ion-label>
+      <ion-textarea
+        rows="6"
+        cols="20"
+        placeholder="Enter any notes here..."
+        [(ngModel)]="texte"
+      ></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="ion-text-wrap">
+        <h2>photo company:</h2>
+      </ion-label>
+      <ion-input
+        name="image"
+        type="file"
+        (change)="uploadFile($event)"
+      ></ion-input>
+    </ion-item>
+  </ion-list>
+  <div *ngIf="photoURL" class="photo" style="height: 50vh">
+    <div style="height: 50vh">
+      <img [src]="photoURL" style="width: 100%" />
+    </div>
+    <div style="font-size: 2em; text-align: right; margin-top: -48vh">
+      <span (click)="resetImage()" style="padding: 20px">
+        <ion-icon color="danger" name="trash"></ion-icon>
+      </span>
+    </div>
+  </div>
+  <div style="text-align: center">
+    <ion-button
+      [disabled]="!titre && !texte"
+      (click)="createdCampagne()"
+      size="small"
+      color="primary"
+    >
+      ENREGISTRER</ion-button
+    >
+  </div>
+</ion-content>

@@ -150,7 +150,7 @@ export class CompanyBuilderPage implements OnInit {
       this.router.navigateByUrl('admin');
     } catch (error) {
       this.notifi.dismissLoading();
-      this.notifi.presentToast(`${error.message}`, 'primary', 3000);
+      this.notifi.presentToast(`${error.message}`, 'danger', 3000);
       console.log(error.message);
     }
   }

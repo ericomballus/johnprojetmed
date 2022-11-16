@@ -29,7 +29,6 @@ export class CartLaboService {
 
       this.rows.push(new CartLabo(f, company, 1));
     }
-    console.log(this.rows);
   }
 
   remove(row: CartLabo) {

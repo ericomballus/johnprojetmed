@@ -88,12 +88,28 @@
       </ion-row>
       <app-get-date-hour
         [companie]="doc"
-        (dateChange)="pickDate($event)"
-        (hourChange)="pickHour($event)"
+        (dateChange)="pickDate($event, j)"
+        (hourChange)="pickHour($event, j)"
       ></app-get-date-hour>
+
+      <ion-row *ngIf="doc.enableDay && doc.enableHour">
+        <ion-col>
+          <div class="ion-text-center">
+            <ion-button
+              expand="block"
+              color="danger"
+              (click)="commandeLabo(doc, j)"
+              >VALIDER</ion-button
+            >
+          </div>
+        </ion-col>
+      </ion-row>
     </div>
   </ion-grid>
-  <ion-button expand="block" color="success" (click)="commander()"
+
+  <!--
+    <ion-button expand="block" color="success" (click)="commander()"
     >ACHETER</ion-button
   >
+ -->
 </ion-content>

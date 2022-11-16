@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title></ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="order">
+    <ion-list-header>
+      <ion-label>CHOISIR LE TYPE DE PAIEMENT</ion-label>
+    </ion-list-header>
+
+    <ion-item *ngFor="let entry of form">
+      <ion-label>{{entry.val}}</ion-label>
+      <ion-checkbox
+        (ionChange)="selectPaiement(entry)"
+        slot="end"
+        [(ngModel)]="entry.isChecked"
+      ></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <ion-button (click)="paieAndPrint()" color="success" expand="block"
+    >Valider</ion-button
+  >
+</ion-content>

@@ -8,6 +8,7 @@ import { CompanyService } from 'src/app/services/company.service';
 import { ManageService } from 'src/app/services/manage.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { FilterPage } from '../filter/filter.page';
 
 @Component({
   selector: 'app-hopital',
@@ -30,7 +31,9 @@ export class HopitalPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.getServiceList();
+    setTimeout(() => {
+      this.getServiceList();
+    }, 500);
   }
   getServiceList() {
     // this.serviceList$ = this.manageService.getAllServices();
@@ -74,6 +77,20 @@ export class HopitalPage implements OnInit {
       this.arr.push(service);
     }
     console.log(this.arr);
+  }
+
+  async selectVille() {
+    const modal = await this.modalCrtl.create({
+      component: FilterPage,
+      componentProps: {},
+      backdropDismiss: false,
+    });
+    modal.onDidDismiss().then((data) => {
+      console.log(data);
+
+      this.findAll();
+    });
+    return await modal.present();
   }
   findAll() {
     let objRandom = {};
