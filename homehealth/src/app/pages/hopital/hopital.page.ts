@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Company } from 'src/app/models/company';
 import { ServiceSchema } from 'src/app/models/serviceSchema';
+import { User } from 'src/app/models/user';
 import { CompanyService } from 'src/app/services/company.service';
 import { ManageService } from 'src/app/services/manage.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -93,56 +94,44 @@ export class HopitalPage implements OnInit {
     return await modal.present();
   }
   findAll() {
-    let objRandom = {};
-    this.notifi.presentLoading(20000);
-    let found: any[] = [];
-    let notfound: any[] = [];
-    let cmp = 0;
-    let verificateur = false;
-    let tabl = [];
-    this.arr.forEach(async (service, index) => {
-      try {
-        let res: Company[] = await this.findService(service);
-        cmp = cmp + 1;
-        verificateur = true;
-        res.forEach((company) => {
-          const found = company.serviceList.find((a) => a.id == service.id);
-          if (found) {
-            if (!objRandom[company.name]) {
-              let tab = [];
-              tab.push(found);
-              objRandom[company.name] = { company: company, allService: tab };
-            } else {
-              objRandom[company.name].allService.push(found);
-            }
-          }
+    let customer: User = this.random.getUser();
+    if (!customer) {
+      this.notifi
+        .presentAlertConfirm('veillez crée un compte ou authentifier vous')
+        .then((r) => {
+          this.router.navigateByUrl('connexion');
+        })
+        .catch((err) => {
+          // this.location.back();
         });
-        let data = { resultat: res, queryList: this.arr[index] };
+    } else {
+      let objRandom = {};
+      this.notifi.presentLoading(20000);
+      let found: any[] = [];
+      let notfound: any[] = [];
+      let cmp = 0;
+      let verificateur = false;
+      let tabl = [];
+      this.arr.forEach(async (service, index) => {
+        try {
+          let res: Company[] = await this.findService(service);
+          cmp = cmp + 1;
+          verificateur = true;
+          res.forEach((company) => {
+            const found = company.serviceList.find((a) => a.id == service.id);
+            if (found) {
+              if (!objRandom[company.name]) {
+                let tab = [];
+                tab.push(found);
+                objRandom[company.name] = { company: company, allService: tab };
+              } else {
+                objRandom[company.name].allService.push(found);
+              }
+            }
+          });
+          let data = { resultat: res, queryList: this.arr[index] };
 
-        if (cmp == this.arr.length) {
-          for (const key in objRandom) {
-            let resutlt = {
-              name: objRandom[key]['company']['name'],
-              company: objRandom[key]['company'],
-              query: objRandom[key]['allService'],
-            };
-            tabl.push(resutlt);
-          }
-
-          this.random.setContent(tabl);
-          this.router.navigateByUrl('hopital-recherche');
-          this.notifi.dismissLoading();
-        }
-      } catch (error) {
-        cmp = cmp + 1;
-        if (cmp == this.arr.length) {
-          if (!verificateur) {
-            this.notifi.presentToast(
-              'aucun resultat pour cette recherche',
-              'dark',
-              2500
-            );
-          } else {
+          if (cmp == this.arr.length) {
             for (const key in objRandom) {
               let resutlt = {
                 name: objRandom[key]['company']['name'],
@@ -151,15 +140,39 @@ export class HopitalPage implements OnInit {
               };
               tabl.push(resutlt);
             }
-            this.random.setContent(tabl);
-            console.log('in table', tabl);
-            this.router.navigateByUrl('hopital-recherche');
 
+            this.random.setContent(tabl);
+            this.router.navigateByUrl('hopital-recherche');
             this.notifi.dismissLoading();
           }
+        } catch (error) {
+          cmp = cmp + 1;
+          if (cmp == this.arr.length) {
+            if (!verificateur) {
+              this.notifi.presentToast(
+                'aucun resultat pour cette recherche',
+                'dark',
+                2500
+              );
+            } else {
+              for (const key in objRandom) {
+                let resutlt = {
+                  name: objRandom[key]['company']['name'],
+                  company: objRandom[key]['company'],
+                  query: objRandom[key]['allService'],
+                };
+                tabl.push(resutlt);
+              }
+              this.random.setContent(tabl);
+              console.log('in table', tabl);
+              this.router.navigateByUrl('hopital-recherche');
+
+              this.notifi.dismissLoading();
+            }
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   findService(service: ServiceSchema): Promise<Company[]> {

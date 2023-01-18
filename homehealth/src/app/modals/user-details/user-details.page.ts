@@ -160,6 +160,7 @@ export class UserDetailsPage implements OnInit {
         this.week.splice(index, 1, this.objRandom[jour.day]);
       }
     });
+    this.generateArr();
   }
 
   getEndTime(ev, jour) {
@@ -178,6 +179,7 @@ export class UserDetailsPage implements OnInit {
         this.week.splice(index, 1, this.objRandom[jour.day]);
       }
     });
+    this.generateArr();
   }
 
   generateArr() {

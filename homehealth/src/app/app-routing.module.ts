@@ -175,6 +175,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'company-setting',
+    loadChildren: () =>
+      import('./pages/company-setting/company-setting.module').then(
+        (m) => m.CompanySettingPageModule
+      ),
+  },
+  {
     path: 'company-add-user',
     loadChildren: () =>
       import('./modals/company-add-user/company-add-user.module').then(
@@ -293,83 +300,137 @@ const routes: Routes = [
   },
   {
     path: 'user-home',
-    loadChildren: () => import('./pages/user-home/user-home.module').then( m => m.UserHomePageModule)
+    loadChildren: () =>
+      import('./pages/user-home/user-home.module').then(
+        (m) => m.UserHomePageModule
+      ),
   },
   {
     path: 'company-admin-rdv',
-    loadChildren: () => import('./pages/company-admin-rdv/company-admin-rdv.module').then( m => m.CompanyAdminRdvPageModule)
+    loadChildren: () =>
+      import('./pages/company-admin-rdv/company-admin-rdv.module').then(
+        (m) => m.CompanyAdminRdvPageModule
+      ),
   },
   {
     path: 'rendez-vous-details',
-    loadChildren: () => import('./pages/rendez-vous-details/rendez-vous-details.module').then( m => m.RendezVousDetailsPageModule)
+    loadChildren: () =>
+      import('./pages/rendez-vous-details/rendez-vous-details.module').then(
+        (m) => m.RendezVousDetailsPageModule
+      ),
   },
   {
     path: 'company-admin-comm',
-    loadChildren: () => import('./pages/company-admin-comm/company-admin-comm.module').then( m => m.CompanyAdminCommPageModule)
+    loadChildren: () =>
+      import('./pages/company-admin-comm/company-admin-comm.module').then(
+        (m) => m.CompanyAdminCommPageModule
+      ),
   },
   {
     path: 'displaycart',
-    loadChildren: () => import('./modals/displaycart/displaycart.module').then( m => m.DisplaycartPageModule)
+    loadChildren: () =>
+      import('./modals/displaycart/displaycart.module').then(
+        (m) => m.DisplaycartPageModule
+      ),
   },
   {
     path: 'user-commandes',
-    loadChildren: () => import('./pages/user-commandes/user-commandes.module').then( m => m.UserCommandesPageModule)
+    loadChildren: () =>
+      import('./pages/user-commandes/user-commandes.module').then(
+        (m) => m.UserCommandesPageModule
+      ),
   },
   {
     path: 'display-labo-cart',
-    loadChildren: () => import('./modals/display-labo-cart/display-labo-cart.module').then( m => m.DisplayLaboCartPageModule)
+    loadChildren: () =>
+      import('./modals/display-labo-cart/display-labo-cart.module').then(
+        (m) => m.DisplayLaboCartPageModule
+      ),
   },
   {
     path: 'user-commande-labo',
-    loadChildren: () => import('./pages/user-commande-labo/user-commande-labo.module').then( m => m.UserCommandeLaboPageModule)
+    loadChildren: () =>
+      import('./pages/user-commande-labo/user-commande-labo.module').then(
+        (m) => m.UserCommandeLaboPageModule
+      ),
   },
   {
     path: 'company-analyse-comm',
-    loadChildren: () => import('./pages/company-analyse-comm/company-analyse-comm.module').then( m => m.CompanyAnalyseCommPageModule)
+    loadChildren: () =>
+      import('./pages/company-analyse-comm/company-analyse-comm.module').then(
+        (m) => m.CompanyAnalyseCommPageModule
+      ),
   },
   {
     path: 'service-details',
-    loadChildren: () => import('./modals/service-details/service-details.module').then( m => m.ServiceDetailsPageModule)
+    loadChildren: () =>
+      import('./modals/service-details/service-details.module').then(
+        (m) => m.ServiceDetailsPageModule
+      ),
   },
   {
     path: 'pick-employe',
-    loadChildren: () => import('./modals/pick-employe/pick-employe.module').then( m => m.PickEmployePageModule)
+    loadChildren: () =>
+      import('./modals/pick-employe/pick-employe.module').then(
+        (m) => m.PickEmployePageModule
+      ),
   },
   {
     path: 'user-details',
-    loadChildren: () => import('./modals/user-details/user-details.module').then( m => m.UserDetailsPageModule)
+    loadChildren: () =>
+      import('./modals/user-details/user-details.module').then(
+        (m) => m.UserDetailsPageModule
+      ),
   },
   {
     path: 'confirm',
-    loadChildren: () => import('./modals/confirm/confirm.module').then( m => m.ConfirmPageModule)
+    loadChildren: () =>
+      import('./modals/confirm/confirm.module').then(
+        (m) => m.ConfirmPageModule
+      ),
   },
   {
     path: 'campagne-list',
-    loadChildren: () => import('./campagne/campagne-list/campagne-list.module').then( m => m.CampagneListPageModule)
+    loadChildren: () =>
+      import('./campagne/campagne-list/campagne-list.module').then(
+        (m) => m.CampagneListPageModule
+      ),
   },
   {
     path: 'campagne-display',
-    loadChildren: () => import('./campagne/campagne-display/campagne-display.module').then( m => m.CampagneDisplayPageModule)
+    loadChildren: () =>
+      import('./campagne/campagne-display/campagne-display.module').then(
+        (m) => m.CampagneDisplayPageModule
+      ),
   },
   {
     path: 'campagne-add',
-    loadChildren: () => import('./campagne/campagne-add/campagne-add.module').then( m => m.CampagneAddPageModule)
+    loadChildren: () =>
+      import('./campagne/campagne-add/campagne-add.module').then(
+        (m) => m.CampagneAddPageModule
+      ),
   },
   {
     path: 'villes',
-    loadChildren: () => import('./villes/villes.module').then( m => m.VillesPageModule)
+    loadChildren: () =>
+      import('./villes/villes.module').then((m) => m.VillesPageModule),
   },
   {
     path: 'service',
-    loadChildren: () => import('./service/service.module').then( m => m.ServicePageModule)
+    loadChildren: () =>
+      import('./service/service.module').then((m) => m.ServicePageModule),
   },
   {
     path: 'filter',
-    loadChildren: () => import('./pages/filter/filter.module').then( m => m.FilterPageModule)
+    loadChildren: () =>
+      import('./pages/filter/filter.module').then((m) => m.FilterPageModule),
   },
   {
     path: 'medicament-details',
-    loadChildren: () => import('./modals/medicament-details/medicament-details.module').then( m => m.MedicamentDetailsPageModule)
+    loadChildren: () =>
+      import('./modals/medicament-details/medicament-details.module').then(
+        (m) => m.MedicamentDetailsPageModule
+      ),
   },
 ];
 

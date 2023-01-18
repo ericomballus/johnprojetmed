@@ -47,13 +47,19 @@ export class PhamarcieRecherchePage implements OnInit {
     this.tab = this.random.getContent();
     this.customer = this.randomStorage.getUser();
     if (!this.customer) {
-      this.notifi.presentAlertConfirm(
-        'veillez crée un compte ou authentifier vous'
-      );
-      this.location.back();
+      this.notifi
+        .presentAlertConfirm('veillez crée un compte ou authentifier vous')
+        .then((r) => {
+          this.router.navigateByUrl('connexion');
+        })
+        .catch((err) => {
+          this.location.back();
+        });
     }
     // this.result = this.randomStorage.getData();
-    console.log(this.tab);
+    if (this.tab && this.tab.length) {
+      this.tab = this.tab.filter((c) => c.company.companyType != 'hopital');
+    }
     // this.tab.forEach((elt) => {});
     /* this.groupeByService.groupResultatRecherhce(this.tab).then((res) => {
       console.log(res);
@@ -84,6 +90,10 @@ export class PhamarcieRecherchePage implements OnInit {
       );
       this.notifi.dismissLoading();
     });
+  }
+  viewDetail(c: Doc, medicament: MedicamentSchema) {
+    console.log(medicament);
+    medicament.display = !medicament.display;
   }
   addToCart(doc: Doc, medicament: MedicamentSchema) {
     console.log(doc);
@@ -154,5 +164,13 @@ export class PhamarcieRecherchePage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  displayMap(company: Company) {
+    console.log(company);
+    window.open(
+      'https://www.google.com/maps/dir//Lab+Yaounde+(LabY),+BP+11561,+Carrefour+Ancien+B%C3%A2timents,+B%C3%A2timent+E01+Cite+Verte,+Yaound%C3%A9/@3.8755946,11.4884294,16.5z/data=!4m8!4m7!1m0!1m5!1m1!1s0x108bcf0f1142bd29:0x8d7566ef879b60e2!2m2!1d11.4921367!2d3.8755874',
+      '_system'
+    );
   }
 }

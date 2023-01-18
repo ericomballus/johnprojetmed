@@ -28,8 +28,9 @@ export class CompanyAdminPage implements OnInit {
 
   ngOnInit() {
     this.user = this.randomStorage.getAdmin();
-    this.companie = this.randomStorage.getCompany();
-    console.log(this.companie);
+    this.randomStorage.getCompanySubject().subscribe((c: Company) => {
+      this.companie = c;
+    });
   }
   displayEmploye() {
     this.router.navigateByUrl('company-users');
@@ -45,9 +46,9 @@ export class CompanyAdminPage implements OnInit {
   }
   companySetting() {
     console.log(this.randomStorage.getCompany());
+    this.router.navigateByUrl('company-setting');
   }
   getRendezVous() {
-    console.log(this.companie);
     if (this.companie.companyType == 'laboratoire') {
       this.router.navigateByUrl('company-analyse-comm');
     } else {

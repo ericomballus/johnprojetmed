@@ -7,7 +7,7 @@ import { MedicamentSchema } from 'src/app/models/medicamentSchema';
   styleUrls: ['./product-info.component.scss'],
 })
 export class ProductInfoComponent implements OnInit {
-  @Input() public medicament: MedicamentSchema;
+  @Input() public medicament: any;
 
   constructor() {}
 

@@ -31,13 +31,13 @@
 
       <ion-item *ngFor="let service of doc.query">
         <ion-label>
-          <h3>{{service.name}}</h3>
+          <h3 style="text-transform: uppercase">{{service.name}}</h3>
         </ion-label>
         <ion-button
           (click)="displayDetails(doc.company, service)"
           fill="clear"
           slot="end"
-          >Détails</ion-button
+          >{{ 'MENU.rdv' | translate}}</ion-button
         >
       </ion-item>
     </ion-list>

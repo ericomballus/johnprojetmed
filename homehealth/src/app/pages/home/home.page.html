@@ -6,7 +6,7 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title> HOMEHEALTH </ion-title>
+    <ion-title> </ion-title>
 
     <ion-buttons slot="end">
       <ion-button>
@@ -17,55 +17,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="container">
-    <!--
-      <div id="pdfTable" #pdfTable>
-      <h2>Angular HTML To PDF Generator Example - FreakyJolly.com</h2>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john@example.com</td>
-          </tr>
-          <tr>
-            <td>Mary</td>
-            <td>Moe</td>
-            <td>mary@example.com</td>
-          </tr>
-          <tr>
-            <td>July</td>
-            <td>Dooley</td>
-            <td>july@example.com</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <button class="btn btn-primary" (click)="downloadAsPDF();">
-      Export To PDF
-    </button>
-   -->
-  </div>
   <div class="banner">
     <div class="child"></div>
     <div class="caption ion-padding">
-      welcome to <br />
+      {{ 'MENU.welcome' | translate}}
+      <br />
       Home health
     </div>
   </div>
-
-  <div class="title">
-    <h2>Popular Search</h2>
-
-    <p>See all</p>
+  <div class="title" *ngIf="campagneList.length">
+    <h2>Info:</h2>
   </div>
 
   <div class="event-slider">
@@ -74,31 +35,30 @@
       [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }"
       class="default-left-padding"
     >
-      <ion-slide *ngFor="let compagne of campagneList">
+      <ion-slide *ngFor="let campagne of campagneList">
         <ion-col class="ion-text-left">
-          <app-card [company]="compagne"></app-card>
+          <app-card [company]="campagne"></app-card>
         </ion-col>
       </ion-slide>
     </ion-slides>
   </div>
 
   <div class="title">
-    <h2>Rubriques</h2>
-
-    <p>See all</p>
+    <h2>{{ 'MENU.rubriques' | translate}}</h2>
   </div>
 
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let categorie of categorieList">
         <app-choice
-          [queryName]="categorie"
+          [name]="categorie"
           (valueChange)="pickValue($event)"
         ></app-choice>
       </ion-col>
     </ion-row>
   </ion-grid>
-  <div class="default-top-padding title">
+  <!--
+    <div class="default-top-padding title">
     <h2>Live right now</h2>
 
     <p>See all</p>
@@ -140,4 +100,5 @@
       </div>
     </div>
   </div>
+  -->
 </ion-content>

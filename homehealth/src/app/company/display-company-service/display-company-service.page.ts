@@ -51,7 +51,16 @@ export class DisplayCompanyServicePage implements OnInit {
     });
     return await modal.present();*/
   }
-  async displayInfo(service) {
+  async displayInfo(service: ServiceSchema) {
+    if (!service.priceHome) {
+      service.priceHome = '0';
+    }
+    if (!service.priceHospitalization) {
+      service.priceHospitalization = '0';
+    }
+    if (!service.consultationTime) {
+      service.consultationTime = '0';
+    }
     this.randomStorage.setUserService(service);
     await this.modal.ouvreLaPage(ServiceInfoPage);
     this.company = this.randomStorage.getCompany();

@@ -30,6 +30,7 @@ export class ServiceDetailsPage implements OnInit {
     this.hopital = this.random.getCompany();
     this.service = this.random.getData();
     this.customer = this.random.getUser();
+
     if (
       this.service.serviceResponsable &&
       this.service.serviceResponsable.length
@@ -69,22 +70,17 @@ export class ServiceDetailsPage implements OnInit {
   }
 
   pickDate(ev) {
-    console.log(ev);
     this.rendezVousTab['jour'] = ev.jour;
-    console.log(this.rendezVousTab);
   }
   pickHour(ev) {
-    console.log(ev);
-
     this.rendezVousTab['heure'] = ev.heure;
-    console.log(this.rendezVousTab);
   }
 
   valider() {
     this.notifi.presentLoading(10000);
     let rdv = {
       companyId: this.hopital.id,
-      serviceName: this.customer.displayName,
+      serviceName: this.service.name,
       serviceId: this.service.id,
       jour: this.rendezVousTab.jour,
       heure: this.rendezVousTab.heure,

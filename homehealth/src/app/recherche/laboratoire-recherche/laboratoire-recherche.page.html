@@ -27,23 +27,51 @@
     <ion-list>
       <ion-list-header>
         <ion-label> {{doc.name}}</ion-label>
-      </ion-list-header>
-      <ion-item *ngFor="let analyse of doc.query">
-        <ion-label>
-          <h2 style="font-size: 10px">{{analyse.name}}</h2>
-          <h3>prix: {{analyse.price}}CFA</h3>
-          <h5>délai: {{analyse.delai}}</h5>
-          <h5>condition: {{analyse.conditionPrelevement}}</h5>
-        </ion-label>
-        <ion-button
-          slot="end"
-          color="primary"
-          (click)="addToCart(doc, analyse)"
-        >
-          <ion-icon name="cart-outline" slot="end"></ion-icon>
-          Ajouter au panier
+        <ion-button fill="clear" (click)="displayMap(doc.company)">
+          localisation
+          <ion-icon
+            style="color: var(--ion-color-danger)"
+            name="location-outline"
+          ></ion-icon>
         </ion-button>
-      </ion-item>
+      </ion-list-header>
+      <div *ngFor="let analyse of doc.query">
+        <ion-item>
+          <ion-label>
+            <h2 style="font-size: 10px">{{analyse.name}}</h2>
+            <h3>prix: {{analyse.price}}CFA</h3>
+          </ion-label>
+          <ion-button
+            slot="end"
+            color="success"
+            (click)="viewDetail(doc.query, analyse)"
+            size="small"
+          >
+            details
+          </ion-button>
+          <ion-button
+            slot="end"
+            color="primary"
+            (click)="addToCart(doc, analyse)"
+          >
+            <ion-icon name="cart-outline" slot="end"></ion-icon>
+            Commander
+          </ion-button>
+        </ion-item>
+        <div *ngIf="analyse.display">
+          <div class="card">
+            <h1>{{analyse.name}}</h1>
+            <p class="price">{{analyse.price}} FCFA</p>
+            <p>DELAI: {{analyse.delai}}</p>
+            <p>CONDITION: {{analyse.conditionPrelevement}}</p>
+            <p>
+              <button (click)="addToCart(doc, analyse)">
+                Ajouter au panier
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
     </ion-list>
   </div>
 </ion-content>

@@ -6,6 +6,7 @@ import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
 import { ShareModule } from 'src/app/share.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ShareModule } from 'src/app/share.module';
     IonicModule,
     HomePageRoutingModule,
     ShareModule,
+    TranslateModule.forChild(),
   ],
   declarations: [HomePage],
 })

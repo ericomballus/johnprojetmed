@@ -4,6 +4,7 @@ import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Company } from 'src/app/models/company';
 import { MedicamentSchema } from 'src/app/models/medicamentSchema';
+import { User } from 'src/app/models/user';
 import { CompanyService } from 'src/app/services/company.service';
 import { MedicamentService } from 'src/app/services/medicament.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -112,49 +113,62 @@ export class PharmaciePage implements OnInit {
     return await modal.present();
   }
   async findAll() {
-    let objRandom = {};
-    this.notifi.presentLoading(20000);
-    let tab = [];
-    let recherche = [];
-    this.arr.forEach(async (medoc, index) => {
-      console.log(index);
+    let customer: User = this.random.getUser();
 
-      let result: Company[] = await this.companyService.getWhoSaleMedicament2(
-        medoc.id
-      );
-      if (result.length) {
-        result.forEach((company) => {
-          const found = company.medicamentList.find((r) => r.id == medoc.id);
-          if (found) {
-            if (!objRandom[company.name]) {
-              let tab = [];
-              tab.push(found);
-              objRandom[company.name] = { company: company, medicament: tab };
-            } else {
-              objRandom[company.name].medicament.push(found);
-            }
-          }
+    if (!customer) {
+      this.notifi
+        .presentAlertConfirm('veillez crée un compte ou authentifier vous')
+        .then((r) => {
+          this.router.navigateByUrl('connexion');
+        })
+        .catch((err) => {
+          // this.location.back();
         });
-      }
-      let data = { resultat: result, medicament: this.arr[index] };
-      this.arrOfPromise.push(data);
+    } else {
+      let objRandom = {};
+      this.notifi.presentLoading(20000);
+      let tab = [];
+      let recherche = [];
+      this.arr.forEach(async (medoc, index) => {
+        console.log(index);
 
-      if (this.arr.length == this.arrOfPromise.length) {
-        let tab = [];
-        for (const key in objRandom) {
-          let resutlt = {
-            name: objRandom[key]['company']['name'],
-            company: objRandom[key]['company'],
-            medicament: objRandom[key]['medicament'],
-          };
-          tab.push(resutlt);
+        let result: Company[] = await this.companyService.getWhoSaleMedicament2(
+          medoc.id
+        );
+        if (result.length) {
+          result.forEach((company) => {
+            const found = company.medicamentList.find((r) => r.id == medoc.id);
+            if (found) {
+              if (!objRandom[company.name]) {
+                let tab = [];
+                tab.push(found);
+                objRandom[company.name] = { company: company, medicament: tab };
+              } else {
+                objRandom[company.name].medicament.push(found);
+              }
+            }
+          });
         }
+        let data = { resultat: result, medicament: this.arr[index] };
+        this.arrOfPromise.push(data);
 
-        this.random.setContent(tab);
-        this.router.navigateByUrl('phamarcie-recherche');
-        this.notifi.dismissLoading();
-      }
-    });
+        if (this.arr.length == this.arrOfPromise.length) {
+          let tab = [];
+          for (const key in objRandom) {
+            let resutlt = {
+              name: objRandom[key]['company']['name'],
+              company: objRandom[key]['company'],
+              medicament: objRandom[key]['medicament'],
+            };
+            tab.push(resutlt);
+          }
+
+          this.random.setContent(tab);
+          this.router.navigateByUrl('phamarcie-recherche');
+          this.notifi.dismissLoading();
+        }
+      });
+    }
   }
 
   loadData(event) {

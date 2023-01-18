@@ -20,7 +20,7 @@
     <ion-item>
       <ion-icon slot="start" name="pricetag"></ion-icon>
       <ion-label position="floating">
-        <h2>Nom</h2>
+        <h2>Service:</h2>
       </ion-label>
       <ion-input [(ngModel)]="service.name"></ion-input>
     </ion-item>
@@ -28,9 +28,31 @@
     <ion-item>
       <ion-icon slot="start" name="pricetag"></ion-icon>
       <ion-label position="floating" class="ion-text-wrap">
-        <h2>Cout Consultation</h2>
+        <h2>Cout Consultation sur site:</h2>
       </ion-label>
       <ion-input [(ngModel)]="service.price"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Cout Consultation domicile:</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="service.priceHome"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>Cout Hospitalisation:</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="service.priceHospitalization"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="pricetag"></ion-icon>
+      <ion-label position="floating" class="ion-text-wrap">
+        <h2>temps moyen consultation:</h2>
+      </ion-label>
+      <ion-input [(ngModel)]="service.consultationTime"></ion-input>
     </ion-item>
   </ion-list>
   <!--

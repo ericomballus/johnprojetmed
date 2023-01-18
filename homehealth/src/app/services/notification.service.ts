@@ -51,7 +51,7 @@ export class NotificationService {
     return new Promise(async (resolve, reject) => {
       const alert = await this.alertController.create({
         cssClass: 'my-custom-class',
-        header: 'WARNING!',
+        header: 'ATTENTION!',
         message: msg,
         buttons: [
           {

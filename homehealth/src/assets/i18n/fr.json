@@ -6,6 +6,14 @@
     "signup": "Inscrivez-vous",
     "team": "Home Health",
     "logout": "Déconnexion",
-    "account": "Mon Compte"
+    "account": "Mon Compte",
+    "welcome": "Bienvenue",
+    "pharmacie": "pharmacie",
+    "hopital": "hopital",
+    "laboratoire": "laboratoire",
+    "conseil santé": "conseil santé",
+    "mon porte monnaie": "mon porte monnaie",
+    "rubriques": "rubriques",
+    "rdv": "Prendre un rendez vous"
   }
 }

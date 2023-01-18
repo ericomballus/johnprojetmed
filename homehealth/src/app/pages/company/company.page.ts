@@ -35,12 +35,9 @@ export class CompanyPage implements OnInit {
   }
 
   setSelected(options) {
-    console.log(options);
     let selectedValues = Array.apply(null, options) // convert to real Array
       .filter((option) => option.selected)
       .map((option) => option.value);
-
-    console.log(selectedValues);
   }
 
   async getCompany() {
@@ -54,7 +51,6 @@ export class CompanyPage implements OnInit {
         return r;
       }, {});
 */
-      console.log(this.companyList);
 
       this.notifi.dismissLoading();
       const result = this.groupBy(this.companyList, (c) => c.companyType);

@@ -9,6 +9,7 @@ import { CampagneSchema } from 'src/app/models/campaneSchema';
 import { NotificationService } from 'src/app/services/notification.service';
 import { TownService } from 'src/app/services/town.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { TranslateConfigService } from 'src/app/translate-config.service';
 /*
 declare var require: any;
 
@@ -38,12 +39,12 @@ export class HomePage {
     'mon porte monnaie',
   ];
   companyList = [
-    {
+    /* {
       name: 'hopital cité verte',
       service: ['pediatrie', 'ophtamologie', 'chirugie'],
     },
     { name: 'laboratoire etoudi', service: ['', '', ''] },
-    { name: 'pharmacie essono', service: [] },
+    { name: 'pharmacie essono', service: [] },*/
   ];
   constructor(
     private menu: MenuController,
@@ -52,14 +53,23 @@ export class HomePage {
     private campService: CampagneService,
     private notifi: NotificationService,
     private town: TownService,
-    private random: RandomStorageService
+    private random: RandomStorageService,
+    private translateConfigService: TranslateConfigService
   ) {
     this.menu.enable(true, 'first');
     // this.loadPosition();
   }
   ngOnInit() {
+    this.languageChanged();
     this.getCampagneList();
     this.getVille();
+  }
+
+  languageChanged() {
+    let lang = localStorage.getItem('language');
+    if (lang) {
+      this.translateConfigService.setLanguage(lang);
+    }
   }
 
   pickValue(ev) {
@@ -118,10 +128,8 @@ export class HomePage {
     //  this.notifi.presentLoading(40000);
     try {
       this.campagneList = await this.campService.getAllCampagne();
-
       console.log(this.campagneList);
       this.ionSlides.startAutoplay();
-
       let arr = [];
     } catch (error) {}
   }

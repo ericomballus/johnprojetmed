@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Analyse } from '../models/analyseSchema';
 import { Company } from '../models/company';
 import { MedicamentSchema } from '../models/medicamentSchema';
@@ -14,6 +15,7 @@ export class RandomStorageService {
   employeList: User[];
   serviceResponsables: User[];
   company: Company;
+  comanySubject = new BehaviorSubject({});
   content: any;
   admin: User;
   medicament: MedicamentSchema;
@@ -48,9 +50,13 @@ export class RandomStorageService {
   }
   setCompany(company: Company) {
     this.company = company;
+    this.comanySubject.next(company);
   }
   getCompany() {
     return this.company;
+  }
+  getCompanySubject() {
+    return this.comanySubject;
   }
   setContent(content) {
     this.content = content;

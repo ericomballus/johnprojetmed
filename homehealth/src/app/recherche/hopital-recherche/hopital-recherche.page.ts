@@ -8,6 +8,7 @@ import { ServiceSchema } from 'src/app/models/serviceSchema';
 import { User } from 'src/app/models/user';
 import { NotificationService } from 'src/app/services/notification.service';
 import { RandomStorageService } from 'src/app/services/random-storage.service';
+import { TranslateConfigService } from 'src/app/translate-config.service';
 
 @Component({
   selector: 'app-hopital-recherche',
@@ -22,7 +23,8 @@ export class HopitalRecherchePage implements OnInit {
     public alertController: AlertController,
     public modalController: ModalController,
     private location: Location,
-    private notifi: NotificationService
+    private notifi: NotificationService,
+    private translateConfigService: TranslateConfigService
   ) {}
 
   ngOnInit() {
@@ -34,7 +36,14 @@ export class HopitalRecherchePage implements OnInit {
       this.location.back();
     }
     this.resultat = this.random.getContent();
-    console.log(this.resultat);
+    this.languageChanged();
+  }
+
+  languageChanged() {
+    let lang = localStorage.getItem('language');
+    if (lang) {
+      this.translateConfigService.setLanguage(lang);
+    }
   }
 
   commander(result) {

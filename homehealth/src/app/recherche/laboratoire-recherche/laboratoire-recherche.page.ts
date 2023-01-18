@@ -35,6 +35,11 @@ export class LaboratoireRecherchePage implements OnInit {
   ngOnInit() {
     this.resultat = this.random.getContent();
     console.log(this.resultat);
+    if (this.resultat && this.resultat.length) {
+      this.resultat = this.resultat.filter(
+        (c) => c.company.companyType != 'hopital'
+      );
+    }
 
     this.customer = this.random.getUser();
     if (!this.customer) {
@@ -94,9 +99,24 @@ export class LaboratoireRecherchePage implements OnInit {
     modal.onDidDismiss().then((data) => {
       this.totalArticles = this.cart.total();
       if (data.data && data.data.result) {
+        this.cart.cleanCart();
         this.location.back();
       }
     });
     return await modal.present();
+  }
+
+  viewDetail(doc: any, analyse: any) {
+    console.log(analyse);
+    console.log(analyse);
+    analyse.display = !analyse.display;
+  }
+
+  displayMap(company: Company) {
+    console.log(company);
+    window.open(
+      'https://www.google.com/maps/dir//Lab+Yaounde+(LabY),+BP+11561,+Carrefour+Ancien+B%C3%A2timents,+B%C3%A2timent+E01+Cite+Verte,+Yaound%C3%A9/@3.8755946,11.4884294,16.5z/data=!4m8!4m7!1m0!1m5!1m1!1s0x108bcf0f1142bd29:0x8d7566ef879b60e2!2m2!1d11.4921367!2d3.8755874',
+      '_system'
+    );
   }
 }

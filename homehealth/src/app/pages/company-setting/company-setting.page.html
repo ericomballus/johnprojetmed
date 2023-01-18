@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        color="success"
+        fill="outline"
+        fill="clear"
+        (click)="update()"
+      >
+        mettre a jour
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <img src="{{ company.logoURL }}" />
+
+    <ion-item lines="full">
+      <ion-icon slot="end" name="person-circle-outline"></ion-icon>
+      <ion-label
+        style="font-weight: bold; text-transform: uppercase"
+        position="floating"
+      >
+        Name
+      </ion-label>
+      <ion-input [(ngModel)]="company.name" type="text" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-icon slot="end" name="call"></ion-icon>
+      <ion-label
+        style="font-weight: bold; text-transform: uppercase"
+        position="floating"
+        >Telephone</ion-label
+      >
+      <ion-input
+        [(ngModel)]="company.telephone"
+        type="text"
+        required
+      ></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-icon slot="end" name="map-outline"></ion-icon>
+      <ion-label
+        style="font-weight: bold; text-transform: uppercase"
+        position="floating"
+        >Email</ion-label
+      >
+      <ion-input [(ngModel)]="company.email" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-icon slot="end" name="home"></ion-icon>
+      <ion-label
+        style="font-weight: bold; text-transform: uppercase"
+        position="floating"
+        >ville</ion-label
+      >
+      <ion-input [(ngModel)]="company.ville" required></ion-input>
+    </ion-item>
+  </ion-card>
+
+  <div>
+    <ion-item>
+      <ion-label>Choisir la ville</ion-label>
+      <ion-select
+        interface="popover"
+        placeholder="ville"
+        (ionChange)="getVilleName($event)"
+      >
+        <ion-select-option
+          value="{{ville.name}}"
+          *ngFor="let ville of villeList"
+          >{{ville.name}}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+  </div>
+</ion-content>

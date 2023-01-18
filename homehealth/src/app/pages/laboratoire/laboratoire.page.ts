@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { DisplayLaboratoirePage } from 'src/app/modals/display-laboratoire/display-laboratoire.page';
 import { Analyse } from 'src/app/models/analyseSchema';
 import { Company } from 'src/app/models/company';
+import { User } from 'src/app/models/user';
 import { AnalyseService } from 'src/app/services/analyse.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { NotificationService } from 'src/app/services/notification.service';
@@ -56,7 +57,6 @@ export class LaboratoirePage implements OnInit {
       this.notifi.dismissLoading();
       this.analyseService.selectAllAnalyse2([]).then((result: any[]) => {
         this.listTab = result;
-        console.log('all analyse liste here', result);
       });
     });
   }
@@ -119,61 +119,48 @@ export class LaboratoirePage implements OnInit {
     return await modal.present();
   }
   findAll() {
-    let objRandom = {};
-    this.notifi.presentLoading(20000);
-    let found: any[] = [];
-    let notfound: any[] = [];
-    let cmp = 0;
-    let verificateur = false;
-    let tabl = [];
-    this.arr.forEach(async (analyse, index) => {
-      // found.push(this.findAnalyse(analyse))
-      try {
-        let res: Company[] = await this.findAnalyse(analyse);
-        console.log('=====>', res);
-        cmp = cmp + 1;
-        verificateur = true;
-        res.forEach((company) => {
-          const found = company.analyseList.find((a) => a.id == analyse.id);
-          if (found) {
-            if (!objRandom[company.name]) {
-              let tab = [];
-              tab.push(found);
-              objRandom[company.name] = { company: company, allAnalyse: tab };
-            } else {
-              objRandom[company.name].allAnalyse.push(found);
-            }
-          }
+    let customer: User = this.random.getUser();
+    if (!customer) {
+      this.notifi
+        .presentAlertConfirm('veillez crée un compte ou authentifier vous')
+        .then((r) => {
+          this.router.navigateByUrl('connexion');
+        })
+        .catch((err) => {
+          // this.location.back();
         });
-        let data = { resultat: res, analyseList: this.arr[index] };
+    } else {
+      let objRandom = {};
+      this.notifi.presentLoading(20000);
+      let found: any[] = [];
+      let notfound: any[] = [];
+      let cmp = 0;
+      let verificateur = false;
+      let tabl = [];
+      this.arr.forEach(async (analyse, index) => {
+        // found.push(this.findAnalyse(analyse))
+        try {
+          let res: Company[] = await this.findAnalyse(analyse);
 
-        if (cmp == this.arr.length) {
-          console.log(objRandom);
-          console.log(tabl);
-          for (const key in objRandom) {
-            let resutlt = {
-              name: objRandom[key]['company']['name'],
-              company: objRandom[key]['company'],
-              query: objRandom[key]['allAnalyse'],
-            };
-            tabl.push(resutlt);
-          }
+          cmp = cmp + 1;
+          verificateur = true;
+          res.forEach((company) => {
+            const found = company.analyseList.find((a) => a.id == analyse.id);
+            if (found) {
+              if (!objRandom[company.name]) {
+                let tab = [];
+                tab.push(found);
+                objRandom[company.name] = { company: company, allAnalyse: tab };
+              } else {
+                objRandom[company.name].allAnalyse.push(found);
+              }
+            }
+          });
+          let data = { resultat: res, analyseList: this.arr[index] };
 
-          this.random.setContent(tabl);
-          this.router.navigateByUrl('laboratoire-recherche');
-          this.notifi.dismissLoading();
-        }
-      } catch (error) {
-        console.log(error);
-        cmp = cmp + 1;
-        if (cmp == this.arr.length) {
-          if (!verificateur) {
-            this.notifi.presentToast(
-              'aucun resultat pour cette recherche',
-              'dark',
-              2500
-            );
-          } else {
+          if (cmp == this.arr.length) {
+            console.log(objRandom);
+            console.log(tabl);
             for (const key in objRandom) {
               let resutlt = {
                 name: objRandom[key]['company']['name'],
@@ -182,15 +169,40 @@ export class LaboratoirePage implements OnInit {
               };
               tabl.push(resutlt);
             }
-            this.random.setContent(tabl);
-            console.log('in table', tabl);
-            this.router.navigateByUrl('laboratoire-recherche');
 
+            this.random.setContent(tabl);
+            this.router.navigateByUrl('laboratoire-recherche');
             this.notifi.dismissLoading();
           }
+        } catch (error) {
+          console.log(error);
+          cmp = cmp + 1;
+          if (cmp == this.arr.length) {
+            if (!verificateur) {
+              this.notifi.presentToast(
+                'aucun resultat pour cette recherche',
+                'dark',
+                2500
+              );
+            } else {
+              for (const key in objRandom) {
+                let resutlt = {
+                  name: objRandom[key]['company']['name'],
+                  company: objRandom[key]['company'],
+                  query: objRandom[key]['allAnalyse'],
+                };
+                tabl.push(resutlt);
+              }
+              this.random.setContent(tabl);
+              console.log('in table', tabl);
+              this.router.navigateByUrl('laboratoire-recherche');
+
+              this.notifi.dismissLoading();
+            }
+          }
         }
-      }
-    });
+      });
+    }
   }
   findAnalyse(analys: Analyse): Promise<Company[]> {
     return new Promise((resolve, reject) => {

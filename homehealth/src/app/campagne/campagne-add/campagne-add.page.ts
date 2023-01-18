@@ -44,7 +44,6 @@ export class CampagneAddPage implements OnInit {
             this.notifi.dismissLoading();
             let msg = 'campagne enregistrée!';
             this.notifi.presentToast(`${msg}`, 'primary', 3000);
-            console.log(res);
           })
           .catch((err) => {});
       } catch (error) {

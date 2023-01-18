@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { HopitalRecherchePageRoutingModule } from './hopital-recherche-routing.module';
 
 import { HopitalRecherchePage } from './hopital-recherche.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HopitalRecherchePageRoutingModule
+    HopitalRecherchePageRoutingModule,
+    TranslateModule.forChild(),
   ],
-  declarations: [HopitalRecherchePage]
+  declarations: [HopitalRecherchePage],
 })
 export class HopitalRecherchePageModule {}

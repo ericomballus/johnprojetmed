@@ -22,6 +22,7 @@ export class MedicamentSchema {
   unity: string;
   size: number;
   typeMedicament: string; //solid, liquide, sirop, gelule
+  display: boolean = false;
   constructor(name, madeBy, categorie, size, unity, typeMedicament) {
     this.name = name;
     this.madeBy = madeBy;

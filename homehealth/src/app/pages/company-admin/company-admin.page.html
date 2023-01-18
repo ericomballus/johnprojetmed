@@ -77,6 +77,7 @@
         size="3"
         class="ion-align-self-center"
         (click)="displayMedicament()"
+        *ngIf="companie.companyType == 'pharmacie'"
       >
         <div class="ion-text-center" class="btnfooter">
           <ion-button fill="clear">
@@ -92,7 +93,7 @@
         </div>
       </ion-col>
       <ion-col
-        *ngIf="companie.companyType !== 'pharmacie'"
+        *ngIf="companie.companyType == 'laboratoire'"
         size="3"
         class="ion-align-self-center"
         (click)="displayAnalyse()"

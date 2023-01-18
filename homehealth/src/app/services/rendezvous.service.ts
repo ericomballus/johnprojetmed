@@ -34,6 +34,8 @@ export class RendezvousService {
     const colRef = collection(db, 'rendezVous');
     data['createdAt'] = new Date().getTime();
     data['updateAt'] = serverTimestamp();
+    console.log(data);
+
     return new Promise(async (resolve, reject) => {
       try {
         await addDoc(colRef, data);

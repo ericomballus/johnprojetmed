@@ -27,24 +27,64 @@
     <ion-list>
       <ion-list-header>
         <ion-label>PHARMACIE {{doc.name}}</ion-label>
-      </ion-list-header>
-      <ion-item *ngFor="let medicament of doc.medicament">
-        <ion-label>
-          <h2 style="font-size: 10px">{{medicament.name}}</h2>
-          <h3>prix: {{medicament.sellingPrice}}CFA</h3>
-          <h5>disponible: {{medicament.quantity}}</h5>
-        </ion-label>
-        <ion-button
-          slot="end"
-          color="primary"
-          (click)="addToCart(doc, medicament)"
-        >
-          <ion-icon name="cart-outline" slot="end"></ion-icon>
-          Ajouter au panier
+        <ion-button fill="clear" (click)="displayMap(doc.company)">
+          localisation
+          <ion-icon
+            style="color: var(--ion-color-danger)"
+            name="location-outline"
+          ></ion-icon>
         </ion-button>
-      </ion-item>
+      </ion-list-header>
+      <div *ngFor="let medicament of doc.medicament">
+        <ion-item>
+          <ion-label>
+            <h2 style="font-size: 10px">{{medicament.name}}</h2>
+            <h3>prix: {{medicament.sellingPrice}}CFA</h3>
+            <h5>disponible: {{medicament.quantity}}</h5>
+          </ion-label>
+          <ion-button
+            slot="end"
+            color="success"
+            (click)="viewDetail(doc, medicament)"
+            size="small"
+          >
+            details
+          </ion-button>
+          <ion-button
+            slot="end"
+            color="primary"
+            (click)="addToCart(doc, medicament)"
+            size="small"
+          >
+            acheter
+          </ion-button>
+        </ion-item>
+        <div *ngIf="medicament.display">
+          <div class="card">
+            <h1>{{medicament.name}}</h1>
+            <p class="price">{{medicament.sellingPrice}} FCFA</p>
+            <p>FABRIQUE PAR: {{medicament.madeBy ? medicament.madeBy : ''}}</p>
+
+            <p>
+              FORME DOSAGE: {{medicament.dosageForm ? medicament.dosageForm :
+              ''}}
+            </p>
+            <p>
+              TYPE: {{medicament.typeMedicament ? medicament.typeMedicament :
+              ''}}
+            </p>
+            <p>TAILLE: {{medicament.size ? medicament.size : ''}}</p>
+            <p>UNITE: {{medicament.unity ? medicament.unity : ''}}</p>
+            <p>
+              <button (click)="addToCart(doc, medicament)">Acheter</button>
+            </p>
+          </div>
+        </div>
+      </div>
     </ion-list>
     <!--
+   
+       <ion-icon name="cart-outline" slot="end"></ion-icon>
       <ion-card *ngFor="let result of doc.resultat">
       <ion-img [src]="result.logoURL"></ion-img>
       <ion-card-header>
