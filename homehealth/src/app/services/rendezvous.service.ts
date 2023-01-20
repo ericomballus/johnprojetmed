@@ -20,6 +20,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Company } from '../models/company';
 import { User } from '../models/user';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ import { User } from '../models/user';
 export class RendezvousService {
   rendezVousList = new BehaviorSubject([]);
   userRendezVousList$ = new BehaviorSubject([]);
-  constructor() {}
+  constructor(private notifi: NotificationService) {}
 
   postRendezVous(data) {
     const db = getFirestore();
@@ -79,6 +80,7 @@ export class RendezvousService {
     const db = getFirestore();
     const colRef = collection(db, 'rendezVous');
     const q = query(colRef, where('customerId', '==', userId));
+    this.notifi.presentLoading(3000);
     // return new Promise((resolve, reject) => {
     getDocs(q)
       .then((snapshot) => {
@@ -90,6 +92,7 @@ export class RendezvousService {
           data['company'] = company[0];
           tab.push(data);
         });
+        this.notifi.dismissLoading();
         this.userRendezVousList$.next(tab);
         // resolve(tab);
       })

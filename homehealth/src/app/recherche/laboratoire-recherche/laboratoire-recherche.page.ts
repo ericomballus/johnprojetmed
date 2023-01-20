@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, ModalController } from '@ionic/angular';
 import { DisplayLaboCartPage } from 'src/app/modals/display-labo-cart/display-labo-cart.page';
 import { Analyse } from 'src/app/models/analyseSchema';
@@ -29,7 +30,8 @@ export class LaboratoireRecherchePage implements OnInit {
     public notifi: NotificationService,
     public location: Location,
     public cart: CartLaboService,
-    public modalCrtl: ModalController
+    public modalCrtl: ModalController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -100,7 +102,8 @@ export class LaboratoireRecherchePage implements OnInit {
       this.totalArticles = this.cart.total();
       if (data.data && data.data.result) {
         this.cart.cleanCart();
-        this.location.back();
+        //  this.location.back();
+        this.router.navigateByUrl('user-home');
       }
     });
     return await modal.present();

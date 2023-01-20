@@ -180,4 +180,33 @@ ion-content {
 }
 ion-item {
   --background: white;
+  color: black;
+  ion-checkbox {
+    --border-color: var(--ion-color-dark);
+  }
+}
+
+.header-tab {
+  font-weight: 500;
+  // border-bottom: 2px solid #f1f1f1;
+  background-color: black;
+  color: white;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 10px;
+
+  ion-col {
+    div {
+      text-transform: uppercase;
+      font-size: 10px;
+      color: white;
+    }
+  }
+}
+
+.data-row-tab {
+  font-size: 11px;
+}
+.btn {
+  font-size: 9px;
 }

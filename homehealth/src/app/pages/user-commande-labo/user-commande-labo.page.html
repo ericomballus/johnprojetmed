@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar color="warning">
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
@@ -10,19 +10,45 @@
   <ion-grid>
     <div *ngFor="let doc of Docs let j = index">
       <ion-row>
-        <ion-col size="10" class="ion-text-center ion-text-uppercase">
+        <ion-col size="5" class="ion-text-center ion-text-uppercase">
           <div>
-            <h4>{{doc.company.name}}</h4>
+            <h4 style="font-size: 11px">{{doc.company.name}}</h4>
           </div>
         </ion-col>
         <ion-col size="2" class="ion-text-center ion-text-uppercase">
           <div class="ion-text-center ion-text-uppercase">
-            <ion-badge *ngIf="!doc.paie" color="danger">non payé</ion-badge>
-            <ion-badge *ngIf="doc.paie" color="success">payé</ion-badge>
+            <div
+              *ngIf="!doc.paie"
+              style="color: rgb(245, 63, 63); font-size: 10px"
+            >
+              non payé
+            </div>
+            <div
+              *ngIf="doc.paie"
+              style="color: rgb(51, 248, 84); font-size: 10px"
+            >
+              payé
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="5" class="ion-text-center ion-text-uppercase">
+          <div>
+            <ion-button
+              size="small"
+              fill="clear"
+              (click)="displayMap(doc.company)"
+              class="btn"
+            >
+              localisation
+              <ion-icon
+                style="color: var(--ion-color-danger)"
+                name="location-outline"
+              ></ion-icon>
+            </ion-button>
           </div>
         </ion-col>
       </ion-row>
-      <ion-row class="header-main">
+      <ion-row class="header-tab">
         <ion-col size="5">
           <div class="ion-text-center">analyse</div>
         </ion-col>
@@ -38,13 +64,11 @@
       </ion-row>
       <ion-row
         *ngFor=" let row of doc.panier let i = index"
-        class="data-row data-update table-row"
+        class="data-row-tab data-update table-row"
         [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
       >
         <ion-col size="5">
-          <div class="ion-text-center" style="font-size: 11px">
-            {{row.analyses.name}}
-          </div>
+          <div class="ion-text-center">{{row.analyses.name}}</div>
         </ion-col>
         <ion-col size="1">
           <div class="ion-text-center">{{ row.quantity}}</div>

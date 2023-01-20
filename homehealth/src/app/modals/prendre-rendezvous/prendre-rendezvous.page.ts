@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 import { User } from 'src/app/models/user';
@@ -8,7 +9,6 @@ import { RandomStorageService } from 'src/app/services/random-storage.service';
 import { RendezvousService } from 'src/app/services/rendezvous.service';
 
 @Component({
-  selector: 'app-prendre-rendezvous',
   templateUrl: './prendre-rendezvous.page.html',
   styleUrls: ['./prendre-rendezvous.page.scss'],
 })
@@ -72,6 +72,7 @@ export class PrendreRendezvousPage implements OnInit {
         'success',
         3000
       );
+
       this.notifi.dismissLoading();
       this.closeModal();
     });

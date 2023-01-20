@@ -12,7 +12,7 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row class="header-main">
+    <ion-row class="header-tab">
       <ion-col size="3">
         <div class="ion-text-center">Nom</div>
       </ion-col>
@@ -31,8 +31,8 @@
     </ion-row>
     <ion-row
       *ngFor="let rdv of rendezVousList$  | async let i = index"
-      class="data-row data-update table-row"
-      [ngStyle]="{ 'background-color': !rdv.confirm ? 'red' :  (i % 2 == 0 ? 'white' : '#f1f1f1' )}"
+      class="data-row-tab data-update table-row"
+      [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
       (click)="presentActionSheet(rdv)"
     >
       <ion-col size="3">

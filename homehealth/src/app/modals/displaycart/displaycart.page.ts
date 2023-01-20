@@ -112,23 +112,15 @@ export class DisplaycartPage implements OnInit {
       backdropDismiss: false,
     });
     modal.onDidDismiss().then(async (data) => {
-      console.log(data);
-
       if (data.data && data.data.result) {
         this.Cart.splice(index, 1);
-        console.log(this.Cart);
 
         if (!this.Cart.length) {
-          console.log('hello hello');
-
-          //   this.cartService.cleanCart();
-          //   this.modalCrtl.dismiss({ result: true });
-          //  this.closeModal();
           setTimeout(() => {
             // this.closeModal();
             this.cartService.cleanCart();
             this.modalCrtl.dismiss({ result: true });
-          }, 5000);
+          }, 1000);
         }
       }
       // this.modalCrtl.dismiss('update');

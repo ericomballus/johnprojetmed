@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Company } from 'src/app/models/company';
 import { ServiceSchema } from 'src/app/models/serviceSchema';
@@ -23,7 +24,8 @@ export class ServiceDetailsPage implements OnInit {
     private modal: ModalController,
     private userService: UserService,
     private notifi: NotificationService,
-    private rendezVous: RendezvousService
+    private rendezVous: RendezvousService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -39,7 +41,7 @@ export class ServiceDetailsPage implements OnInit {
         try {
           let user = await this.getUserStatus(r);
           let t = new Date().getTime();
-          console.log('user ====>', user);
+
           this.service.serviceResponsable[i] = user;
           let online = t - user.lastLoginAt.seconds * 1000;
           if (online <= 180000) {
@@ -93,6 +95,9 @@ export class ServiceDetailsPage implements OnInit {
         'success',
         3000
       );
+      console.log('hello end here====');
+
+      this.router.navigateByUrl('user-home');
       this.notifi.dismissLoading();
       this.closeModal();
     });

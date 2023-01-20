@@ -160,7 +160,7 @@ export class PhamarcieRecherchePage implements OnInit {
       this.totalArticles = this.cartService.total();
       if (data.data && data.data.result) {
         // this.location.back();
-        this.router.navigateByUrl('home');
+        this.router.navigateByUrl('user-home');
       }
     });
     return await modal.present();
