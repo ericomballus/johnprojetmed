@@ -129,6 +129,41 @@ export class CreateMedicamentPage implements OnInit {
           Validators.maxLength(10),
         ])
       ),
+
+      Conditionnement: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          // Validators.pattern('^[0-9].*[s]*$'),
+          Validators.maxLength(100),
+        ])
+      ),
+
+      Classemedicament: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          // Validators.pattern('^[0-9].*[s]*$'),
+          Validators.maxLength(100),
+        ])
+      ),
+
+      FormDosage: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          // Validators.pattern('^[0-9].*[s]*$'),
+          Validators.maxLength(100),
+        ])
+      ),
+      PrincipeActif: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          // Validators.pattern('^[0-9].*[s]*$'),
+          Validators.maxLength(100),
+        ])
+      ),
     });
   }
   save(forms: MedicamentSchema) {
@@ -138,7 +173,11 @@ export class CreateMedicamentPage implements OnInit {
       forms.categorie,
       forms.size,
       forms.unity,
-      forms.typeMedicament
+      forms.typeMedicament,
+      forms.Conditionnement,
+      forms.Classemedicament,
+      forms.dosageForm,
+      forms.PrincipeActif
     );
     //
     medoc.buildGrammage();

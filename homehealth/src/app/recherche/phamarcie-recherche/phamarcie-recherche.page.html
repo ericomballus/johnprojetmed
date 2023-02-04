@@ -62,19 +62,35 @@
         <div *ngIf="medicament.display">
           <div class="card">
             <h1>{{medicament.name}}</h1>
-            <p class="price">{{medicament.sellingPrice}} FCFA</p>
-            <p>FABRIQUE PAR: {{medicament.madeBy ? medicament.madeBy : ''}}</p>
+            <p class="price" style="font-size: 10px">
+              {{medicament.sellingPrice}} FCFA
+            </p>
+            <p style="font-size: 10px">
+              FABRIQUE PAR: {{medicament.madeBy ? medicament.madeBy : ''}}
+            </p>
 
-            <p>
+            <p style="font-size: 10px">
               FORME DOSAGE: {{medicament.dosageForm ? medicament.dosageForm :
               ''}}
             </p>
-            <p>
-              TYPE: {{medicament.typeMedicament ? medicament.typeMedicament :
-              ''}}
+            <p style="font-size: 10px">
+              TYPE:
+              <small style="text-transform: uppercase"
+                >{{medicament.typeMedicament ? medicament.typeMedicament :
+                ''}}</small
+              >
             </p>
-            <p>TAILLE: {{medicament.size ? medicament.size : ''}}</p>
-            <p>UNITE: {{medicament.unity ? medicament.unity : ''}}</p>
+            <p style="font-size: 10px">
+              TAILLE:
+              <small style="text-transform: uppercase"
+                >{{medicament.size ? medicament.size : ''}}</small
+              >
+            </p>
+            <p style="font-size: 10px">
+              UNITE:<small style="text-transform: uppercase"
+                >{{medicament.unity ? medicament.unity : ''}}</small
+              >
+            </p>
             <p>
               <button (click)="addToCart(doc, medicament)">Acheter</button>
             </p>

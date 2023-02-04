@@ -33,16 +33,24 @@
       </ion-row>
       <ion-row class="header-main">
         <ion-col size="3">
-          <div class="ion-text-center">médicament</div>
+          <div class="ion-text-center" style="font-size: 9px; color: white">
+            médicament
+          </div>
         </ion-col>
         <ion-col size="1">
-          <div class="ion-text-center">Qty</div>
+          <div class="ion-text-center" style="font-size: 9px; color: white">
+            Qty
+          </div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">P.U</div>
+          <div class="ion-text-center" style="font-size: 9px; color: white">
+            P.U
+          </div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">P.T</div>
+          <div class="ion-text-center" style="font-size: 9px; color: white">
+            P.T
+          </div>
         </ion-col>
         <ion-col size="2">
           <div class="ion-text-center"></div>
@@ -54,18 +62,24 @@
         [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
       >
         <ion-col size="3">
-          <div class="ion-text-center" style="font-size: 9px">
+          <div class="ion-text-center" style="font-size: 9px; color: black">
             {{row.medicament.name}}
           </div>
         </ion-col>
         <ion-col size="1">
-          <div class="ion-text-center">{{ row.quantity}}</div>
+          <div class="ion-text-center" style="font-size: 9px; color: black">
+            {{ row.quantity}}
+          </div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">{{row.medicament.sellingPrice}}CFA</div>
+          <div class="ion-text-center" style="font-size: 9px; color: black">
+            {{row.medicament.sellingPrice}}CFA
+          </div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">{{row.prix}} CFA</div>
+          <div class="ion-text-center" style="font-size: 9px; color: black">
+            {{row.prix}} CFA
+          </div>
         </ion-col>
         <ion-col size="2">
           <div class="ion-text-center">

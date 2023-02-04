@@ -21,9 +21,24 @@ export class MedicamentSchema {
   grammage: string;
   unity: string;
   size: number;
+  Conditionnement: string;
   typeMedicament: string; //solid, liquide, sirop, gelule
   display: boolean = false;
-  constructor(name, madeBy, categorie, size, unity, typeMedicament) {
+  Classemedicament: string;
+  FormDosage: string;
+  PrincipeActif: string;
+  constructor(
+    name,
+    madeBy,
+    categorie,
+    size,
+    unity,
+    typeMedicament,
+    Conditionnement,
+    Classemedicament,
+    FormDosage,
+    PrincipeActif
+  ) {
     this.name = name;
     this.madeBy = madeBy;
     this.createdAt = new Date().getTime();
@@ -33,6 +48,10 @@ export class MedicamentSchema {
     this.size = size;
     this.unity = unity;
     this.typeMedicament = typeMedicament;
+    this.Conditionnement = Conditionnement;
+    this.Classemedicament = Classemedicament;
+    this.FormDosage = FormDosage;
+    this.PrincipeActif = PrincipeActif;
   }
 
   buildGrammage() {
