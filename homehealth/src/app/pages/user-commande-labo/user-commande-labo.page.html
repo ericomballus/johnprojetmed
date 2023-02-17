@@ -9,23 +9,23 @@
 <ion-content>
   <ion-grid>
     <div *ngFor="let doc of Docs let j = index">
-      <ion-row>
+      <ion-row class="row-user">
         <ion-col size="5" class="ion-text-center ion-text-uppercase">
           <div>
-            <h4 style="font-size: 11px">{{doc.company.name}}</h4>
+            <h4 style="font-size: 8px">{{doc.company.name}}</h4>
           </div>
         </ion-col>
         <ion-col size="2" class="ion-text-center ion-text-uppercase">
           <div class="ion-text-center ion-text-uppercase">
             <div
               *ngIf="!doc.paie"
-              style="color: rgb(245, 63, 63); font-size: 10px"
+              style="color: rgb(245, 63, 63); font-size: 8px"
             >
               non payé
             </div>
             <div
               *ngIf="doc.paie"
-              style="color: rgb(51, 248, 84); font-size: 10px"
+              style="color: rgb(51, 248, 84); font-size: 8px"
             >
               payé
             </div>
@@ -38,6 +38,7 @@
               fill="clear"
               (click)="displayMap(doc.company)"
               class="btn"
+              style="font-size: 8px"
             >
               localisation
               <ion-icon
@@ -50,22 +51,21 @@
       </ion-row>
       <ion-row class="header-tab">
         <ion-col size="5">
-          <div class="ion-text-center">analyse</div>
+          <div class="ion-text-center" style="font-size: 9px">analyse</div>
         </ion-col>
         <ion-col size="1">
-          <div class="ion-text-center">Qty</div>
+          <div class="ion-text-center" style="font-size: 9px">Qty</div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">P.U</div>
+          <div class="ion-text-center" style="font-size: 9px">P.U</div>
         </ion-col>
         <ion-col size="3">
-          <div class="ion-text-center">P.T</div>
+          <div class="ion-text-center" style="font-size: 9px">P.T</div>
         </ion-col>
       </ion-row>
       <ion-row
         *ngFor=" let row of doc.panier let i = index"
-        class="data-row-tab data-update table-row"
-        [ngStyle]="{ 'background-color': i % 2 == 0 ? 'white' : '#f1f1f1' }"
+        class="data-row-tab data-update table-row-user"
       >
         <ion-col size="5">
           <div class="ion-text-center">{{row.analyses.name}}</div>
@@ -80,19 +80,35 @@
           <div class="ion-text-center">{{row.totalPrice}} CFA</div>
         </ion-col>
       </ion-row>
-      <ion-row>
+
+      <ion-row class="row-user">
         <ion-col>
-          <div class="ion-text-center">total: {{doc.totalPrice}} Fcfa</div>
+          <div class="ion-text-center">
+            <ion-button
+              size="small"
+              fill="clear"
+              class="btn"
+              style="font-size: 10px"
+            >
+              total: {{doc.totalPrice}} Fcfa
+            </ion-button>
+          </div>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row class="row-user">
         <ion-col size="6">
-          <div class="ion-text-uppercase ion-text-center">
+          <div
+            class="ion-text-uppercase ion-text-center"
+            style="color: var(--ion-color-primary); font-size: 10px"
+          >
             Jour Rendez vous:
           </div>
         </ion-col>
         <ion-col size="6">
-          <div class="ion-text-center">
+          <div
+            class="ion-text-center"
+            style="color: var(--ion-color-dark); font-size: 10px"
+          >
             {{ doc['panier'][0]['jourRendezVous'] ?
             doc['panier'][0]['jourRendezVous'] : ''}} a {{
             doc['panier'][0]['heureRendezVous'] ?

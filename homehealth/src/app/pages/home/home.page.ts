@@ -74,20 +74,20 @@ export class HomePage {
 
   pickValue(ev) {
     console.log(ev);
-    if (ev === 'conseil santé') {
+    if (ev === 'conseil santé' || ev === 'health advice') {
       this.router.navigateByUrl('advices');
     }
-    if (ev === 'laboratoire') {
+    if (ev === 'laboratoire' || ev === 'laboratory') {
       this.router.navigateByUrl('laboratoire');
     }
 
-    if (ev === 'hopital') {
+    if (ev === 'hopital' || ev === 'hospital') {
       this.router.navigateByUrl('hopital');
     }
-    if (ev === 'pharmacie') {
+    if (ev === 'pharmacie' || ev === 'pharmacy') {
       this.router.navigateByUrl('pharmacie');
     }
-    if (ev === 'mon porte monnaie') {
+    if (ev === 'mon porte monnaie' || ev === 'my wallet') {
       this.notifi.presentToast(
         "cette option n'est pas encore disponible",
         'danger',
